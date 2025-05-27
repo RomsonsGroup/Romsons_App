@@ -280,7 +280,7 @@ const OutletDetailScreen = ({ route }) => {
         outlet_id: itemId.outlet_id,
         enter_by: empid[0].emp_id
       });
-      
+
 
       const requestOptions = {
         method: "POST",
@@ -1071,8 +1071,8 @@ const OutletDetailScreen = ({ route }) => {
                     {orderItems.map((subItem, index) => (
                       <View key={index} style={OutletDetailStyles.skuDataRow}>
                         <Text style={OutletDetailStyles.skuText}>{subItem.sku_name}</Text>
-                        <Text style={OutletDetailStyles.skuText}>{subItem.item_qty}</Text>
-                        <Text style={OutletDetailStyles.skuText}>{subItem.item_value}</Text>
+                        <Text style={OutletDetailStyles.skuText1}>{subItem.item_qty}</Text>
+                        <Text style={OutletDetailStyles.skuText1}>{subItem.item_value}</Text>
                       </View>
                     ))}
 

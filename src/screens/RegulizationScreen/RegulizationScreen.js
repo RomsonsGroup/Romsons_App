@@ -16,7 +16,7 @@ const RegulizationScreen = () => {
 
     const [selectedTab, setSelectedTab] = useState("Pending");
     const [checkedStates, setCheckedStates] = useState([]);
-    const [teamEmpId,setTeamEmpId] = useState("");
+    const [teamEmpId, setTeamEmpId] = useState("");
     const [teamLeave, setTeamLeave] = useState([]);
     const [approvedLeaves, setApprovedLeaves] = useState([]); // Approved Leaves
     const [rejectedLeaves, setRejectedLeaves] = useState([]);
@@ -37,7 +37,7 @@ const RegulizationScreen = () => {
             });
 
             const result = await response.json();
-            console.log("Leave API Response:", result);
+            // console.log("Leave API Response:", result);
 
             if (!result.error) {
                 setTeamLeave(result.data);
@@ -52,7 +52,7 @@ const RegulizationScreen = () => {
         try {
             const user = await AsyncStorage.getItem("userInfor");
             const empid = JSON.parse(user);
-           
+
 
             // ✅ Filter only selected leave IDs
             const selectedLeaveIds = teamLeave
@@ -63,7 +63,7 @@ const RegulizationScreen = () => {
                 })
                 .filter(id => id !== undefined);  // Remove undefined IDs if any
 
-            console.log("Selected regulization IDs:", selectedLeaveIds);
+            // console.log("Selected regulization IDs:", selectedLeaveIds);
 
             if (selectedLeaveIds.length === 0) {
                 Alert.alert("Error", "Please select at least one leave to approve.");
@@ -74,7 +74,7 @@ const RegulizationScreen = () => {
             const payload = {
                 "regulizationIds": selectedLeaveIds,
                 "manager_empid": empid[0]?.emp_id,
-                "team_empid":teamEmpId
+                "team_empid": teamEmpId
             };
             console.log("Sent payload:", payload);
 
@@ -85,7 +85,7 @@ const RegulizationScreen = () => {
             });
 
             const result = await response.json();
-            console.log("Approval Response:", result); // ✅ Check API response
+            // console.log("Approval Response:", result); // ✅ Check API response
 
             if (!result.error) {
                 Alert.alert("Success", "Regularizations approved successfully");
@@ -117,7 +117,7 @@ const RegulizationScreen = () => {
                 })
                 .filter(id => id !== undefined);  // Remove undefined IDs if any
 
-            console.log("Selected regulization IDs:", selectedLeaveIds);
+            // console.log("Selected regulization IDs:", selectedLeaveIds);
 
             if (selectedLeaveIds.length === 0) {
                 Alert.alert("Error", "Please select at least one leave to reject.");
@@ -208,7 +208,7 @@ const RegulizationScreen = () => {
 
     useEffect(() => {
         if (selectedTab === "Accepted") {
-            LeaveapprovalList(); 
+            LeaveapprovalList();
         }
     }, [selectedTab]);
 
@@ -219,11 +219,11 @@ const RegulizationScreen = () => {
     }, [selectedTab]);
 
     // ✅ Handle Checkbox State
-    const handleCheckBoxChange = (index,team_empId) => {
+    const handleCheckBoxChange = (index, team_empId) => {
         setTeamEmpId("")
         const updatedCheckedStates = [...checkedStates];
         updatedCheckedStates[index] = !updatedCheckedStates[index];
-        console.log(updatedCheckedStates,"updatedCheckedStates")
+        console.log(updatedCheckedStates, "updatedCheckedStates")
         setTeamEmpId(team_empId)
         setCheckedStates(updatedCheckedStates);
 
@@ -255,7 +255,7 @@ const RegulizationScreen = () => {
             const date = new Date(dateTimeString);
             return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
         };
-    
+
         return (
             <View style={ApprovalStyles.PaddingHorizontal}>
                 <View style={ApprovalStyles.approvalCard}>
@@ -272,7 +272,7 @@ const RegulizationScreen = () => {
                             </View>
                         )}
                     </View>
-    
+
                     <Spacing space={0} />
                     <View style={{
                         flexDirection: "row",
@@ -296,14 +296,14 @@ const RegulizationScreen = () => {
                             </Text>
                         </Text>
                     </View>
-    
+
                     <Text style={ApprovalStyles.moduleName}>
                         Punch Date:
                         <Text style={{ color: 'black', fontSize: 11, fontWeight: 'bold' }}>
                             {formatDate(item.Request_date)}
                         </Text>
                     </Text>
-    
+
                     {selectedTab === "Accepted" && (
                         <>
                             <Text style={ApprovalStyles.moduleName}>
@@ -312,7 +312,7 @@ const RegulizationScreen = () => {
                                     {formatDate(item.enter_date)}
                                 </Text>
                             </Text>
-    
+
                             <Text style={ApprovalStyles.moduleName}>
                                 Approved Date:
                                 <Text style={{ color: 'black', fontSize: 11, fontWeight: 'bold' }}>
@@ -321,7 +321,7 @@ const RegulizationScreen = () => {
                             </Text>
                         </>
                     )}
-    
+
                     {selectedTab === "Rejected" && (
                         <View>
                             <Text style={ApprovalStyles.moduleName}>
@@ -332,7 +332,7 @@ const RegulizationScreen = () => {
                             </Text>
                         </View>
                     )}
-    
+
                     <View style={{
                         flexDirection: "row",
                         justifyContent: "space-between",
@@ -344,13 +344,13 @@ const RegulizationScreen = () => {
                             </Text>
                         </Text>
                     </View>
-    
+
                     {selectedTab === "Accepted" && (
                         <View style={ApprovalStyles.approvedContainer}>
                             <Text style={ApprovalStyles.approvedText}>Approved</Text>
                         </View>
                     )}
-    
+
                     {selectedTab === "Rejected" && (
                         <View style={ApprovalStyles.rejectedContainer}>
                             <Text style={ApprovalStyles.rejectedText}>Rejected</Text>
@@ -360,9 +360,9 @@ const RegulizationScreen = () => {
             </View>
         );
     };
-    
-    
-    
+
+
+
 
     return (
         <View style={ApprovalStyles.container}>

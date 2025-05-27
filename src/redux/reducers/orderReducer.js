@@ -48,15 +48,12 @@ const initialState = {
       // };
 
       case SET_SALE_RETURN: 
-  console.log("Payload received:", action.payload);
-  console.log("Existing state:", state.saleReturnData);
-
   return {
     ...state,
     saleReturnData: [
       ...state.saleReturnData.map(existingReturn => {
         const newItem = action.payload.find(returnItem => returnItem.itemId === existingReturn.itemId);
-        console.log("New Item:", newItem); // Check if newItem exists
+        
 
         return newItem
           ? { 

@@ -185,17 +185,15 @@ import { StyleSheet } from 'react-native';
         color: Colors.black_text_color,
         fontWeight: 'bold',
         flex: 1,
-        textAlign: 'center',
+        // textAlign: 'center',
       },
-
       skuText1: {
         fontSize: 12,
         color: Colors.black_text_color,
         fontWeight: 'bold',
-        textAlign: 'left',
-        marginHorizontal: 20,
-        marginBottom:50
-    },
+        flex: 1,
+        textAlign: 'center',
+      },
     skuText2: {
         fontSize: 12,
         color: Colors.black_text_color,

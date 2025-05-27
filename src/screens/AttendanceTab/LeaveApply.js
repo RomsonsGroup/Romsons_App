@@ -45,53 +45,54 @@ const LeaveApply = () => {
     const handleFromDateChange = (event, selectedDate) => {
         const now = new Date();
         const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-        const currentMonthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0); // last day of current month
-
+        const currentYearEnd = new Date(now.getFullYear(), 11, 31); // 31 Dec 2025
+    
         const currentDate = selectedDate || new Date();
-
+    
         if (currentDate < currentMonthStart) {
             Alert.alert("Invalid Date", "You can't select a date from the previous month.");
             setShowDatePicker(false);
             return;
         }
-
-        if (currentDate > currentMonthEnd) {
-            Alert.alert("Invalid Date", "You can't select a date beyond the current month.");
+    
+        if (currentDate > currentYearEnd) {
+            Alert.alert("Invalid Date", "You can't select a date beyond the current year.");
             setShowDatePicker(false);
             return;
         }
-
+    
         setFromDate(null);
         setShowDatePicker(false);
         setFromDate(currentDate);
-        
     };
+    
 
 
     // Handle To date change
     const handleToDateChange = (event, selectedDate) => {
         const now = new Date();
         const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-        const currentMonthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0); // last day of current month
-
+        const currentYearEnd = new Date(now.getFullYear(), 11, 31); // 31 Dec 2025
+    
         const currentDate = selectedDate || new Date();
-
+    
         if (currentDate < currentMonthStart) {
             Alert.alert("Invalid Date", "You can't select a date from the previous month.");
             setShowDatePicker(false);
             return;
         }
-
-        if (currentDate > currentMonthEnd) {
-            Alert.alert("Invalid Date", "You can't select a date beyond the current month.");
+    
+        if (currentDate > currentYearEnd) {
+            Alert.alert("Invalid Date", "You can't select a date beyond the current year.");
             setShowDatePicker(false);
             return;
         }
-
+    
         setToDate(null);
         setShowDatePicker(false);
         setToDate(currentDate);
     };
+    
 
 
     const fetchLeaveTypes = async () => {

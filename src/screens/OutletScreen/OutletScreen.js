@@ -48,7 +48,7 @@ const OutletScreen = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.error === false) {
-          console.log("outlet date:", result.data);
+          // console.log("outlet date:", result.data);
           setOutletDates(result.data);
           const defaultDate = Moment().format('YYYY-MM-DD');
           handleDateSelection(defaultDate, 0); // Default date selection
@@ -71,7 +71,7 @@ const OutletScreen = () => {
       });
 
       if (response.data && !response.data.error) {
-        console.log('Outlet data:', response.data.data);
+        // console.log('Outlet data:', response.data.data);
         setOutletData(response.data.data); // Update outlet data for the selected date
       } else {
         console.error('API Error:', response.data.data || 'Unknown error');
@@ -92,7 +92,7 @@ const OutletScreen = () => {
       });
 
       if (response.data) {
-        console.log("Response:", response.data);
+        // console.log("Response:", response.data);
         const result = response.data;
 
         const minRequired = result[0]?.min_outlet_coverage || 0; // Minimum required outlets

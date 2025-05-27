@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../../utils";
 import CheckBox from '@react-native-community/checkbox';
-import { useNavigation,useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RouteName } from '../../routes';
 import { SkuOrderScreen } from '../SkuOrderScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,14 +18,14 @@ const SkuOrderHistoryScreen = () => {
   const SkuOrderStyles = useMemo(() => SkuOrderStyle(Colors), [Colors]);
   const [checkedStates, setCheckedStates] = useState([]);
   const [skuList, setSkuList] = useState([]);
-  const [selectedSKUs, setSelectedSKUs] = useState([]); 
+  const [selectedSKUs, setSelectedSKUs] = useState([]);
   const navigation = useNavigation();
 
   const skulist = async () => {
     try {
       const user = await AsyncStorage.getItem("userInfor");
       const empid = JSON.parse(user);
-  
+
       const response = await axios.post(
         "https://devcrm.romsons.com:8080/skulist",
         {
@@ -37,18 +37,18 @@ const SkuOrderHistoryScreen = () => {
           },
         }
       );
-  
+
       if (response.data.error === false) {
         setSkuList(response.data.data); // Populate the SKU list
       }
-  
+
     } catch (error) {
       console.error('Error fetching SKU list:', error);
     }
   };
 
   useEffect(() => {
-    skulist(); 
+    skulist();
   }, []);
 
   // Update selected SKUs when checkbox is clicked
@@ -79,13 +79,13 @@ const SkuOrderHistoryScreen = () => {
       <TouchableOpacity style={SkuOrderStyles.pendingButton} onPress={goToSkuOrderScreen}>
         <Text style={SkuOrderStyles.pendingText}>Sku History</Text>
       </TouchableOpacity>
-  
+
       <ScrollView>
         {skuList.map((item, index) => (
           <View key={index} style={SkuOrderStyles.taskContainer}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
               <Text style={SkuOrderStyles.taskName}>{item.sku_name || 'No SKU Name Available'}</Text>
-               <CheckBox
+              <CheckBox
                 value={checkedStates[index] || false}
                 onValueChange={() => handleCheckBoxChange(index, item)}
               />

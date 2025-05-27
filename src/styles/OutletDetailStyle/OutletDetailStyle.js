@@ -390,6 +390,15 @@ outletLabel1: {
         color: Colors.black_text_color,
         fontWeight: 'bold',
         flex: 1,
+        textAlign: 'left'
+        // textAlign: 'center',
+      },
+
+      skuText1: {
+        fontSize: 12,
+        color: Colors.black_text_color,
+        fontWeight: 'bold',
+        flex: 1,
         textAlign: 'center',
       },
 });

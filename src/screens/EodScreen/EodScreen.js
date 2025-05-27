@@ -789,9 +789,9 @@ const EodScreen = () => {
                                             {outletData?.map((item, index) => (
                                                 <View key={index} style={EodStyles.skuDataRow}>
                                                     <Text style={EodStyles.skuText}>{item.sku_name || 'N/A'}</Text>
-                                                    <Text style={EodStyles.skuText}>{item.item_price_unit || '0'}</Text>
-                                                    <Text style={EodStyles.skuText}>{item.item_qty || '0'}</Text>
-                                                    <Text style={EodStyles.skuText}>{item.order_amt || '0'}</Text>
+                                                    <Text style={EodStyles.skuText1}>{item.item_price_unit || '0'}</Text>
+                                                    <Text style={EodStyles.skuText1}>{item.item_qty || '0'}</Text>
+                                                    <Text style={EodStyles.skuText1}>{item.order_amt || '0'}</Text>
                                                 </View>
                                             ))}
                                         </View>

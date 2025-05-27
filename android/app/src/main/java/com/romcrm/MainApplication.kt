@@ -1,4 +1,4 @@
-package com.hrmanagement
+package com.romcrm
 
 import android.app.Application
 import com.facebook.react.PackageList

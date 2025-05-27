@@ -106,6 +106,13 @@ export default EodStyle = (Colors) => StyleSheet.create({
     color: Colors.black_text_color,
     fontWeight: 'bold',
     flex: 1,
+    // textAlign: 'center',
+  },
+  skuText1: {
+    fontSize: 12,
+    color: Colors.black_text_color,
+    fontWeight: 'bold',
+    flex: 1,
     textAlign: 'center',
   },
   totalContainer: {

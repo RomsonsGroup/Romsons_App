@@ -280,7 +280,7 @@ const MsdActivityScreen = ({ route }) => {
         // Dispatch to Redux to save the data
         dispatch(msdActivity(data));
         alert('Activity saved in draft', 'Activity has been saved successfully!');
-        console.log('Saved Dataaaaa: ', data);
+        // console.log('Saved Dataaaaa: ', data);
 
         // Resetting the fields
         setSelectedService({});
@@ -340,7 +340,7 @@ const MsdActivityScreen = ({ route }) => {
             .then((response) => response.text())
             .then((result) => {
                 let arr = JSON.parse(result);
-                console.log("Fetched data:", arr.data); // Logs the fetched data in the console
+                // console.log("Fetched data:", arr.data); // Logs the fetched data in the console
                 setItemlist(arr.data);
             })
             .catch((error) => console.error(error));

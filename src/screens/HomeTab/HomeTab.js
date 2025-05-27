@@ -130,7 +130,7 @@ const HomeTab = (props) => {
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
-          console.log('timeeee', result.data);
+          // console.log('timeeee', result.data);
           setPunchinoutTime(result.data)
         }
       })
@@ -223,7 +223,7 @@ const HomeTab = (props) => {
 
   const fetchPendingCount = async () => {
     const user = await AsyncStorage.getItem("userInfor");
-            const empid = JSON.parse(user);
+    const empid = JSON.parse(user);
     const requestOptions = {
       method: "POST",
       headers: {
@@ -234,7 +234,7 @@ const HomeTab = (props) => {
       }),
       redirect: "follow"
     };
-  
+
     try {
       const response = await fetch("https://devcrm.romsons.com:8080/GetPendingTaskCount", requestOptions);
       const data = await response.json();
@@ -247,7 +247,7 @@ const HomeTab = (props) => {
       console.error("Error fetching pending count:", error);
     }
   };
-  
+
 
   useFocusEffect(
     useCallback(() => {
@@ -412,36 +412,36 @@ const HomeTab = (props) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-  style={HomeTabStyles.moduleBox}
-  onPress={() => navigation.navigate(RouteName.TASKADD)}
->
-  <View style={{ position: "relative" }}>
-    <VectorIcon
-      icon="FontAwesome"
-      size={SF(33)}
-      name="pencil-square-o"
-      style={HomeTabStyles.moduleBoxIcon}
-      color={Colors.theme_background}
-    />
+            style={HomeTabStyles.moduleBox}
+            onPress={() => navigation.navigate(RouteName.TASKADD)}
+          >
+            <View style={{ position: "relative" }}>
+              <VectorIcon
+                icon="FontAwesome"
+                size={SF(33)}
+                name="pencil-square-o"
+                style={HomeTabStyles.moduleBoxIcon}
+                color={Colors.theme_background}
+              />
 
-    {pendingCount > 0 && (
-      <View style={HomeTabStyles.notificationBadge}>
-        <Text style={HomeTabStyles.badgeText}>{pendingCount}</Text>
-      </View>
-    )}
-  </View>
+              {pendingCount > 0 && (
+                <View style={HomeTabStyles.notificationBadge}>
+                  <Text style={HomeTabStyles.badgeText}>{pendingCount}</Text>
+                </View>
+              )}
+            </View>
 
-  <Spacing space={10} />
+            <Spacing space={10} />
 
-  <Text style={HomeTabStyles.moduleLabel}>{t("Task")}</Text>
+            <Text style={HomeTabStyles.moduleLabel}>{t("Task")}</Text>
 
-  {/* <Text style={HomeTabStyles.pendingCountText}>
+            {/* <Text style={HomeTabStyles.pendingCountText}>
     {pendingCount > 0 ? `${pendingCount} Pending` : "No Pending"}
   </Text> */}
-</TouchableOpacity>
+          </TouchableOpacity>
 
 
-          
+
         </View>
 
         <Text style={HomeTabStyles.LableText}>{t("Approvals")}</Text>

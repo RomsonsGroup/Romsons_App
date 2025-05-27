@@ -51,7 +51,7 @@ const TaskAddScreen = () => {
         fetch("https://devcrm.romsons.com:8080/GetPendingTaskDates", requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log('poojabhbdhddh', result);
+                // console.log('poojabhbdhddh', result);
 
                 if (result.error === false) {
                     setGetpendingtask(result.pendingDates)
@@ -127,7 +127,7 @@ const TaskAddScreen = () => {
         try {
             const response = await fetch("https://devcrm.romsons.com:8080/GetFollowUpActivities", requestOptions);
             const result = await response.json();
-            console.log('nhjughhh', result);
+            // console.log('nhjughhh', result);
 
             if (result.error === false) {
                 setFollowupDatewisedata(result.data);
@@ -161,7 +161,7 @@ const TaskAddScreen = () => {
         try {
             const response = await fetch("https://devcrm.romsons.com:8080/UpdateMultipleFollowUpTasks", requestOptions);
             const result = await response.json();
-            console.log("Updated:", result);
+            // console.log("Updated:", result);
             if (result.error === false) {
                 showToast("Task updated successfully!");
             } else {

@@ -96,7 +96,7 @@ const ActivityHistoryScreen = () => {
 
 
     const teamList = async () => {
-        const user = await AsyncStorage.getItem("userInfor");
+        const user = await AsyncStorage.getItem("userInfor"); 
         const empid = JSON.parse(user);
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -116,7 +116,6 @@ const ActivityHistoryScreen = () => {
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
-                    // console.log('listttt', result.data);
                     setTeamLists(result.data)
 
                 }
@@ -223,9 +222,6 @@ const ActivityHistoryScreen = () => {
                 "Outletid": selectot,
                 "enterBy": selectedTeamId || empid[0].emp_id
             });
-
-            console.log('Request payload:', raw);
-
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -239,14 +235,12 @@ const ActivityHistoryScreen = () => {
             console.log('API Response:', result);
 
             if (result?.error === false) {
-                console.log('Order history data:', result.data);
                 setHistoryOrderData(result.data);
             } else {
-                console.log('No data found for the selected period');
                 setHistoryOrderData([]);
             }
         } catch (error) {
-            console.error('Error fetching order history:', error);
+            
         }
     };
 

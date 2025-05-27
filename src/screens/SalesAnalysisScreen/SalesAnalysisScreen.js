@@ -107,7 +107,7 @@ const SalesAnalysis = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.status === 0) {
-          console.log('Sales Analysis Codes:', result.data);
+          // console.log('Sales Analysis Codes:', result.data);
           setSalesAnalysisCode(result.data);
         } else {
           setSelectedService(sg_code);

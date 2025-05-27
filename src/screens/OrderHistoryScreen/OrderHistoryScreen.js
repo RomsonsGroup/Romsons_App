@@ -134,13 +134,14 @@ const OrderHistoryScreen = () => {
     try {
       const user = await AsyncStorage.getItem('userInfor');
       const empid = JSON.parse(user);
-const empIdToUse = selectedTeamId || empid[0].emp_id; // ✅ Use team ID if manager selected
+      const empIdToUse = selectedTeamId || empid[0].emp_id; // ✅ Use team ID if manager selected
 
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
-      const raw = JSON.stringify({ "empID": empIdToUse
+      const raw = JSON.stringify({
+        "empID": empIdToUse
       });
 
       const requestOptions = {
@@ -419,7 +420,7 @@ const empIdToUse = selectedTeamId || empid[0].emp_id; // ✅ Use team ID if mana
                         setSelectedTeamId(team.emp_id);  // ✅ Store selected team member’s ID
                         setModalVisible1(false);
                       }}
-                      
+
                     >
                       <Text style={OrderHistoryStyles.optionText4}>
                         {team.reporting_person_name}
@@ -491,9 +492,9 @@ const empIdToUse = selectedTeamId || empid[0].emp_id; // ✅ Use team ID if mana
                     {orders.map((order, index) => (
                       <View style={OrderHistoryStyles.skuDataRow} key={index}>
                         <Text style={OrderHistoryStyles.skuText}>{order.sku_name}</Text>
-                        <Text style={OrderHistoryStyles.skuText}>{order.unit_price}</Text>
-                        <Text style={OrderHistoryStyles.skuText}>{order.unit}</Text>
-                        <Text style={OrderHistoryStyles.skuText}>{order.taxable_value}</Text>
+                        <Text style={OrderHistoryStyles.skuText1}>{order.unit_price}</Text>
+                        <Text style={OrderHistoryStyles.skuText1}>{order.unit}</Text>
+                        <Text style={OrderHistoryStyles.skuText1}>{order.taxable_value}</Text>
                       </View>
                     ))}
                     <View
