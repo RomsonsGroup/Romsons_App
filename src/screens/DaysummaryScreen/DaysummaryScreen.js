@@ -286,32 +286,25 @@ const groupedEodReturnDetails = groupEodReturnDetailByOutlet(eodreturnDetails);
                   <View key={ind}>
                     <View style={DaysummaryStyles.skuDataRow}>
                       <Text style={DaysummaryStyles.skuText}>{res.sku_name}</Text>
-                      <Text style={DaysummaryStyles.skuText}>{res.item_price_unit}</Text>
-                      <Text style={DaysummaryStyles.skuText}>{res.item_qty}</Text>
-                      <Text style={DaysummaryStyles.skuText}>{res.order_amt}</Text>
+                      <Text style={DaysummaryStyles.skuText1}>{res.item_price_unit}</Text>
+                      <Text style={DaysummaryStyles.skuText1}>{res.item_qty}</Text>
+                      <Text style={DaysummaryStyles.skuText1}>{res.order_amt}</Text>
                     </View>
-
+                
                     {/* Total Row - Show only after last item */}
                     {ind === orderItems.length - 1 && (
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          width: '100%',
-                          marginTop: 5,
-                          paddingHorizontal: 10,
-                        }}
-                      >
-                        <Text style={{ color: 'black', fontWeight: 'bold' }}>Total</Text>
-                        <Text
-                          style={{ color: 'green', fontWeight: 'bold', fontSize: 13 }}
-                        >
+                      <View style={DaysummaryStyles.skuDataRow}>
+                        <Text style={[DaysummaryStyles.skuText, { fontWeight: 'bold' }]}>Total</Text>
+                        <Text style={DaysummaryStyles.skuText1}></Text>
+                        <Text style={DaysummaryStyles.skuText1}></Text>
+                        <Text style={[DaysummaryStyles.skuText1, { color: 'green', fontWeight: 'bold' }]}>
                           ₹{totalAmt.toFixed(2)}
                         </Text>
                       </View>
                     )}
                   </View>
                 );
+                
               })}
             </View>
           </View>

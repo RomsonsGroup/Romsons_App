@@ -477,9 +477,10 @@ const OrderHistoryScreen = () => {
               return (
                 <View key={date} style={{ marginTop: 10 }}>
                   <View style={OrderHistoryStyles.infoContainer}>
-                    <Text style={OrderHistoryStyles.hospitalText}>{date} ({orders[0].order_id})</Text>
+                    <Text style={OrderHistoryStyles.hospitalText}>
+                      {date} ({orders[0].order_id})
+                    </Text>
                   </View>
-
 
                   <View style={OrderHistoryStyles.skuContainer}>
                     <View style={OrderHistoryStyles.skuHeaderRow}>
@@ -497,20 +498,20 @@ const OrderHistoryScreen = () => {
                         <Text style={OrderHistoryStyles.skuText1}>{order.taxable_value}</Text>
                       </View>
                     ))}
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                      }}
-                    >
-                      <Text style={{ marginHorizontal: 10, color: 'black', fontWeight: 'bold' }}>Total</Text>
-                      <Text style={{ marginHorizontal: 10, color: 'green', fontWeight: 'bold', fontSize: 13 }}>{totalTaxableValue}</Text>
+
+                    {/* Total row aligned like SKU rows */}
+                    <View style={OrderHistoryStyles.skuDataRow}>
+                      <Text style={[OrderHistoryStyles.skuText, { fontWeight: 'bold' }]}>Total</Text>
+                      <Text style={OrderHistoryStyles.skuText1}></Text>
+                      <Text style={OrderHistoryStyles.skuText1}></Text>
+                      <Text style={[OrderHistoryStyles.skuText1, { color: 'green', fontWeight: 'bold' }]}>
+                        {totalTaxableValue}
+                      </Text>
                     </View>
                   </View>
-
                 </View>
               );
+
             })
           ) : (
             <Text style={OrderHistoryStyles.skuText}>No Data Available</Text>
