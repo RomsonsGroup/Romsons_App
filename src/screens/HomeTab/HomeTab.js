@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { Spacing, VectorIcon } from '../../components';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+
 const HomeTab = (props) => {
   const isDarkMode = useSelector(state => state.DarkReducer.isDarkMode);
   const Colors = isDarkMode ? darkTheme : lightTheme;
@@ -27,6 +28,52 @@ const HomeTab = (props) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [pendingCount, setPendingCount] = useState(0);
+
+  // const checkUserStatus = async (navigation) => {
+  //   try {
+  //     const userInfo = await AsyncStorage.getItem("userInfor");
+  //     if (!userInfo) return;
+  
+  //     const empId = JSON.parse(userInfo)[0]?.emp_id;
+  //     if (!empId) return;
+  
+  //     const myHeaders = new Headers();
+  //     myHeaders.append("Content-Type", "application/json");
+  
+  //     const raw = JSON.stringify({ empid: empId });
+  
+  //     const requestOptions = {
+  //       method: "POST",
+  //       headers: myHeaders,
+  //       body: raw,
+  //       redirect: "follow"
+  //     };
+  
+  //     const response = await fetch("http://localhost:8091/checkStatus", requestOptions);
+  //     const result = await response.json();
+  
+  //     if (result.status === 'I') {
+  //       Alert.alert(
+  //         "Account Inactive",
+  //         "Your ID is blocked. Please contact Support Admin.",
+  //         [{ text: "OK" }]
+  //       );
+  //       await AsyncStorage.clear();
+  //       navigation.replace(RouteName.LOGIN_SCREEN);
+  //     }
+  
+  //   } catch (error) {
+  //     console.error("Error checking status:", error);
+      
+  //   }
+  // };
+  
+
+  // useEffect(() => {
+  //   checkUserStatus(navigation);
+  // }, []);
+  
+  
 
   useFocusEffect(
     useCallback(() => {

@@ -154,10 +154,10 @@ const OutletDetailScreen = ({ route }) => {
     // console.log("Outlet Data:", outletData);
 
     // ✅ Navigation hamesha hona chahiye, chahe "Self" ho ya "Joined"
-    if (loginData[0].division === 2) {
-      navigation.navigate("ContactListScreen", { outletDetail: outletData });
-    } else {
+    if (loginData[0].division === 1) {
       navigation.navigate("RetailActivityScreen", { outletDetail: outletData });
+    } else {
+      navigation.navigate("ContactListScreen", { outletDetail: outletData });
     }
   };
 

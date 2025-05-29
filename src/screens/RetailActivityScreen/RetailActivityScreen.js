@@ -131,36 +131,38 @@ const RetailActivityScreen = ({route}) => {
   // }, [])
 
   useEffect(() => {
-    const selectActivity = async() => {
-      const user = await AsyncStorage.getItem("userInfor");
-      const loginData = JSON.parse(user);
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-
-      const raw = JSON.stringify({
-        divid:loginData[0].division, // Division ID from outlet details
-      });
-      console.log(raw, 'idddd');
-      
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
-
-      fetch("https://devcrm.romsons.com:8080/outlet_activity", requestOptions)
-        .then((response) => response.json()) // Parse response as JSON
-        .then((result) => {
-          console.log(result); // Log the result to check
-          setReasons(result.data); // Assuming the API returns { data: [] }
-        })
-        .catch((error) => console.error("Error fetching reasons:", error));
+    const selectActivity = async () => {
+      try {
+        const user = await AsyncStorage.getItem("userInfor");
+        const loginData = JSON.parse(user);
+  
+        const raw = JSON.stringify({
+          divid: loginData[0].division,
+        });
+  
+        const response = await fetch("https://devcrm.romsons.com:8080/outlet_activity", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: raw,
+          redirect: "follow",
+        });
+  
+        const result = await response.json();
+        console.log("API Response:", result);
+  
+        const activities = Array.isArray(result.data) ? result.data : [];
+        setReasons(activities);
+      } catch (error) {
+        console.error("Error fetching reasons:", error);
+        setReasons([]); // prevent .map crash
+      }
     };
-
+  
     selectActivity();
-  }, [outletDetail.division_id]); // Dependency on division_id
+  }, [outletDetail.division_id]);
+   // Dependency on division_id
 
   // useEffect(()=>{
   //   handleSubmit();
