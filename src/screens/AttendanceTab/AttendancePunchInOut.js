@@ -1,10 +1,11 @@
 ///////////////////////////aatendance updated///////////////////////////////
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Modal, TextInput, ActivityIndicator, Button,Alert, Linking  } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Modal, TextInput, ActivityIndicator, Button, Alert, Linking } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AttendancePunchStyle } from '../../styles'; // Corrected import
 import { useSelector } from 'react-redux';
+import { RouteName } from '../../routes';
 import { Colors, darkTheme, lightTheme } from '../../utils'; // Adjust as necessary
 import { Spacing, ConfirmationAlert } from '../../components';
 import { useNavigation } from '@react-navigation/native';
@@ -12,7 +13,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 // import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import axios from 'axios';
 import { Platform, PermissionsAndroid } from 'react-native';
 import { Divider } from 'react-native-elements';
 const AttendancePunchInOut = () => {
@@ -73,6 +73,61 @@ const AttendancePunchInOut = () => {
         await handleSave(); // Call punch-in API
     };
 
+    // const handleSave = async () => {
+    //     if (!currentLatitude || !currentLongitude || currentLatitude === '...' || currentLongitude === '...') {
+    //         alert("Please wait, fetch location...");
+    //         return;
+    //     }
+    
+    //     if (!address || address.trim() === "") {
+    //         alert("Please wait, fetch location...");
+    //         return;
+    //     }
+    
+    //     let user = await AsyncStorage.getItem("userInfor");
+    //     let empid = JSON.parse(user);
+    
+    //     const myHeaders = new Headers();
+    //     myHeaders.append("Content-Type", "application/json");
+    
+    //     const raw = JSON.stringify({
+    //         empid: empid[0].emp_id,
+    //         in_lat: currentLatitude,
+    //         in_lng: currentLongitude,
+    //         enterBy: empid[0].emp_id,
+    //         emp_in_address: address,  // Ensure address is fetched
+    //         app_version: ""
+    //     });
+    
+    //     console.log(raw, "Request Payload");
+    
+    //     const requestOptions = {
+    //         method: "POST",
+    //         headers: myHeaders,
+    //         body: raw,
+    //         redirect: "follow"
+    //     };
+    
+    //     fetch("https://devcrm.romsons.com:8080/attendance_punch_in", requestOptions)
+    //         .then((response) => response.json())
+    //         .then((result) => {
+    //             console.log(result, "API Response");
+    
+    //             if (result.success === false) {
+    //                 alert("Successfully punched in");
+    //                 PunchInOuttime();
+    //             } else if (result.msg === true) {
+    //                 alert("Attendance already exists for today.");
+    //             } else {
+    //                 alert("Something went wrong, please try again.");
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error during Punch-In:", error);
+    //             alert("Failed to punch in, please check your network connection.");
+    //         });
+    // };
+    
     const handleSave = async () => {
         if (!currentLatitude || !currentLongitude || currentLatitude === '...' || currentLongitude === '...') {
             alert("Please wait, fetch location...");
@@ -95,7 +150,7 @@ const AttendancePunchInOut = () => {
             in_lat: currentLatitude,
             in_lng: currentLongitude,
             enterBy: empid[0].emp_id,
-            emp_in_address: address,  // Ensure address is fetched
+            emp_in_address: address,
             app_version: ""
         });
     
@@ -113,11 +168,25 @@ const AttendancePunchInOut = () => {
             .then((result) => {
                 console.log(result, "API Response");
     
-                if (result.success === false) {
+                if (result.success === true) {
                     alert("Successfully punched in");
                     PunchInOuttime();
                 } else if (result.msg === true) {
                     alert("Attendance already exists for today.");
+                } else if (result.message === "You are not an active employee.") {
+                    Alert.alert("Inactive Employee", "You are not an active employee.", [
+                        {
+                          text: "OK",
+                          onPress: async () => {
+                            await AsyncStorage.removeItem("userInfor"); 
+                            navigation.navigate(RouteName.LOGIN_SCREEN);
+                          }
+                        }
+                      ]);
+                      
+                      
+                } else if (result.message === "Employee not found.") {
+                    alert("Employee does not exist.");
                 } else {
                     alert("Something went wrong, please try again.");
                 }
@@ -128,7 +197,7 @@ const AttendancePunchInOut = () => {
             });
     };
     
-
+    
     const [
         currentLongitude,
         setCurrentLongitude
