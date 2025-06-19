@@ -234,43 +234,51 @@ const CheckInOutScreen = () => {
 
   const handleSubmit = async () => {
     if (selectedPunchItem) {
+      const today = new Date();
+      const selectedDate = new Date(selectedPunchItem.punch_date);
+    
+      if (
+        selectedDate.getMonth() !== today.getMonth() ||
+        selectedDate.getFullYear() !== today.getFullYear()
+      ) {
+        alert("You can only apply regularization for the current month.");
+        return;
+      }
+    
       setReasonData(prevState => ({
         ...prevState,
         [selectedPunchItem.punch_date]: reasonData
       }));
-
+    
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-
+    
       const raw = JSON.stringify({
-        "emp_id": selectedPunchItem.emp_id,
-        "Request_Remarks": reasonData,
-        "requestDate": moment(selectedPunchItem.punch_date).format("YYYY-MM-DD")
+        emp_id: selectedPunchItem.emp_id,
+        Request_Remarks: reasonData,
+        requestDate: moment(selectedPunchItem.punch_date).format("YYYY-MM-DD"),
       });
-
+    
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
         body: raw,
-        redirect: "follow"
+        redirect: "follow",
       };
-
+    
       fetch("https://devcrm.romsons.com:8080/attendance_regulization", requestOptions)
         .then(async (response) => response.json())
         .then(async (result) => {
           if (result.error === false) {
             alert(result.data);
-
+    
             const user = await AsyncStorage.getItem('userInfor');
             const empid = JSON.parse(user);
-
-            // ✅ Employee-specific date store
             const storedDates = await AsyncStorage.getItem(`regularizedDates_${empid[0].emp_id}`);
             const parsedDates = storedDates ? JSON.parse(storedDates) : [];
             const updatedRegularizedDates = [...new Set([...parsedDates, selectedPunchItem.punch_date])];
-
+    
             await AsyncStorage.setItem(`regularizedDates_${empid[0].emp_id}`, JSON.stringify(updatedRegularizedDates));
-
             setRegularizedDates(updatedRegularizedDates);
             monthlyInOutList();
           } else {
@@ -281,10 +289,11 @@ const CheckInOutScreen = () => {
           console.error("Error:", error);
           alert("An error occurred while submitting the request.");
         });
-
+    
       setModalVisible(null);
       setShowInput(null);
     }
+    
   };
 
 

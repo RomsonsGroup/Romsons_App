@@ -46,26 +46,26 @@ const LeaveApply = () => {
         const now = new Date();
         const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
         const currentYearEnd = new Date(now.getFullYear(), 11, 31); // 31 Dec 2025
-    
+
         const currentDate = selectedDate || new Date();
-    
+
         if (currentDate < currentMonthStart) {
             Alert.alert("Invalid Date", "You can't select a date from the previous month.");
             setShowDatePicker(false);
             return;
         }
-    
+
         if (currentDate > currentYearEnd) {
             Alert.alert("Invalid Date", "You can't select a date beyond the current year.");
             setShowDatePicker(false);
             return;
         }
-    
+
         setFromDate(null);
         setShowDatePicker(false);
         setFromDate(currentDate);
     };
-    
+
 
 
     // Handle To date change
@@ -73,26 +73,26 @@ const LeaveApply = () => {
         const now = new Date();
         const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
         const currentYearEnd = new Date(now.getFullYear(), 11, 31); // 31 Dec 2025
-    
+
         const currentDate = selectedDate || new Date();
-    
+
         if (currentDate < currentMonthStart) {
             Alert.alert("Invalid Date", "You can't select a date from the previous month.");
             setShowDatePicker(false);
             return;
         }
-    
+
         if (currentDate > currentYearEnd) {
             Alert.alert("Invalid Date", "You can't select a date beyond the current year.");
             setShowDatePicker(false);
             return;
         }
-    
+
         setToDate(null);
         setShowDatePicker(false);
         setToDate(currentDate);
     };
-    
+
 
 
     const fetchLeaveTypes = async () => {
@@ -154,6 +154,7 @@ const LeaveApply = () => {
                 numofdays: numberOfdays,
                 leavereason: reason,
                 enterBy: empid[0].emp_id,
+                
             };
 
             console.log("Payload being sent:", leavePayload);

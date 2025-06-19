@@ -45,18 +45,10 @@ const OrderScreen = ({ route }) => {
   const navigation = useNavigation();
   const viewShotRef = useRef(null);
 
-  const [
-    currentLongitude,
-    setCurrentLongitude
-  ] = useState('...');
-  const [
-    currentLatitude,
-    setCurrentLatitude
-  ] = useState('...');
-  const [
-    locationStatus,
-    setLocationStatus
-  ] = useState('');
+  const [currentLongitude, setCurrentLongitude] = useState('...');
+  const [currentLatitude, setCurrentLatitude] = useState('...');
+  const [ locationStatus,setLocationStatus] = useState('');
+  const [dummy, setDummy] = useState(false);
 
   const alertdata = {
     'loginSuccess': t("Login_Successfull"),
@@ -79,6 +71,7 @@ const OrderScreen = ({ route }) => {
   };
 
 
+
   useEffect(() => {
     const requestLocationPermission = async () => {
       if (Platform.OS === 'ios') {
@@ -96,6 +89,7 @@ const OrderScreen = ({ route }) => {
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             //To Check, If Permission is granted
             getOneTimeLocation();
+
             subscribeLocationLocation();
           } else {
             setLocationStatus('Permission Denied');
@@ -109,7 +103,7 @@ const OrderScreen = ({ route }) => {
     return () => {
       Geolocation.clearWatch(watchID);
     };
-  }, []);
+  }, [dummy]);
 
 
   const getOneTimeLocation = () => {
@@ -132,9 +126,11 @@ const OrderScreen = ({ route }) => {
 
         //Setting Longitude state
         setCurrentLatitude(currentLatitude);
+        Alert.alert("Success", "Location fetch successfully,Please submit your order.");
       },
       (error) => {
         setLocationStatus(error.message);
+        Alert.alert("Error", "Please try again to fetch the location.");
       },
       {
         enableHighAccuracy: false,
@@ -282,15 +278,25 @@ const OrderScreen = ({ route }) => {
     }
   };
 
+  const fetchLocation = () => {
+    setDummy(prev => !prev)
+  }
+
   const HandleSaveOrderSummury = () => {
     setLoading(true);  // Loader ko show karein
     setDisable(true);
     setDisable(true);
-    if (orderData.length > 0) {
-      orderSubmit()
+    if (currentLongitude != '...' && currentLatitude != '...') {
+      if (orderData.length > 0) {
+        orderSubmit()
+      } else {
+        returnSubmit()
+      }
     } else {
-      returnSubmit()
+      Alert.alert("Error", "Please turn on your location and click on refresh icon.");
+      setLoading(false);
     }
+
   }
 
 
@@ -691,16 +697,17 @@ const OrderScreen = ({ route }) => {
       )}
 
       {selectedTab === "Order Summary" && (
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingHorizontal: 20 }}>
-          <TouchableOpacity onPress={captureAndShare}>
-            <Icon name="share" size={30} color="#000" />
-          </TouchableOpacity>
-        </View>
+        <>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingHorizontal: 20 }}>
+          <TouchableOpacity onPress={fetchLocation}>
+              <Icon name="refresh" size={30} color="#000" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={captureAndShare}>
+              <Icon name="share" size={30} color="#000" />
+            </TouchableOpacity>
+          </View>
+        </>
       )}
-
-
-
-
       {/* Order Summary UI */}
       {selectedTab === "Order Summary" && (
         <ScrollView>
@@ -952,7 +959,7 @@ const OrderScreen = ({ route }) => {
 
               </View>
               {saleReturnData.length > 0 || orderData.length > 0 ? (
-                <TouchableOpacity style={{ padding: 2, marginVertical: 3 }} activeOpacity={0.9}>
+                <TouchableOpacity style={{ padding: 2, marginVertical: 3 }} activeOpacity={0.9} onPress={HandleSaveOrderSummury}>
                   {loading ? (
                     <ActivityIndicator size="large" color="green" />
                   ) : (

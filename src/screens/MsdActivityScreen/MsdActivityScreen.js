@@ -44,7 +44,7 @@ const MsdActivityScreen = ({ route }) => {
     const [dates, setDates] = useState([]);
     const [fromDate, setFromDate] = useState(new Date());
     const viewShotRef = useRef(null);
-
+const [dummy, setDummy] = useState(false);
 
     const [
         currentLongitude,
@@ -90,7 +90,7 @@ const MsdActivityScreen = ({ route }) => {
         return () => {
             Geolocation.clearWatch(watchID);
         };
-    }, []);
+    }, [dummy]);
 
     const getOneTimeLocation = () => {
         setLocationStatus('Getting Location ...');
@@ -112,9 +112,11 @@ const MsdActivityScreen = ({ route }) => {
 
                 //Setting Longitude state
                 setCurrentLatitude(currentLatitude);
+                Alert.alert("Success", "Location fetch successfully,Please submit your order.");
             },
             (error) => {
                 setLocationStatus(error.message);
+                Alert.alert("Error", "Please try again to fetch the location.");
             },
             {
                 enableHighAccuracy: false,
@@ -189,64 +191,70 @@ const MsdActivityScreen = ({ route }) => {
         setShowDatePicker(null); // Close the date picker
     };
 
+    const fetchLocation = () => {
+        setDummy(prev => !prev)
+      }
+
     const msdActivitySubmit = async () => {
         if (isSubmitting) return; // Prevent multiple submissions
-
-
-        // if (!currentLatitude || currentLatitude === '...' || 
-        //     !currentLongitude || currentLongitude === '...') {
-        //     alert("Location not detected yet. Please wait for GPS to fetch your location.");
-        //     return;
-        // }
-
-        setIsSubmitting(true); // Set submitting state to true
-
-        try {
-            const user = await AsyncStorage.getItem("userInfor");
-            const empid = JSON.parse(user);
-
-            const outlet_id = outlet_id ?? 0;
-            const raw = JSON.stringify({
-                "activitydetails": msdActivityData,
-                "enterbyy": empid[0].emp_id,
-                "zone": empid[0].zone_id,
-                "joinedName": outletDetail.callerName,
-                "joinedcallid": outletDetail.reportingTo,
-                "callType": outletDetail.callType,
-                "div": empid[0].division,
-                "lat": currentLatitude,
-                "lag": currentLongitude
-            });
-
-            console.log(raw, 'Line 81');
-
-            const myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-
-            const requestOptions = {
-                method: "POST",
-                headers: myHeaders,
-                body: raw,
-                redirect: "follow"
-            };
-
-            const response = await fetch("https://devcrm.romsons.com:8080/ActivityHospital", requestOptions);
-            const result = await response.json();
-
-            if (result.error === false) {
-                alert(result.data);
-                dispatch(setResetMsdActivity());
-                navigation.navigate(RouteName.CONTACTLIST, { outletDetail });
-            } else {
-                alert("Something Went Wrong");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Submission failed. Please try again.");
-        } finally {
-            setIsSubmitting(false);
+      
+        // 🔒 Location Validation
+        if (currentLatitude === "..." || currentLongitude === "...") {
+          Alert.alert("Error", "Please turn on your location and click on refresh icon.");
+          setIsSubmitting(false); 
+          return;
         }
-    };
+      
+        setIsSubmitting(true); // ✅ Start loader
+      
+        try {
+          const user = await AsyncStorage.getItem("userInfor");
+          const empid = JSON.parse(user);
+      
+          const outlet_id = outlet_id ?? 0;
+      
+          const raw = JSON.stringify({
+            activitydetails: msdActivityData,
+            enterbyy: empid[0].emp_id,
+            zone: empid[0].zone_id,
+            joinedName: outletDetail.callerName,
+            joinedcallid: outletDetail.reportingTo,
+            callType: outletDetail.callType,
+            div: empid[0].division,
+            lat: currentLatitude,
+            lag: currentLongitude
+          });
+      
+          console.log(raw, 'Line 81');
+      
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+      
+          const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+          };
+      
+          const response = await fetch("https://devcrm.romsons.com:8080/ActivityHospital", requestOptions);
+          const result = await response.json();
+      
+          if (result.error === false) {
+            alert(result.data);
+            dispatch(setResetMsdActivity());
+            navigation.navigate(RouteName.CONTACTLIST, { outletDetail });
+          } else {
+            alert("Something Went Wrong");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Submission failed. Please try again.");
+        } finally {
+          setIsSubmitting(false); // ✅ Always stop loader
+        }
+      };
+      
 
     const activitySave = () => {
         // Check if at least one remark is selected
@@ -472,6 +480,11 @@ const MsdActivityScreen = ({ route }) => {
 
             {selectedFilter === "Summary" && (
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingHorizontal: 20 }}>
+                    
+                    <TouchableOpacity onPress={fetchLocation}>
+              <Icon name="refresh" size={30} color="#000" />
+            </TouchableOpacity>
+                    
                     <TouchableOpacity onPress={captureAndShare}>
                         <Icon name="share" size={30} color="#000" />
                     </TouchableOpacity>

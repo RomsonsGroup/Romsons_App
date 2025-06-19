@@ -749,7 +749,7 @@ const OutletDetailScreen = ({ route }) => {
 
             <View style={OutletDetailStyles.callerNameContainer}>
               <Text style={OutletDetailStyles.callerNameText}>
-                Delaer Name :
+                Dealer Name :
                 <Text style={{ color: 'brown', fontSize: 12 }}> {selectedDealerName}</Text>
               </Text>
             </View>
