@@ -16,9 +16,6 @@ import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { Platform, PermissionsAndroid } from 'react-native';
 import { Divider } from 'react-native-elements';
 const AttendancePunchInOut = () => {
-    const [isCheckedIn, setIsCheckedIn] = useState(false);
-    const [showCheckInPopup, setShowCheckInPopup] = useState(false);
-    const [showCheckOutPopup, setShowCheckOutPopup] = useState(false);
     const [remarks, setRemarks] = useState('');
     const [attendanceData, setAttendanceData] = useState(null);
     const [remarks1, setRemarks1] = useState(''); // State for remarks input
@@ -183,10 +180,10 @@ const AttendancePunchInOut = () => {
                             }
                         }
                     ]);
-
-
                 } else if (result.message === "Employee not found.") {
                     alert("Employee does not exist.");
+                } else if (result.message === "You have already applied for leave today. Punch-in not allowed.") {
+                    alert(result.message);
                 } else {
                     alert("Something went wrong, please try again.");
                 }
@@ -196,6 +193,7 @@ const AttendancePunchInOut = () => {
                 alert("Failed to punch in, please check your network connection.");
             });
     };
+
 
 
     const [
@@ -275,8 +273,6 @@ const AttendancePunchInOut = () => {
     }
 
     useEffect(() => {
-
-
         if (hasLocationPermission) {
             Geolocation.getCurrentPosition(
                 (position) => {
@@ -486,9 +482,6 @@ const AttendancePunchInOut = () => {
             .catch((error) => console.error(error));
     }
 
-
-
-
     const handleOut = async () => {
         if (!currentLatitude || !currentLongitude || currentLatitude === '...' || currentLongitude === '...') {
             alert("Please wait, fetch location...");
@@ -551,15 +544,6 @@ const AttendancePunchInOut = () => {
             });
     };
 
-
-
-
-
-
-
-
-
-
     const shiftDetails = async () => {
         const requestOptions = {
             method: "POST",
@@ -618,14 +602,28 @@ const AttendancePunchInOut = () => {
         <View style={AttendancePunchStyles.checkInOutContainer}>
             <TouchableOpacity
                 style={[AttendancePunchStyles.checkButton, item.buttonStyle]}
-                onPress={item.onPress}>
+                onPress={item.onPress}
+            >
                 <Text style={AttendancePunchStyles.checkButtonText}>{item.label}</Text>
             </TouchableOpacity>
-            {item.date && <Text style={AttendancePunchStyles.dateText}>{item.date}</Text>}
-            <Text style={AttendancePunchStyles.timeText}>{item.time}</Text>
-            {item.id === 2 && totalHours && (
+
+            {typeof item.date === 'string' && (
+                <Text style={AttendancePunchStyles.dateText}>{item.date}</Text>
+            )}
+
+            {typeof item.time === 'string' && (
+                <Text style={AttendancePunchStyles.timeText}>{item.time}</Text>
+            )}
+
+            {item.id === 2 && (typeof totalHours === 'string' || typeof totalHours === 'number') && (
                 <View>
-                    <Text>Total Hours: <Text style={{ color: 'black', fontWeight: 'bold' }}>{totalHours}</Text> hrs</Text>
+                    <Text>
+                        Total Hours:{' '}
+                        <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                            {String(totalHours)}
+                        </Text>{' '}
+                        hrs
+                    </Text>
                 </View>
             )}
         </View>
@@ -709,18 +707,6 @@ const AttendancePunchInOut = () => {
                 onConfirm={handleAlertOk}
             />
 
-            {/* <View style={{ marginBottom: 30 }}>
-            
-            {punchinoutTime.length > 0 && punchinoutTime[0]?.punch_in && (
-                <Text style={AttendancePunchStyles.timeText}>In Time: {punchinoutTime[0].punch_in}</Text>
-            )}
-
-            
-            
-            {punchinoutTime.length > 0 && punchinoutTime[0]?.punch_out && (
-                <Text style={AttendancePunchStyles.timeText}>Out Time: {punchinoutTime[0].punch_out}</Text>
-            )}
-        </View> */}
         </View>
 
 

@@ -28,30 +28,32 @@ const HomeTab = (props) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [pendingCount, setPendingCount] = useState(0);
+  const [countPendingRegulization, setCountPendingRegulization] = useState(0);
+  const [leavePendingCount, setLeavePendingCount] = useState(0)
 
   // const checkUserStatus = async (navigation) => {
   //   try {
   //     const userInfo = await AsyncStorage.getItem("userInfor");
   //     if (!userInfo) return;
-  
+
   //     const empId = JSON.parse(userInfo)[0]?.emp_id;
   //     if (!empId) return;
-  
+
   //     const myHeaders = new Headers();
   //     myHeaders.append("Content-Type", "application/json");
-  
+
   //     const raw = JSON.stringify({ empid: empId });
-  
+
   //     const requestOptions = {
   //       method: "POST",
   //       headers: myHeaders,
   //       body: raw,
   //       redirect: "follow"
   //     };
-  
+
   //     const response = await fetch("http://localhost:8091/checkStatus", requestOptions);
   //     const result = await response.json();
-  
+
   //     if (result.status === 'I') {
   //       Alert.alert(
   //         "Account Inactive",
@@ -61,19 +63,19 @@ const HomeTab = (props) => {
   //       await AsyncStorage.clear();
   //       navigation.replace(RouteName.LOGIN_SCREEN);
   //     }
-  
+
   //   } catch (error) {
   //     console.error("Error checking status:", error);
-      
+
   //   }
   // };
-  
+
 
   // useEffect(() => {
   //   checkUserStatus(navigation);
   // }, []);
-  
-  
+
+
 
   useFocusEffect(
     useCallback(() => {
@@ -187,6 +189,8 @@ const HomeTab = (props) => {
   useFocusEffect(
     useCallback(() => {
       PunchInOuttime(); // Fetch data when screen is focused
+      RegulizationPendingCount();
+      LeavePendingCount();
     }, [])
   );
 
@@ -294,6 +298,78 @@ const HomeTab = (props) => {
       console.error("Error fetching pending count:", error);
     }
   };
+
+  const RegulizationPendingCount = async () => {
+    try {
+      const user = await AsyncStorage.getItem("userInfor");
+      const empid = JSON.parse(user);
+
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        empidd: empid[0]?.emp_id,
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        "https://devcrm.romsons.com:8080/getPendingRegularizationCount",
+        requestOptions
+      );
+      const result = await response.json();
+
+      console.log(result, "hgfhfghf");
+
+      if (result.error === false) {
+        setCountPendingRegulization(result.data.pending_count);
+      }
+    } catch (error) {
+      console.error("Error fetching pending regularization count:", error);
+    }
+  };
+
+
+  const LeavePendingCount = async () => {
+    try {
+      const user = await AsyncStorage.getItem("userInfor");
+      const empid = JSON.parse(user);
+  
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+  
+      const raw = JSON.stringify({
+        empidd: empid[0]?.emp_id,
+      });
+  
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+  
+      const response = await fetch(
+        "https://devcrm.romsons.com:8080/getPendingLeaveCount",
+        requestOptions
+      );
+      const result = await response.json();
+  
+      console.log(result, "poojaja");
+  
+      if (result.error === false) {
+        setLeavePendingCount(result.data.pending_count);
+      }
+    } catch (error) {
+      console.error("Error fetching pending leave count:", error);
+    }
+  };
+  
 
 
   useFocusEffect(
@@ -481,16 +557,8 @@ const HomeTab = (props) => {
             <Spacing space={10} />
 
             <Text style={HomeTabStyles.moduleLabel}>{t("Task")}</Text>
-
-            {/* <Text style={HomeTabStyles.pendingCountText}>
-    {pendingCount > 0 ? `${pendingCount} Pending` : "No Pending"}
-  </Text> */}
           </TouchableOpacity>
-
-
-
         </View>
-
         <Text style={HomeTabStyles.LableText}>{t("Approvals")}</Text>
         <Spacing space={20} />
 
@@ -504,7 +572,16 @@ const HomeTab = (props) => {
             <Text style={HomeTabStyles.moduleLabel} >{t("Team")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.APPROVALSCREEN)}>
-            <VectorIcon icon="FontAwesome" size={SF(33)} name="tasks" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
+            <View style={{ position: "relative" }}>
+              <VectorIcon icon="FontAwesome" size={SF(33)} name="tasks" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
+              {leavePendingCount > 0 && (
+                <View style={HomeTabStyles.notificationBadge}>
+                  <Text style={HomeTabStyles.badgeText}>{leavePendingCount}</Text>
+                </View>
+              )}
+
+            </View>
+
             <Spacing space={10} />
             <Text style={HomeTabStyles.moduleLabel}>{t("Leave")}</Text>
           </TouchableOpacity>
@@ -515,10 +592,14 @@ const HomeTab = (props) => {
           </TouchableOpacity>
           <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.REGULIZATION)}>
             {/* <VectorIcon icon="FontAwesome" size={SF(33)} name="tasks" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} /> */}
-            <Icon name="handshake" size={60} color={Colors.theme_background} />
-
-
-
+            <View style={{ position: "relative" }}>
+              <Icon name="handshake" size={60} color={Colors.theme_background} />
+              {countPendingRegulization > 0 && (
+                <View style={HomeTabStyles.notificationBadge}>
+                  <Text style={HomeTabStyles.badgeText}>{countPendingRegulization}</Text>
+                </View>
+              )}
+            </View>
             <Spacing space={10} />
             <Text style={HomeTabStyles.moduleLabel}>{t("Regularization")}</Text>
           </TouchableOpacity>

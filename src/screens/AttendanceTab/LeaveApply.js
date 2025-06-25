@@ -139,8 +139,8 @@ const LeaveApply = () => {
             const empid = JSON.parse(user);
 
             // **15 days validation (frontend check)**
-            if (numberOfdays > 15) {
-                Alert.alert("Error", "You cannot apply for more than 15 leaves at a time.");
+            if (numberOfdays > 7) {
+                Alert.alert("Error", "You cannot apply for more than 7 leaves at a time.");
                 return;
             }
 
