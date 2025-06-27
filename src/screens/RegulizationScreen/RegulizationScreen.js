@@ -360,10 +360,6 @@ const RegulizationScreen = () => {
             </View>
         );
     };
-
-
-
-
     return (
         <View style={ApprovalStyles.container}>
             <View style={ApprovalStyles.PaddingHorizontal}>

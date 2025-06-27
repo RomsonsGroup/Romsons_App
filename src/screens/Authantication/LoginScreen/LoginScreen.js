@@ -199,7 +199,7 @@ const LoginScreen = () => {
                                 <Spacing space={10} />
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Email: </Text>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'green' }}>sales.data@romsons.com</Text>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'green' }}>sales.data3@romsons.com</Text>
                                 </View>
                                 <Spacing space={20} />
                                 <View style={{ borderBottomWidth: 2, borderBottomColor: '#ccc', marginBottom: 10 }} />

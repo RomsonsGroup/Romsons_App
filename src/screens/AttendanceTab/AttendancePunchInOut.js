@@ -671,6 +671,16 @@ const AttendancePunchInOut = () => {
                             <Text style={{ color: 'black', fontSize: 13 }}>After 10:30 AM </Text>
                         </Text>
 
+                        <Text style={AttendancePunchStyles.modalText}>
+                            <Text style={{ color: 'gray' }}>Half Day: </Text>
+                            <Text style={{ color: 'black', fontSize: 13 }}>4 hour Mandatory </Text>
+                        </Text>
+
+                        <Text style={AttendancePunchStyles.modalText}>
+                            <Text style={{ color: 'gray' }}>Full Day: </Text>
+                            <Text style={{ color: 'black', fontSize: 13 }}>8 hour Mandatory</Text>
+                        </Text>
+
                         {/* Button to confirm and punch-in */}
                         <TouchableOpacity onPress={handleModalOk} style={AttendancePunchStyles.modalButton}>
                             <Text style={AttendancePunchStyles.modalButtonText}>OK</Text>

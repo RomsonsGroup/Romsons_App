@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView,Alert } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { AttendanceTabStyle } from '../../styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ import { Spacing, VectorIcon } from '../../components';
 
 const ProfileTab = (props) => {
   const [items, setItems] = useState([]);
-  
+
 
   const isDarkMode = useSelector((state) => state.DarkReducer.isDarkMode);
   const Colors = isDarkMode ? darkTheme : lightTheme;
@@ -40,13 +40,13 @@ const ProfileTab = (props) => {
       const user = await AsyncStorage.getItem('userInfor');
       const empid = JSON.parse(user);
 
-      
+
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
-      const raw = JSON.stringify({ 
-        empid: empid[0].emp_id 
+      const raw = JSON.stringify({
+        empid: empid[0].emp_id
 
       });
 
@@ -81,70 +81,70 @@ const ProfileTab = (props) => {
 
   return (
     <ScrollView style={AttendanceTabStyles.container2}>
-      
+
       <View style={AttendanceTabStyles.header2}>
-      <Text style={{color:'black', fontWeight:'bold', fontSize: 20 }}>Romsons Group Pvt Ltd</Text>
+        <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Romsons Group Pvt Ltd</Text>
         <Spacing space={10} />
-        
+
         <Image style={AttendanceTabStyles.profileImage2} source={images.Sign3} />
         <Spacing space={10} />
         {items.map((res, ind) => {
-  return (
-    <View key={ind} style={{ marginBottom: 10, alignItems:'center' }}>
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black',alignSelf:'flex-start' }}>Division:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold',marginLeft: 8,color: 'white' }}>{res.division_name}</Text>
-      </View>
-      <Spacing space={4} />
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>User Name:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold',marginLeft: 7,color: 'white' }}>{res.user_name}</Text>
-      </View>
-      <Spacing space={4} />
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Emp Code:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold',marginLeft: 7,color: 'white' }}>{res.emp_code}</Text>
-      </View>
-      <Spacing space={4} />
+          return (
+            <View key={ind} style={{ marginBottom: 10, alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black', alignSelf: 'flex-start' }}>Division:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 8, color: 'white' }}>{res.division_name}</Text>
+              </View>
+              <Spacing space={4} />
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>User Name:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.user_name}</Text>
+              </View>
+              <Spacing space={4} />
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Emp Code:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.emp_code}</Text>
+              </View>
+              <Spacing space={4} />
 
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>User Id:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold',marginLeft: 7,color: 'white' }}>{res.emp_id}</Text>
-      </View>
-      <Spacing space={4} />
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>User Id:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.emp_id}</Text>
+              </View>
+              <Spacing space={4} />
 
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Comapny Code:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold',marginLeft: 7,color: 'white' }}>{res.company_code}</Text>
-      </View>
-      <Spacing space={4} />   
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Reporting Name:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold',marginLeft: 7,color: 'white' }}>{res.reporting_name}</Text>
-      </View>
-      <Spacing space={4} />
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Email Id:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold',marginLeft: 7,color: 'white' }}>{res.email}</Text>
-      </View>
-      <Spacing space={4} />
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Head Quarter:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold',marginLeft: 7,color: 'white' }}>{res.Head_Quater_name}</Text>
-      </View>
-      <Spacing space={4} />
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Phone Number:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7,color: 'white' }}>{res.phone_number}</Text>
-      </View>
-      <Spacing space={4} />
-      <View style={{ flexDirection: 'row', alignSelf:'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>DOJ:</Text>
-        <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7,color: 'white' }}>{Moment(res.enter_date).format('DD-MM-YYYY')}</Text>
-      </View>
-    </View>
-  );
-})}
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Comapny Code:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.company_code}</Text>
+              </View>
+              <Spacing space={4} />
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Reporting Name:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.reporting_name}</Text>
+              </View>
+              <Spacing space={4} />
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Email Id:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.email}</Text>
+              </View>
+              <Spacing space={4} />
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Head Quarter:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.Head_Quater_name}</Text>
+              </View>
+              <Spacing space={4} />
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Phone Number:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.phone_number}</Text>
+              </View>
+              <Spacing space={4} />
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>DOJ:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{Moment(res.enter_date).format('DD-MM-YYYY')}</Text>
+              </View>
+            </View>
+          );
+        })}
 
         <Spacing space={20} />
       </View>
@@ -177,9 +177,9 @@ const ProfileTab = (props) => {
                     text: t("Cancel"),
                     style: "cancel"
                   },
-                  { 
-                    text: t("Logout"), 
-                    onPress: handleLogout 
+                  {
+                    text: t("Logout"),
+                    onPress: handleLogout
                   }
                 ]
               );
