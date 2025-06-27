@@ -105,7 +105,7 @@ const AttendancePunchInOut = () => {
     //         redirect: "follow"
     //     };
 
-    //     fetch("https://devcrm.romsons.com:8080/attendance_punch_in", requestOptions)
+    //     fetch("https://crm.romsons.com:8080/attendance_punch_in", requestOptions)
     //         .then((response) => response.json())
     //         .then((result) => {
     //             console.log(result, "API Response");
@@ -160,7 +160,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/attendance_punch_in", requestOptions)
+        fetch("https://crm.romsons.com:8080/attendance_punch_in", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, "API Response");
@@ -463,7 +463,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/punchInOutTime", requestOptions)
+        fetch("https://crm.romsons.com:8080/punchInOutTime", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -524,7 +524,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/attendance_punchout", requestOptions)
+        fetch("https://crm.romsons.com:8080/attendance_punchout", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, "API Response");
@@ -550,7 +550,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/shiftDetails", requestOptions)
+        fetch("https://crm.romsons.com:8080/shiftDetails", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {

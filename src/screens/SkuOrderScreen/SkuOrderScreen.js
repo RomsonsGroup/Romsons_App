@@ -54,7 +54,7 @@ const SkuOrderScreen = ({ route }) => {
   
       console.log('Request Payload:', raw);
   
-      fetch("https://devcrm.romsons.com:8080/Totalskuorderwise", {
+      fetch("https://crm.romsons.com:8080/Totalskuorderwise", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: raw

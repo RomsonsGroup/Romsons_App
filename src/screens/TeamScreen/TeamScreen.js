@@ -38,7 +38,7 @@ const TeamScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/Teamlink", requestOptions);
+            const response = await fetch("https://crm.romsons.com:8080/Teamlink", requestOptions);
 
             const result = await response.json();  // Use response.json() instead of text()
 

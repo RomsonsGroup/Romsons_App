@@ -44,7 +44,7 @@ const OutletScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/dateWiseOutlet", requestOptions)
+    fetch("https://crm.romsons.com:8080/dateWiseOutlet", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error === false) {
@@ -66,7 +66,7 @@ const OutletScreen = () => {
 
       const payload = { empid: empid[0].emp_id, outletDate: currentDate };
 
-      const response = await axios.post('https://devcrm.romsons.com:8080/DatewiseOutlet_data', payload, {
+      const response = await axios.post('https://crm.romsons.com:8080/DatewiseOutlet_data', payload, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -87,7 +87,7 @@ const OutletScreen = () => {
       const empid = JSON.parse(user);
       const payload = { empid: empid[0].emp_id, outletDate: currentDate };
 
-      const response = await axios.post('https://devcrm.romsons.com:8080/countOutlet', payload, {
+      const response = await axios.post('https://crm.romsons.com:8080/countOutlet', payload, {
         headers: { 'Content-Type': 'application/json' },
       });
 

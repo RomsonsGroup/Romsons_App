@@ -30,7 +30,7 @@ const TeamLeaveScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/Leaveapproval", requestOptions)
+        fetch("https://crm.romsons.com:8080/Leaveapproval", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, 'leaveeee');
@@ -64,7 +64,7 @@ const TeamLeaveScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/Leaveidapproval", requestOptions)
+        fetch("https://crm.romsons.com:8080/Leaveidapproval", requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 if (result.error == false) {

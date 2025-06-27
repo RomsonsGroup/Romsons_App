@@ -89,7 +89,7 @@ const EodScreen = () => {
                 redirect: 'follow'
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/EodShareUpdate", requestOptions);
+            const response = await fetch("https://crm.romsons.com:8080/EodShareUpdate", requestOptions);
             const result = await response.json();
 
             // Return API data to use in WhatsApp message
@@ -120,7 +120,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EODAttendance", requestOptions)
+        fetch("https://crm.romsons.com:8080/EODAttendance", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result, 'punchhhhhhhh');
@@ -152,7 +152,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodReturn", requestOptions)
+        fetch("https://crm.romsons.com:8080/EodReturn", requestOptions)
             .then((response) => response.json())
             .then((result) => {
 
@@ -184,7 +184,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodReturnbutton", requestOptions)
+        fetch("https://crm.romsons.com:8080/EodReturnbutton", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result,"result Line 189");
@@ -216,7 +216,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodDateReturn", requestOptions)
+        fetch("https://crm.romsons.com:8080/EodDateReturn", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result, 'returndatataat');
@@ -249,7 +249,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodDateReturnbutton", requestOptions)
+        fetch("https://crm.romsons.com:8080/EodDateReturnbutton", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result, 'returndatataat');
@@ -284,7 +284,7 @@ const EodScreen = () => {
             redirect: 'follow'
         };
 
-        fetch("https://devcrm.romsons.com:8080/EODActivityDatebutton", requestOptions)
+        fetch("https://crm.romsons.com:8080/EODActivityDatebutton", requestOptions)
             .then(response => response.text())
             .then(result => {
 
@@ -325,7 +325,7 @@ const EodScreen = () => {
             redirect: 'follow'
         };
 
-        fetch("https://devcrm.romsons.com:8080/ActivityDatabutton", requestOptions)
+        fetch("https://crm.romsons.com:8080/ActivityDatabutton", requestOptions)
             .then(response => response.text())
             .then(result => {
                 let parsedResult = JSON.parse(result);
@@ -365,7 +365,7 @@ const EodScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/EodDate", requestOptions);
+            const response = await fetch("https://crm.romsons.com:8080/EodDate", requestOptions);
             const result = await response.json();
 
             if (result.error === false) {
@@ -398,7 +398,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodOrder", requestOptions)
+        fetch("https://crm.romsons.com:8080/EodOrder", requestOptions)
             .then((response) => response.json())  // Convert response to JSON
             .then((result) => {
 
@@ -435,7 +435,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EODActivityDate", requestOptions)
+        fetch("https://crm.romsons.com:8080/EODActivityDate", requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 //result, 'API result');
@@ -473,7 +473,7 @@ const EodScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/ActivityData", requestOptions);
+            const response = await fetch("https://crm.romsons.com:8080/ActivityData", requestOptions);
             const result = await response.json();  // Parse JSON response
 
 
@@ -508,7 +508,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodNotPunchIn", requestOptions)
+        fetch("https://crm.romsons.com:8080/EodNotPunchIn", requestOptions)
             .then((response) => response.json()) // Ensure JSON response
             .then((result) => {
                 //"API Response:", result);
@@ -542,7 +542,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodDatebutton", requestOptions)
+        fetch("https://crm.romsons.com:8080/EodDatebutton", requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 //result,"==========>Line 471")
@@ -580,7 +580,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodOrderbutton", requestOptions)
+        fetch("https://crm.romsons.com:8080/EodOrderbutton", requestOptions)
             .then((response) => response.json()) // Parse JSON instead of text
             .then((result) => {
                 if (result && !result.error) {
@@ -627,7 +627,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EODAttendancebutton", requestOptions)
+        fetch("https://crm.romsons.com:8080/EODAttendancebutton", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result, 'punchhhhhhhh');

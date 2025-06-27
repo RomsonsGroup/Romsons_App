@@ -51,7 +51,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/EODAttendancebutton", requestOptions)
+    fetch("https://crm.romsons.com:8080/EODAttendancebutton", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -79,7 +79,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/EODOrderbutton", requestOptions)
+    fetch("https://crm.romsons.com:8080/EODOrderbutton", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -107,7 +107,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/ActivityDatabutton", requestOptions)
+    fetch("https://crm.romsons.com:8080/ActivityDatabutton", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('activittyyy', result);
@@ -141,7 +141,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("https://devcrm.romsons.com:8080/EodReturnbutton", requestOptions)
+fetch("https://crm.romsons.com:8080/EodReturnbutton", requestOptions)
   .then((response) => response.json())
   .then((result) => {
     if(result.error == false){

@@ -140,7 +140,7 @@ const RetailActivityScreen = ({route}) => {
           divid: loginData[0].division,
         });
   
-        const response = await fetch("https://devcrm.romsons.com:8080/outlet_activity", {
+        const response = await fetch("https://crm.romsons.com:8080/outlet_activity", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -197,7 +197,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("https://devcrm.romsons.com:8080/retail_activity", requestOptions)
+fetch("https://crm.romsons.com:8080/retail_activity", requestOptions)
   .then((response) => response.json())
   .then((result) => {
     console.log(result, 'sennnnddddd');

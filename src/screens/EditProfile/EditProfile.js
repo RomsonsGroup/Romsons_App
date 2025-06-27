@@ -42,7 +42,7 @@ const EditProfile = (props) => {
         redirect: "follow"
       };
 
-      fetch("https://devcrm.romsons.com:8080/changepassword", requestOptions)
+      fetch("https://crm.romsons.com:8080/changepassword", requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.userData.error === false) {

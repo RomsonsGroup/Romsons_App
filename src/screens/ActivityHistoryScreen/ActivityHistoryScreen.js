@@ -112,7 +112,7 @@ const ActivityHistoryScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch("https://crm.romsons.com:8080/ManagerTeam", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -149,7 +149,7 @@ const ActivityHistoryScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/SelectedBeat", requestOptions);
+            const response = await fetch("https://crm.romsons.com:8080/SelectedBeat", requestOptions);
             const result = await response.json();
 
             if (result.data.length > 0) {
@@ -190,7 +190,7 @@ const ActivityHistoryScreen = () => {
                 redirect: 'follow'
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/SelectOutlet_OrderHistory", requestOptions);
+            const response = await fetch("https://crm.romsons.com:8080/SelectOutlet_OrderHistory", requestOptions);
             const result = await response.json();
 
             if (result.error === false) {
@@ -229,7 +229,7 @@ const ActivityHistoryScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/ActivityHistory_MIS", requestOptions);
+            const response = await fetch("https://crm.romsons.com:8080/ActivityHistory_MIS", requestOptions);
             const result = await response.json();
 
             console.log('API Response:', result);

@@ -60,7 +60,7 @@ const AttendanceHistoryScreen = () => {
 
         // console.log('Sending request with date:', formattedDate); // Log to check the date format
 
-        fetch("https://devcrm.romsons.com:8080/getAttendanceHistory", requestOptions)
+        fetch("https://crm.romsons.com:8080/getAttendanceHistory", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.error === false) {
@@ -91,7 +91,7 @@ const AttendanceHistoryScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch("https://crm.romsons.com:8080/ManagerTeam", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -149,7 +149,7 @@ const AttendanceHistoryScreen = () => {
         };
 
         try {
-            const response = await fetch("https://devcrm.romsons.com:8080/getOrdersAndActivitiesByDate", requestOptions);
+            const response = await fetch("https://crm.romsons.com:8080/getOrdersAndActivitiesByDate", requestOptions);
             const result = await response.json();
 
             if (result.error === false) {

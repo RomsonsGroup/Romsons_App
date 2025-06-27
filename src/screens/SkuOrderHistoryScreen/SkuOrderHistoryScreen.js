@@ -27,7 +27,7 @@ const SkuOrderHistoryScreen = () => {
       const empid = JSON.parse(user);
 
       const response = await axios.post(
-        "https://devcrm.romsons.com:8080/skulist",
+        "https://crm.romsons.com:8080/skulist",
         {
           division: empid[0].division,
         },

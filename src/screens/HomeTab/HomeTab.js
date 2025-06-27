@@ -89,7 +89,7 @@ const HomeTab = (props) => {
     setEodd(false)
     const user = JSON.parse(await AsyncStorage.getItem('userInfor'));
 
-    fetch(`https://devcrm.romsons.com:8080/EodNotPunchIn`, {
+    fetch(`https://crm.romsons.com:8080/EodNotPunchIn`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -175,7 +175,7 @@ const HomeTab = (props) => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/punchInOutTime", requestOptions)
+    fetch("https://crm.romsons.com:8080/punchInOutTime", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -287,7 +287,7 @@ const HomeTab = (props) => {
     };
 
     try {
-      const response = await fetch("https://devcrm.romsons.com:8080/GetPendingTaskCount", requestOptions);
+      const response = await fetch("https://crm.romsons.com:8080/GetPendingTaskCount", requestOptions);
       const data = await response.json();
       if (!data.error && data.pendingCount !== undefined) {
         setPendingCount(data.pendingCount);
@@ -319,7 +319,7 @@ const HomeTab = (props) => {
       };
 
       const response = await fetch(
-        "https://devcrm.romsons.com:8080/getPendingRegularizationCount",
+        "https://crm.romsons.com:8080/getPendingRegularizationCount",
         requestOptions
       );
       const result = await response.json();
@@ -355,7 +355,7 @@ const HomeTab = (props) => {
       };
   
       const response = await fetch(
-        "https://devcrm.romsons.com:8080/getPendingLeaveCount",
+        "https://crm.romsons.com:8080/getPendingLeaveCount",
         requestOptions
       );
       const result = await response.json();
