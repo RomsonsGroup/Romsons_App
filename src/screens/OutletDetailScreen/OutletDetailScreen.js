@@ -266,9 +266,6 @@ const OutletDetailScreen = ({ route }) => {
       .catch((error) => console.error(error));
   }
 
-
-
-
   const lastTwoVisitOrder = async () => {
     try {
       const user = await AsyncStorage.getItem("userInfor");
