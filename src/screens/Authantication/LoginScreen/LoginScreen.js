@@ -120,14 +120,6 @@ const LoginScreen = () => {
         setModalVisible(true);  // Show the modal
     };
 
-    // if (isCheckingLogin) {
-    //     return (
-    //         <View style={[LoginStyles.Container, {justifyContent: 'center', alignItems: 'center'}]}>
-    //             <ActivityIndicator size="large" color={Colors.theme_background} />
-    //         </View>
-    //     );
-    // }
-
     return (
         <View style={LoginStyles.Container}>
             <View>
