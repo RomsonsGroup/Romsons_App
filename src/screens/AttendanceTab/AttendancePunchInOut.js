@@ -34,6 +34,7 @@ const AttendancePunchInOut = () => {
     const isDarkMode = useSelector(state => state.DarkReducer.isDarkMode);
     const currentColors = isDarkMode ? darkTheme : lightTheme;
     const AttendancePunchStyles = useMemo(() => AttendancePunchStyle(currentColors), [currentColors]);
+    const appVersion = DeviceInfo.getVersion();
 
     const navigation = useNavigation();
     const { t } = useTranslation();
@@ -148,7 +149,7 @@ const AttendancePunchInOut = () => {
             in_lng: currentLongitude,
             enterBy: empid[0].emp_id,
             emp_in_address: address,
-            app_version: ""
+            app_version: appVersion
         });
 
         console.log(raw, "Request Payload");
