@@ -47,7 +47,7 @@ const OrderScreen = ({ route }) => {
 
   const [currentLongitude, setCurrentLongitude] = useState('...');
   const [currentLatitude, setCurrentLatitude] = useState('...');
-  const [ locationStatus,setLocationStatus] = useState('');
+  const [locationStatus, setLocationStatus] = useState('');
   const [dummy, setDummy] = useState(false);
 
   const alertdata = {
@@ -75,22 +75,18 @@ const OrderScreen = ({ route }) => {
   useEffect(() => {
     const requestLocationPermission = async () => {
       if (Platform.OS === 'ios') {
-        getOneTimeLocation();
-        subscribeLocationLocation();
+        subscribeLocationLocation(); // 🔄 Only subscribe, don’t fetch
       } else {
         try {
           const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
             {
               title: 'Location Access Required',
-              message: 'This App needs to Access your location',
+              message: 'This app needs access to your location.',
             },
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            //To Check, If Permission is granted
-            getOneTimeLocation();
-
-            subscribeLocationLocation();
+            subscribeLocationLocation(); // ✅ Subscribe if granted
           } else {
             setLocationStatus('Permission Denied');
           }
@@ -99,11 +95,14 @@ const OrderScreen = ({ route }) => {
         }
       }
     };
+  
     requestLocationPermission();
+  
     return () => {
       Geolocation.clearWatch(watchID);
     };
   }, [dummy]);
+  
 
 
   const getOneTimeLocation = () => {
@@ -280,24 +279,28 @@ const OrderScreen = ({ route }) => {
 
   const fetchLocation = () => {
     setDummy(prev => !prev)
+    getOneTimeLocation(); 
   }
 
   const HandleSaveOrderSummury = () => {
-    setLoading(true);  // Loader ko show karein
-    setDisable(true);
-    setDisable(true);
-    if (currentLongitude != '...' && currentLatitude != '...') {
+    if (disable) return; // Prevent multiple clicks
+
+    setDisable(true);   // Disable the button immediately
+    setLoading(true);   // Show loader
+
+    if (currentLongitude !== '...' && currentLatitude !== '...') {
       if (orderData.length > 0) {
-        orderSubmit()
+        orderSubmit();
       } else {
-        returnSubmit()
+        returnSubmit();
       }
     } else {
       Alert.alert("Error", "Please turn on your location and click on refresh icon.");
       setLoading(false);
+      setDisable(false); // Re-enable if error
     }
+  };
 
-  }
 
 
 
@@ -699,7 +702,7 @@ const OrderScreen = ({ route }) => {
       {selectedTab === "Order Summary" && (
         <>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingHorizontal: 20 }}>
-          <TouchableOpacity onPress={fetchLocation}>
+            <TouchableOpacity onPress={fetchLocation}>
               <Icon name="refresh" size={30} color="#000" />
             </TouchableOpacity>
             <TouchableOpacity onPress={captureAndShare}>
@@ -959,20 +962,30 @@ const OrderScreen = ({ route }) => {
 
               </View>
               {saleReturnData.length > 0 || orderData.length > 0 ? (
-                <TouchableOpacity style={{ padding: 2, marginVertical: 3 }} activeOpacity={0.9} onPress={HandleSaveOrderSummury}>
+                <TouchableOpacity
+                  style={{ padding: 2, marginVertical: 3, opacity: disable ? 0.5 : 1 }}
+                  activeOpacity={0.9}
+                  onPress={HandleSaveOrderSummury}
+                  disabled={disable}
+                >
                   {loading ? (
                     <ActivityIndicator size="large" color="green" />
                   ) : (
-                    <Text style={OrderStyles.footerButtonText8} onPress={HandleSaveOrderSummury} disabled={disable}>
+                    <Text style={OrderStyles.footerButtonText8}>
                       Final Submit
                     </Text>
                   )}
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity style={{ padding: 2, marginVertical: 3 }}>
-                  <Button buttonStyle={OrderStyles.footerButtonText8} title={t("Final Submit")} />
+                  <Button
+                    buttonStyle={OrderStyles.footerButtonText8}
+                    title={t("Final Submit")}
+                    disabled
+                  />
                 </TouchableOpacity>
               )}
+
 
 
 

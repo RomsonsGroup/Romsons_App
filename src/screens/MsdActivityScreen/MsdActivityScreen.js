@@ -44,7 +44,7 @@ const MsdActivityScreen = ({ route }) => {
     const [dates, setDates] = useState([]);
     const [fromDate, setFromDate] = useState(new Date());
     const viewShotRef = useRef(null);
-const [dummy, setDummy] = useState(false);
+    const [dummy, setDummy] = useState(false);
 
     const [
         currentLongitude,
@@ -112,7 +112,7 @@ const [dummy, setDummy] = useState(false);
 
                 //Setting Longitude state
                 setCurrentLatitude(currentLatitude);
-                Alert.alert("Success", "Location fetch successfully,Please submit your order.");
+                Alert.alert("Success", "Location fetch successfully,Please submit your activity.");
             },
             (error) => {
                 setLocationStatus(error.message);
@@ -193,68 +193,68 @@ const [dummy, setDummy] = useState(false);
 
     const fetchLocation = () => {
         setDummy(prev => !prev)
-      }
+    }
 
     const msdActivitySubmit = async () => {
         if (isSubmitting) return; // Prevent multiple submissions
-      
+
         // 🔒 Location Validation
         if (currentLatitude === "..." || currentLongitude === "...") {
-          Alert.alert("Error", "Please turn on your location and click on refresh icon.");
-          setIsSubmitting(false); 
-          return;
+            Alert.alert("Error", "Please turn on your location and click on refresh icon.");
+            // setIsSubmitting(false);
+            return;
         }
-      
+
         setIsSubmitting(true); // ✅ Start loader
-      
+
         try {
-          const user = await AsyncStorage.getItem("userInfor");
-          const empid = JSON.parse(user);
-      
-          const outlet_id = outlet_id ?? 0;
-      
-          const raw = JSON.stringify({
-            activitydetails: msdActivityData,
-            enterbyy: empid[0].emp_id,
-            zone: empid[0].zone_id,
-            joinedName: outletDetail.callerName,
-            joinedcallid: outletDetail.reportingTo,
-            callType: outletDetail.callType,
-            div: empid[0].division,
-            lat: currentLatitude,
-            lag: currentLongitude
-          });
-      
-          console.log(raw, 'Line 81');
-      
-          const myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/json");
-      
-          const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-          };
-      
-          const response = await fetch("https://crm.romsons.com:8080/ActivityHospital", requestOptions);
-          const result = await response.json();
-      
-          if (result.error === false) {
-            alert(result.data);
-            dispatch(setResetMsdActivity());
-            navigation.navigate(RouteName.CONTACTLIST, { outletDetail });
-          } else {
-            alert("Something Went Wrong");
-          }
+            const user = await AsyncStorage.getItem("userInfor");
+            const empid = JSON.parse(user);
+
+            const outlet_id = outlet_id ?? 0;
+
+            const raw = JSON.stringify({
+                activitydetails: msdActivityData,
+                enterbyy: empid[0].emp_id,
+                zone: empid[0].zone_id,
+                joinedName: outletDetail.callerName,
+                joinedcallid: outletDetail.reportingTo,
+                callType: outletDetail.callType,
+                div: empid[0].division,
+                lat: currentLatitude,
+                lag: currentLongitude
+            });
+
+            console.log(raw, 'Line 81');
+
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            const response = await fetch("https://crm.romsons.com:8080/ActivityHospital", requestOptions);
+            const result = await response.json();
+
+            if (result.error === false) {
+                alert(result.data);
+                dispatch(setResetMsdActivity());
+                navigation.navigate(RouteName.CONTACTLIST, { outletDetail });
+            } else {
+                alert("Something Went Wrong");
+            }
         } catch (error) {
-          console.error("Error:", error);
-          alert("Submission failed. Please try again.");
+            console.error("Error:", error);
+            alert("Submission failed. Please try again.");
         } finally {
-          setIsSubmitting(false); // ✅ Always stop loader
+            setIsSubmitting(false); // ✅ Always stop loader
         }
-      };
-      
+    };
+
 
     const activitySave = () => {
         // Check if at least one remark is selected
@@ -480,11 +480,11 @@ const [dummy, setDummy] = useState(false);
 
             {selectedFilter === "Summary" && (
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: '100%', paddingHorizontal: 20 }}>
-                    
+
                     <TouchableOpacity onPress={fetchLocation}>
-              <Icon name="refresh" size={30} color="#000" />
-            </TouchableOpacity>
-                    
+                        <Icon name="refresh" size={30} color="#000" />
+                    </TouchableOpacity>
+
                     <TouchableOpacity onPress={captureAndShare}>
                         <Icon name="share" size={30} color="#000" />
                     </TouchableOpacity>
@@ -583,10 +583,7 @@ const [dummy, setDummy] = useState(false);
                         />
                     </ViewShot>
                 </View>
-
-
             )}
-
 
             {selectedFilter === 'Summary' && (
                 <View style={OrderStyles.saleReturnFooterContainer}>

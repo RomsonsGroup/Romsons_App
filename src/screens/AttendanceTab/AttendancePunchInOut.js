@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity, FlatList, Modal, TextInput, ActivityIndic
 import { useTranslation } from 'react-i18next';
 import { AttendancePunchStyle } from '../../styles'; // Corrected import
 import { useSelector } from 'react-redux';
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { RouteName } from '../../routes';
 import { Colors, darkTheme, lightTheme } from '../../utils'; // Adjust as necessary
 import { Spacing, ConfirmationAlert } from '../../components';
@@ -70,60 +71,6 @@ const AttendancePunchInOut = () => {
         await handleSave(); // Call punch-in API
     };
 
-    // const handleSave = async () => {
-    //     if (!currentLatitude || !currentLongitude || currentLatitude === '...' || currentLongitude === '...') {
-    //         alert("Please wait, fetch location...");
-    //         return;
-    //     }
-
-    //     if (!address || address.trim() === "") {
-    //         alert("Please wait, fetch location...");
-    //         return;
-    //     }
-
-    //     let user = await AsyncStorage.getItem("userInfor");
-    //     let empid = JSON.parse(user);
-
-    //     const myHeaders = new Headers();
-    //     myHeaders.append("Content-Type", "application/json");
-
-    //     const raw = JSON.stringify({
-    //         empid: empid[0].emp_id,
-    //         in_lat: currentLatitude,
-    //         in_lng: currentLongitude,
-    //         enterBy: empid[0].emp_id,
-    //         emp_in_address: address,  // Ensure address is fetched
-    //         app_version: ""
-    //     });
-
-    //     console.log(raw, "Request Payload");
-
-    //     const requestOptions = {
-    //         method: "POST",
-    //         headers: myHeaders,
-    //         body: raw,
-    //         redirect: "follow"
-    //     };
-
-    //     fetch("https://crm.romsons.com:8080/attendance_punch_in", requestOptions)
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //             console.log(result, "API Response");
-
-    //             if (result.success === false) {
-    //                 alert("Successfully punched in");
-    //                 PunchInOuttime();
-    //             } else if (result.msg === true) {
-    //                 alert("Attendance already exists for today.");
-    //             } else {
-    //                 alert("Something went wrong, please try again.");
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error during Punch-In:", error);
-    //             alert("Failed to punch in, please check your network connection.");
-    //         });
-    // };
 
     const handleSave = async () => {
         if (!currentLatitude || !currentLongitude || currentLatitude === '...' || currentLongitude === '...') {
@@ -148,7 +95,7 @@ const AttendancePunchInOut = () => {
             in_lng: currentLongitude,
             enterBy: empid[0].emp_id,
             emp_in_address: address,
-            app_version: ""
+            app_version: "7.0.1"
         });
 
         console.log(raw, "Request Payload");
@@ -194,8 +141,6 @@ const AttendancePunchInOut = () => {
             });
     };
 
-
-
     const [
         currentLongitude,
         setCurrentLongitude
@@ -213,9 +158,6 @@ const AttendancePunchInOut = () => {
     useEffect(() => {
         requestPermissions();
     }, []);
-
-
-
 
     const getLocation = () => {
         Geolocation.getCurrentPosition(
@@ -240,7 +182,7 @@ const AttendancePunchInOut = () => {
                     alert("Location services are disabled. Please enable your location in settings.");
                 } else {
                     console.log("Error getting location:", error.message);
-                    alert('Location is disabled. Please enable your location.');
+                    alert('Location is disabled. Please enable your location and click refresh icon');
                 }
             },
             {
@@ -358,6 +300,13 @@ const AttendancePunchInOut = () => {
             },
         );
     };
+
+    useEffect(() => {
+        if (currentLatitude && currentLongitude && currentLatitude !== '...' && currentLongitude !== '...') {
+          getAddress(currentLatitude, currentLongitude);
+        }
+      }, [currentLatitude, currentLongitude]);
+      
 
     const subscribeLocationLocation = () => {
         watchID = Geolocation.watchPosition(
@@ -640,84 +589,87 @@ const AttendancePunchInOut = () => {
 
 
         <View style={AttendancePunchStyles.container}>
-            <View>
-                <Text style={{ color: "black", fontWeight: "bold" }}>In/Out Location: </Text>
-                {loading ?
-                    <ActivityIndicator size="large" color="brown" />
-                    :
-                    <Text style={{ color: "brown", fontWeight: "bold", fontSize: 13 }}>{address}</Text>
-                }
-            </View>
-            <Modal
-                visible={modalVisible}
-                animationType="slide"
-                transparent={true}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View style={AttendancePunchStyles.modalContainer}>
-                    <View style={AttendancePunchStyles.modalContent}>
-                        <Text style={AttendancePunchStyles.modalHeader1}>{currentTime}</Text>
-                        {/* Display the current time (if needed) */}
-                        <Text style={AttendancePunchStyles.modalHeader}>Office Timing</Text>
-                        <Divider style={AttendancePunchStyles.divider1} />
 
-                        {/* Display shift times */}
-                        <Text style={AttendancePunchStyles.modalText}>
-                            <Text style={{ color: 'gray' }}>Office Timing:</Text>
-                            <Text style={{ color: 'black', fontSize: 13 }}> {shiftTiming.start_time} to {shiftTiming.end_time}</Text>
-                        </Text>
-                        <Text style={AttendancePunchStyles.modalText}>
-                            <Text style={{ color: 'gray' }}>Half Day: </Text>
-                            <Text style={{ color: 'black', fontSize: 13 }}>After 10:30 AM </Text>
-                        </Text>
+  {/* In/Out Location + Refresh Row */}
+  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+    <Text style={{ color: "black", fontWeight: "bold" }}>In/Out Location:</Text>
+    <TouchableOpacity onPress={getOneTimeLocation}>
+      <Icon name="refresh" size={30} color="brown" />
+    </TouchableOpacity>
+  </View>
 
-                        <Text style={AttendancePunchStyles.modalText}>
-                            <Text style={{ color: 'gray' }}>Half Day: </Text>
-                            <Text style={{ color: 'black', fontSize: 13 }}>4 hour Mandatory </Text>
-                        </Text>
+  {/* Address or Loader below */}
+  <View style={{ marginBottom: 10 }}>
+    {loading ? (
+      <ActivityIndicator size="large" color="brown" />
+    ) : (
+      <Text style={{ color: "brown", fontWeight: "bold", fontSize: 13 }}>{address}</Text>
+    )}
+  </View>
 
-                        <Text style={AttendancePunchStyles.modalText}>
-                            <Text style={{ color: 'gray' }}>Full Day: </Text>
-                            <Text style={{ color: 'black', fontSize: 13 }}>8 hour Mandatory</Text>
-                        </Text>
+  {/* Existing Modal, FlatList, Alert below unchanged */}
+  <Modal
+    visible={modalVisible}
+    animationType="slide"
+    transparent={true}
+    onRequestClose={() => setModalVisible(false)}
+  >
+    <View style={AttendancePunchStyles.modalContainer}>
+      <View style={AttendancePunchStyles.modalContent}>
+        <Text style={AttendancePunchStyles.modalHeader1}>{currentTime}</Text>
+        <Text style={AttendancePunchStyles.modalHeader}>Office Timing</Text>
+        <Divider style={AttendancePunchStyles.divider1} />
 
-                        {/* Button to confirm and punch-in */}
-                        <TouchableOpacity onPress={handleModalOk} style={AttendancePunchStyles.modalButton}>
-                            <Text style={AttendancePunchStyles.modalButtonText}>OK</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+        <Text style={AttendancePunchStyles.modalText}>
+          <Text style={{ color: 'gray' }}>Office Timing:</Text>
+          <Text style={{ color: 'black', fontSize: 13 }}> {shiftTiming.start_time} to {shiftTiming.end_time}</Text>
+        </Text>
+        <Text style={AttendancePunchStyles.modalText}>
+          <Text style={{ color: 'gray' }}>Half Day: </Text>
+          <Text style={{ color: 'black', fontSize: 13 }}>After 10:30 AM </Text>
+        </Text>
+        <Text style={AttendancePunchStyles.modalText}>
+          <Text style={{ color: 'gray' }}>Half Day: </Text>
+          <Text style={{ color: 'black', fontSize: 13 }}>4 hour Mandatory </Text>
+        </Text>
+        <Text style={AttendancePunchStyles.modalText}>
+          <Text style={{ color: 'gray' }}>Full Day: </Text>
+          <Text style={{ color: 'black', fontSize: 13 }}>8 hour Mandatory</Text>
+        </Text>
 
+        <TouchableOpacity onPress={handleModalOk} style={AttendancePunchStyles.modalButton}>
+          <Text style={AttendancePunchStyles.modalButtonText}>OK</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
 
-            <FlatList
-                data={buttons}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item, index }) => (
-                    <View>
-                        <ButtonComponent item={item} />
-                        {index === 0 && (
-                            <View style={AttendancePunchStyles.divider} />
-                        )}
-                    </View>
-                )}
-                ListHeaderComponent={ListHeaderComponent}
-                contentContainerStyle={{ flexGrow: 1 }}
-                ListFooterComponent={
-                    <View style={AttendancePunchStyles.totalHoursContainer}>
+  <FlatList
+    data={buttons}
+    keyExtractor={item => item.id.toString()}
+    renderItem={({ item, index }) => (
+      <View>
+        <ButtonComponent item={item} />
+        {index === 0 && (
+          <View style={AttendancePunchStyles.divider} />
+        )}
+      </View>
+    )}
+    ListHeaderComponent={ListHeaderComponent}
+    contentContainerStyle={{ flexGrow: 1 }}
+    ListFooterComponent={
+      <View style={AttendancePunchStyles.totalHoursContainer}></View>
+    }
+  />
 
+  <ConfirmationAlert
+    visible={alertVisible}
+    message={alertMessage}
+    onConfirm={handleAlertOk}
+  />
 
-                    </View>
-                }
-            />
+</View>
 
-            <ConfirmationAlert
-                visible={alertVisible}
-                message={alertMessage}
-                onConfirm={handleAlertOk}
-            />
-
-        </View>
 
 
     );
