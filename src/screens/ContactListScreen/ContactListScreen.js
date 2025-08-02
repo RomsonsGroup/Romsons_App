@@ -24,7 +24,7 @@ const ContactListScreen = ({ route }) => {
         contactList();
     }, [])
 
-    
+
 
     const contactList = () => {
         const myHeaders = new Headers();
@@ -65,7 +65,7 @@ const ContactListScreen = ({ route }) => {
                             style={ContactListStyles.taskDetails}
                             onPress={() => navigation.navigate(RouteName.MSDACTIVITY, {
                                 outletDetail,
-                                user_type:res.customer_type,
+                                user_type: res.customer_type,
                                 customer_name: res.customer_name,
                                 customer_contact_no: res.customer_contact_no,
                                 hospital_name: res.hospital_name, // Corrected this line

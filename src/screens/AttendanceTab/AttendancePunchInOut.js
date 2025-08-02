@@ -16,6 +16,9 @@ import Geolocation from '@react-native-community/geolocation';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { Platform, PermissionsAndroid } from 'react-native';
 import { Divider } from 'react-native-elements';
+
+import DeviceInfo from 'react-native-device-info';
+
 const AttendancePunchInOut = () => {
     const [remarks, setRemarks] = useState('');
     const [attendanceData, setAttendanceData] = useState(null);
@@ -35,6 +38,7 @@ const AttendancePunchInOut = () => {
     const isDarkMode = useSelector(state => state.DarkReducer.isDarkMode);
     const currentColors = isDarkMode ? darkTheme : lightTheme;
     const AttendancePunchStyles = useMemo(() => AttendancePunchStyle(currentColors), [currentColors]);
+    const appVersion = DeviceInfo.getVersion();
 
     const navigation = useNavigation();
     const { t } = useTranslation();
@@ -57,12 +61,59 @@ const AttendancePunchInOut = () => {
     };
 
     const handleAlertOk = () => {
-        setAlertVisible(false); // Hide the alert
+        setAlertVisible(false); // Hide the alertFset
 
     };
 
+    //check version if match 
+
+    const checkVersion = async () => {
+        const requestOptions = {
+            method: "POST",
+            redirect: "follow"
+          };
+          
+          fetch("https://crm.romsons.com:8080/AppVersionCheck", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+                const data = JSON.parse(result);
+            
+                if (!data.error) {
+                    if (data.data[0].version === appVersion) {
+                        setModalVisible(true);
+                    } else {
+                        Alert.alert(
+                            'MyRomsons App Update Aavilable',
+                            'Please Update Your App Now to get Latest Changes',
+                            [
+                            //   {
+                            //     text: 'Cancel',
+                            //     style: 'cancel',
+                            //   },
+                              {
+                                text: 'OK',
+                                onPress: () => openPlayStore(),
+
+                              },
+                            ],
+                            { cancelable: false }
+                          );
+                    }
+                }
+            })
+            .catch((error) => console.error(error));
+    }
+
+
+    const openPlayStore = () => {
+        Linking.openURL('https://play.google.com/store/apps/details?id=com.romcrm').catch(() => {
+          console.warn("Couldn't open the Play Store");
+        });
+      };
+
     const openPunchInModal = () => {
-        setModalVisible(true);
+        checkVersion()
+        // setModalVisible(true);
     };
 
     // Handle the "OK" button click in the modal
@@ -95,7 +146,7 @@ const AttendancePunchInOut = () => {
             in_lng: currentLongitude,
             enterBy: empid[0].emp_id,
             emp_in_address: address,
-            app_version: "7.0.1"
+            app_version: appVersion
         });
 
         console.log(raw, "Request Payload");
@@ -156,6 +207,7 @@ const AttendancePunchInOut = () => {
 
 
     useEffect(() => {
+        console.log(appVersion,"appVersion");
         requestPermissions();
     }, []);
 
@@ -303,10 +355,10 @@ const AttendancePunchInOut = () => {
 
     useEffect(() => {
         if (currentLatitude && currentLongitude && currentLatitude !== '...' && currentLongitude !== '...') {
-          getAddress(currentLatitude, currentLongitude);
+            getAddress(currentLatitude, currentLongitude);
         }
-      }, [currentLatitude, currentLongitude]);
-      
+    }, [currentLatitude, currentLongitude]);
+
 
     const subscribeLocationLocation = () => {
         watchID = Geolocation.watchPosition(
@@ -374,7 +426,7 @@ const AttendancePunchInOut = () => {
         setLoading(true); // Start loading
 
         try {
-            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyC4cMHPr8PdH18gyzIJ6YMlTJSHEDGwvNM`;
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyBD_oiY_TqpxQCYs_LtydY-bcPPlxig6iM`;
             const response = await fetch(url);
             const data = await response.json();
 
@@ -590,85 +642,85 @@ const AttendancePunchInOut = () => {
 
         <View style={AttendancePunchStyles.container}>
 
-  {/* In/Out Location + Refresh Row */}
-  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-    <Text style={{ color: "black", fontWeight: "bold" }}>In/Out Location:</Text>
-    <TouchableOpacity onPress={getOneTimeLocation}>
-      <Icon name="refresh" size={30} color="brown" />
-    </TouchableOpacity>
-  </View>
+            {/* In/Out Location + Refresh Row */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                <Text style={{ color: "black", fontWeight: "bold" }}>In/Out Location:</Text>
+                <TouchableOpacity onPress={getOneTimeLocation}>
+                    <Icon name="refresh" size={30} color="brown" />
+                </TouchableOpacity>
+            </View>
 
-  {/* Address or Loader below */}
-  <View style={{ marginBottom: 10 }}>
-    {loading ? (
-      <ActivityIndicator size="large" color="brown" />
-    ) : (
-      <Text style={{ color: "brown", fontWeight: "bold", fontSize: 13 }}>{address}</Text>
-    )}
-  </View>
+            {/* Address or Loader below */}
+            <View style={{ marginBottom: 10 }}>
+                {loading ? (
+                    <ActivityIndicator size="large" color="brown" />
+                ) : (
+                    <Text style={{ color: "brown", fontWeight: "bold", fontSize: 13 }}>{address}</Text>
+                )}
+            </View>
 
-  {/* Existing Modal, FlatList, Alert below unchanged */}
-  <Modal
-    visible={modalVisible}
-    animationType="slide"
-    transparent={true}
-    onRequestClose={() => setModalVisible(false)}
-  >
-    <View style={AttendancePunchStyles.modalContainer}>
-      <View style={AttendancePunchStyles.modalContent}>
-        <Text style={AttendancePunchStyles.modalHeader1}>{currentTime}</Text>
-        <Text style={AttendancePunchStyles.modalHeader}>Office Timing</Text>
-        <Divider style={AttendancePunchStyles.divider1} />
+            {/* Existing Modal, FlatList, Alert below unchanged */}
+            <Modal
+                visible={modalVisible}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={AttendancePunchStyles.modalContainer}>
+                    <View style={AttendancePunchStyles.modalContent}>
+                        <Text style={AttendancePunchStyles.modalHeader1}>{currentTime}</Text>
+                        <Text style={AttendancePunchStyles.modalHeader}>Office Timing</Text>
+                        <Divider style={AttendancePunchStyles.divider1} />
 
-        <Text style={AttendancePunchStyles.modalText}>
-          <Text style={{ color: 'gray' }}>Office Timing:</Text>
-          <Text style={{ color: 'black', fontSize: 13 }}> {shiftTiming.start_time} to {shiftTiming.end_time}</Text>
-        </Text>
-        <Text style={AttendancePunchStyles.modalText}>
-          <Text style={{ color: 'gray' }}>Half Day: </Text>
-          <Text style={{ color: 'black', fontSize: 13 }}>After 10:30 AM </Text>
-        </Text>
-        <Text style={AttendancePunchStyles.modalText}>
-          <Text style={{ color: 'gray' }}>Half Day: </Text>
-          <Text style={{ color: 'black', fontSize: 13 }}>4 hour Mandatory </Text>
-        </Text>
-        <Text style={AttendancePunchStyles.modalText}>
-          <Text style={{ color: 'gray' }}>Full Day: </Text>
-          <Text style={{ color: 'black', fontSize: 13 }}>8 hour Mandatory</Text>
-        </Text>
+                        <Text style={AttendancePunchStyles.modalText}>
+                            <Text style={{ color: 'gray' }}>Office Timing:</Text>
+                            <Text style={{ color: 'black', fontSize: 13 }}> {shiftTiming.start_time} to {shiftTiming.end_time}</Text>
+                        </Text>
+                        <Text style={AttendancePunchStyles.modalText}>
+                            <Text style={{ color: 'gray' }}>Half Day: </Text>
+                            <Text style={{ color: 'black', fontSize: 13 }}>After 10:30 AM </Text>
+                        </Text>
+                        <Text style={AttendancePunchStyles.modalText}>
+                            <Text style={{ color: 'gray' }}>Half Day: </Text>
+                            <Text style={{ color: 'black', fontSize: 13 }}>4 hour Mandatory </Text>
+                        </Text>
+                        <Text style={AttendancePunchStyles.modalText}>
+                            <Text style={{ color: 'gray' }}>Full Day: </Text>
+                            <Text style={{ color: 'black', fontSize: 13 }}>8 hour Mandatory</Text>
+                        </Text>
 
-        <TouchableOpacity onPress={handleModalOk} style={AttendancePunchStyles.modalButton}>
-          <Text style={AttendancePunchStyles.modalButtonText}>OK</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  </Modal>
+                        <TouchableOpacity onPress={handleModalOk} style={AttendancePunchStyles.modalButton}>
+                            <Text style={AttendancePunchStyles.modalButtonText}>OK</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
 
-  <FlatList
-    data={buttons}
-    keyExtractor={item => item.id.toString()}
-    renderItem={({ item, index }) => (
-      <View>
-        <ButtonComponent item={item} />
-        {index === 0 && (
-          <View style={AttendancePunchStyles.divider} />
-        )}
-      </View>
-    )}
-    ListHeaderComponent={ListHeaderComponent}
-    contentContainerStyle={{ flexGrow: 1 }}
-    ListFooterComponent={
-      <View style={AttendancePunchStyles.totalHoursContainer}></View>
-    }
-  />
+            <FlatList
+                data={buttons}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item, index }) => (
+                    <View>
+                        <ButtonComponent item={item} />
+                        {index === 0 && (
+                            <View style={AttendancePunchStyles.divider} />
+                        )}
+                    </View>
+                )}
+                ListHeaderComponent={ListHeaderComponent}
+                contentContainerStyle={{ flexGrow: 1 }}
+                ListFooterComponent={
+                    <View style={AttendancePunchStyles.totalHoursContainer}></View>
+                }
+            />
 
-  <ConfirmationAlert
-    visible={alertVisible}
-    message={alertMessage}
-    onConfirm={handleAlertOk}
-  />
+            <ConfirmationAlert
+                visible={alertVisible}
+                message={alertMessage}
+                onConfirm={handleAlertOk}
+            />
 
-</View>
+        </View>
 
 
 

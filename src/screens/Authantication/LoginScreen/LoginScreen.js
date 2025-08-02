@@ -186,7 +186,7 @@ const LoginScreen = () => {
                                 <View style={{ borderBottomWidth: 2, borderBottomColor: '#ccc', marginBottom: 10 }} />
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Support Number: </Text>
-                                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'green' }} onPress={() => { Linking.openURL('tel:8929746653'); }}>8929746653</Text>
+                                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'green' }} onPress={() => { Linking.openURL('tel:7703951816'); }}>7703951816</Text>
                                 </View>
                                 <Spacing space={10} />
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>

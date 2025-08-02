@@ -206,7 +206,7 @@ const AttendanceHistoryScreen = () => {
 
     const getAddress = async (lat, long) => {
         try {
-            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyC4cMHPr8PdH18gyzIJ6YMlTJSHEDGwvNM`;
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyBD_oiY_TqpxQCYs_LtydY-bcPPlxig6iM`;
             const response = await fetch(url);
             const data = await response.json();
 

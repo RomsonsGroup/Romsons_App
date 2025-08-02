@@ -111,12 +111,12 @@ const CreateTaskScreen = ({ route }) => {
 
     const insertAddNewTask = async () => {
         const missingFields = [];
-    
+
         // Check for missing fields
         if (!formData.taskName) missingFields.push(t("Task Name"));
         if (!formData.remarks) missingFields.push(t("Remarks"));
         if (!callerName) missingFields.push(t("Caller Name"));
-    
+
         // If there are any missing fields, show an alert
         if (missingFields.length > 0) {
             const missingMessage = `${t("Please_fill_the_following_fields")}: ${missingFields.join(", ")}`;
@@ -125,7 +125,7 @@ const CreateTaskScreen = ({ route }) => {
             setAlertOtpVisible(true);
             return;
         }
-    
+
         // Validate task name and remarks length
         if (formData.taskName.length > 240) {
             setAlertOtpType("error");
@@ -133,18 +133,18 @@ const CreateTaskScreen = ({ route }) => {
             setAlertOtpVisible(true);
             return;
         }
-    
+
         if (formData.remarks.length > 100) {
             setAlertOtpType("error");
             setAlertOtpMessage(t("Remarks cannot exceed 100 characters"));
             setAlertOtpVisible(true);
             return;
         }
-    
+
         try {
             const user = await AsyncStorage.getItem("userInfor");
             const empid = JSON.parse(user);
-    
+
             const raw = JSON.stringify({
                 taskname: formData.taskName,
                 remarks: formData.remarks,
@@ -155,20 +155,20 @@ const CreateTaskScreen = ({ route }) => {
                 followup: followupDate,
                 enterBy: empid[0].emp_id,
             });
-    
+
             const response = await fetch("https://crm.romsons.com:8080/AddNewTask", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: raw
             });
-    
+
             const result = await response.json();
-    
+
             if (!result.error) {
                 setAlertOtpType("success");
                 setAlertOtpMessage(t("Task_added_successfully"));
                 setAlertOtpVisible(true);
-    
+
                 // Reset the form
                 setFormData({ taskName: '', remarks: '' });
                 setFollowupStatus('Pending');
@@ -181,7 +181,7 @@ const CreateTaskScreen = ({ route }) => {
                 setAlertOtpMessage(t("Failed_to_add_task") + ": " + result.message);
                 setAlertOtpVisible(true);
             }
-    
+
         } catch (error) {
             console.error("API Error:", error);
             setAlertOtpType("error");
@@ -189,7 +189,7 @@ const CreateTaskScreen = ({ route }) => {
             setAlertOtpVisible(true);
         }
     };
-    
+
 
 
 
