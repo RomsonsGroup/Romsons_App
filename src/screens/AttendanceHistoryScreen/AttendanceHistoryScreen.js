@@ -29,17 +29,14 @@ const AttendanceHistoryScreen = () => {
 
 
     const getAttendanceHistory = async (teamData) => {
-        console.log(teamData, "lione 30");
 
         if (!selectedDate) {
             alert("Please select date")
-            console.log('No date selected!');
             return;
         }
 
         const user = await AsyncStorage.getItem("userInfor");
         const empid = JSON.parse(user);
-        console.log('Sending emp_id:', empid[0].emp_id);
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -49,7 +46,6 @@ const AttendanceHistoryScreen = () => {
             "enter_date": formattedDate
         });
 
-        console.log(raw, 'getAttendanceHistory');
 
         const requestOptions = {
             method: "POST",
@@ -66,9 +62,7 @@ const AttendanceHistoryScreen = () => {
                 if (result.error === false) {
                     // console.log('Attendance History:', result.data);
                     setGetAttendance(result.data);
-                } else {
-                    console.log('Error fetching attendance:', result.errorMessage || 'Unknown error');
-                }
+                } 
             })
             .catch(error => console.error(error));
     };
@@ -124,7 +118,6 @@ const AttendanceHistoryScreen = () => {
 
     const getOrderActivityData = async (teamData) => {
         if (!selectedDate) {
-            console.log("No date selected!");
             return;
         }
 
@@ -139,7 +132,6 @@ const AttendanceHistoryScreen = () => {
             enter_date: formattedDate,
         });
 
-        console.log(raw, "getOrderActivityData");
 
         const requestOptions = {
             method: "POST",
@@ -181,11 +173,8 @@ const AttendanceHistoryScreen = () => {
                 
                     const formattedDuration = `${hours} hr ${minutes} min`;
                 
-                    console.log("Total Field Duration:", formattedDuration);
                     setFieldHours(formattedDuration);
-                } else {
-                    console.log("No time data available.");
-                }
+                } 
                 
 
                 // Fetch addresses for each item
@@ -206,7 +195,7 @@ const AttendanceHistoryScreen = () => {
 
     const getAddress = async (lat, long) => {
         try {
-            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyBD_oiY_TqpxQCYs_LtydY-bcPPlxig6iM`;
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyC4cMHPr8PdH18gyzIJ6YMlTJSHEDGwvNM`;
             const response = await fetch(url);
             const data = await response.json();
 
@@ -261,7 +250,6 @@ const AttendanceHistoryScreen = () => {
     const [selectedTeamData, setSelectedTeamData] = useState(null); // Store selected team object
 
     const teamData = async (team) => {
-        console.log("Selected team data:", team);
         setSelectedTeamData(team); // Store selected team data
         await getAttendanceHistory(team);
         await getOrderActivityData(team);

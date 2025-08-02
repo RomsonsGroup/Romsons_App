@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 const LanguageSelectFlat = (props) => {
     const { t, i18n } = useTranslation();
     const changeLanguage = data => {
-        console.log('value', data)
         i18n
             .changeLanguage(data)
             .then(() => setLanguage(data))

@@ -52,7 +52,6 @@ const AttendancePunchInOut = () => {
 
         userdetail = JSON.parse(user);
         setUserdetail(userdetail[0])
-        console.log(userdetail.division);
     }
 
     const alertdata = {
@@ -149,7 +148,6 @@ const AttendancePunchInOut = () => {
             app_version: appVersion
         });
 
-        console.log(raw, "Request Payload");
 
         const requestOptions = {
             method: "POST",
@@ -161,7 +159,6 @@ const AttendancePunchInOut = () => {
         fetch("https://crm.romsons.com:8080/attendance_punch_in", requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result, "API Response");
 
                 if (result.success === true) {
                     alert("Successfully punched in");
@@ -207,7 +204,6 @@ const AttendancePunchInOut = () => {
 
 
     useEffect(() => {
-        console.log(appVersion,"appVersion");
         requestPermissions();
     }, []);
 
@@ -426,7 +422,7 @@ const AttendancePunchInOut = () => {
         setLoading(true); // Start loading
 
         try {
-            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyBD_oiY_TqpxQCYs_LtydY-bcPPlxig6iM`;
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyC4cMHPr8PdH18gyzIJ6YMlTJSHEDGwvNM`;
             const response = await fetch(url);
             const data = await response.json();
 

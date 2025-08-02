@@ -323,9 +323,6 @@ const HomeTab = (props) => {
         requestOptions
       );
       const result = await response.json();
-
-      console.log(result, "hgfhfghf");
-
       if (result.error === false) {
         setCountPendingRegulization(result.data.pending_count);
       }
@@ -360,7 +357,6 @@ const HomeTab = (props) => {
       );
       const result = await response.json();
   
-      console.log(result, "poojaja");
   
       if (result.error === false) {
         setLeavePendingCount(result.data.pending_count);

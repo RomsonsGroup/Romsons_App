@@ -77,11 +77,9 @@ const LoginScreen = () => {
         })
             .then(async (response) => {
                 const arr = response.data;
-                console.log(arr, "login responnse");
 
                 if (arr.userData.error === false) {
                     // Set success message and display alert
-                    console.log("Logged in User Data: ", arr.userData.data);
                     await AsyncStorage.setItem("userInfor", JSON.stringify(arr.userData.data));
                     setAlertMessage(alertdata.loginSuccess);
                     navigation.navigate(RouteName.HOME_SCREEN);

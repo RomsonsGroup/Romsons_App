@@ -110,7 +110,6 @@ const DaysummaryScreen = () => {
     fetch("https://crm.romsons.com:8080/ActivityDatabutton", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log('activittyyy', result);
         if (result.error == false) {
           setEodactivitydetails(result.data)
         }
@@ -131,7 +130,6 @@ const raw = JSON.stringify({
   "enterDate": Moment(selectedDate).format("YYYY-MM-DD")
 });
 
-console.log("poojaaaa", raw);
 
 
 const requestOptions = {
@@ -145,7 +143,6 @@ fetch("https://crm.romsons.com:8080/EodReturnbutton", requestOptions)
   .then((response) => response.json())
   .then((result) => {
     if(result.error == false){
-      console.log('returnnn', result.data);
       
       setEodreturnDetails(result.data)
     }

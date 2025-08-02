@@ -253,7 +253,6 @@ const EodScreen = () => {
             .then((response) => response.json())
             .then((result) => {
                 //result, 'returndatataat');
-                console.log(result, "Line 236");
 
                 if (!result.error) {
                     //'dataaa', result.data);
@@ -290,7 +289,6 @@ const EodScreen = () => {
 
                 let parsedResult = JSON.parse(result);
                 if (parsedResult.error === false) {
-                    console.log(parsedResult);
 
                     //"Attendance poojajaj:", parsedResult.data);
                     setActivitydata(parsedResult.data);
@@ -303,11 +301,6 @@ const EodScreen = () => {
     }
 
     const activityDatabutton = async (dd) => {
-
-        //"hey im date");
-        console.log("actttt");
-
-
         const user = await AsyncStorage.getItem('userInfor');
         const empid = JSON.parse(user);
         var myHeaders = new Headers();
@@ -329,7 +322,6 @@ const EodScreen = () => {
             .then(response => response.text())
             .then(result => {
                 let parsedResult = JSON.parse(result);
-                console.log("testttt");
 
                 //parsedResult,"parsedResult");
 
@@ -404,7 +396,6 @@ const EodScreen = () => {
 
                 //result, 'API result');
                 if (result && !result.error) {
-                    console.log('commmm', result.data);
 
                     //"Attendance Data:", result.data);
                     setEodData(result.data);
@@ -523,7 +514,6 @@ const EodScreen = () => {
 
     //date wise data
     const Eodorderbutton = async (dd) => {
-        console.log("1st");
 
         const user = await AsyncStorage.getItem('userInfor');
         const empid = JSON.parse(user);
@@ -548,7 +538,6 @@ const EodScreen = () => {
                 //result,"==========>Line 471")
                 let results = JSON.parse(result);
                 if (results.error === false) {
-                    console.log("istggghhh", results);
 
                     setDates(results.data);
                     Eodorderdatabutton(dd);

@@ -33,7 +33,6 @@ const ContactListScreen = ({ route }) => {
         const raw = JSON.stringify({
             outletID: outletDetail?.outlet_id,
         });
-        console.log("Request payload:", raw); // Logs the request payload
 
         const requestOptions = {
             method: "POST",
@@ -46,7 +45,6 @@ const ContactListScreen = ({ route }) => {
             .then((response) => response.text())
             .then((result) => {
                 let arr = JSON.parse(result);
-                console.log("Fetched data:", arr.data); // Logs the fetched data in the console
                 setHospitalData(arr.data);
             })
             .catch((error) => console.error("Error fetching data:", error));

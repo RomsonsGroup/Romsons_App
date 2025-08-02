@@ -50,13 +50,10 @@ const CreateTaskScreen = ({ route }) => {
     };
 
     const handleReportingPersonSelect = async (person) => {
-        console.log("Selected Reporting Person:", person); // Full object
-        console.log("Reporting To Name:", person.reporting_to_name);
-        console.log("Reporting To ID (jointid):", person.reporting_to);
+      
 
         // If "Self" is selected, set jointid to null
         if (person.reporting_to_name === "Self") {
-            console.log("Self Selected");
             setCallerName("Self");
             setSelectedReportingTo(null); // Null for "Self"
         } else {

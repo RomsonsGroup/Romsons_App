@@ -75,8 +75,7 @@ const ActivityHistoryScreen = () => {
         const fromDate = moment(`${currentYear}-${(monthIndex + 1).toString().padStart(2, '0')}-01`, "YYYY-MM-DD").format("YYYY-MM-DD");
         const toDate = moment(fromDate).endOf("month").format("YYYY-MM-DD");
 
-        console.log("Selected Month:", month);
-        console.log("Request Payload:", { fromDate, toDate });
+       
 
         // Call the OrderHistory_MIS API only if valid dates exist
         if (fromDate && toDate) {
@@ -168,13 +167,10 @@ const ActivityHistoryScreen = () => {
     const handleBeatSelect = (beat) => {
         setSelectbtname(beat.beat_name);
         setSelectbtid(beat.beat_id);
-        console.log("Selected Beat Name:", beat.beat_name);
-        console.log("Selected Beat ID:", beat.beat_id);
         setBeatModalVisible(false);
     };
 
     const selectOutlet = async () => {
-        console.log('Selected Beat ID:', selectbtid);
 
         try {
             const myHeaders = new Headers();
@@ -232,7 +228,6 @@ const ActivityHistoryScreen = () => {
             const response = await fetch("https://crm.romsons.com:8080/ActivityHistory_MIS", requestOptions);
             const result = await response.json();
 
-            console.log('API Response:', result);
 
             if (result?.error === false) {
                 setHistoryOrderData(result.data);

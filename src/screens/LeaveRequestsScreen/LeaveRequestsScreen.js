@@ -46,7 +46,6 @@ const LeaveRequestsScreen = () => {
       const result = await response.json();
 
       if (!result.error) {
-        console.log(`Leave status for ${selectedYear}:`, result.data);
         setLeaveData(result.data);
       }
     } catch (error) {

@@ -46,7 +46,6 @@ const LanguageScreen = (props) => {
 
 
   const changeLanguage = data => {
-    console.log('value', data)
     i18n
       .changeLanguage(data)
       .then(() => { })

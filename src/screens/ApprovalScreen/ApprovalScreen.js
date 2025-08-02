@@ -35,7 +35,6 @@ const ApprovalScreen = () => {
       });
 
       const result = await response.json();
-      console.log("Leave API Response:", result);
 
       if (!result.error) {
         setTeamLeave(result.data);
@@ -71,7 +70,6 @@ const ApprovalScreen = () => {
       });
 
       const result = await response.json();
-      console.log("Approval Response:", result);
 
       if (!result.error) {
         Alert.alert("Success", "Leave approved successfully!");
@@ -112,7 +110,6 @@ const ApprovalScreen = () => {
       });
 
       const result = await response.json();
-      console.log("Rejection Response:", result);
 
       if (!result.error) {
         Alert.alert("Success", "Leave rejected successfully!");
@@ -170,7 +167,6 @@ const ApprovalScreen = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
-          console.log('rejected', result.data);
           setRejectedLeaves(result.data)
 
         }

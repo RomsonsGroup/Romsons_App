@@ -44,8 +44,6 @@ const HolidaysScreen = () => {
     try {
       const response = await fetch("https://crm.romsons.com:8080/HolidayList", requestOptions);
       const result = await response.json();
-      console.log(result, 'huijgtijhu');
-        // Ensure it's in JSON format
       setHolidays(result.data);  // Assuming the response structure has a `data` field
     } catch (error) {
       console.error("Error fetching holiday list:", error);
