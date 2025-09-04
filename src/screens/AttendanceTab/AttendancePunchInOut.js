@@ -73,7 +73,7 @@ const AttendancePunchInOut = () => {
           };
           
           fetch("https://crm.romsons.com:8080/AppVersionCheck", requestOptions)
-            .then((response) => response.text())
+            .then((response) => response.json())
             .then((result) => {
                 const data = JSON.parse(result);
             
