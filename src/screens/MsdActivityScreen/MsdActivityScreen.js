@@ -348,7 +348,7 @@ const MsdActivityScreen = ({ route }) => {
             .then((response) => response.text())
             .then((result) => {
                 let arr = JSON.parse(result);
-                // console.log("Fetched data:", arr.data); // Logs the fetched data in the console
+                console.log("Fetched data:", arr.data); // Logs the fetched data in the console
                 setItemlist(arr.data);
             })
             .catch((error) => console.error(error));
