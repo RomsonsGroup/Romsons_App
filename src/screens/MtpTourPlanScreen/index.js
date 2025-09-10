@@ -1,0 +1,1 @@
+export {default as MtpTourPlanScreen} from './MtpTourPlanScreen';

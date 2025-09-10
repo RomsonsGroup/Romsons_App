@@ -394,6 +394,45 @@ export default DaysummaryStyle = (Colors) => StyleSheet.create({
         borderRadius: 5,
         flex: 1, // Makes the button take up equal space in the row
       },
+
+      pendingButton: {
+        backgroundColor: Colors.theme_background,
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 6,
+        marginBottom: 16,
+        alignSelf: 'center',
+        // marginRight: 10,
+    },
+      pendingText: {
+        color: 'white',
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
+
+    modalOverlay4: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    dropdownContainer4: {
+      width: '90%',
+      maxHeight: '70%', // Limits the height to make room for scrolling
+      backgroundColor: Colors.diamond_color,
+      borderRadius: 10,
+      padding: 10,
+      elevation: 5,
+    },
+    option4: {
+      padding: 15,
+      borderBottomWidth: 1,
+      borderBottomColor: Colors.peach_orange,
+    },
+    optionText4: {
+      fontSize: 16,
+      color: Colors.black_text_color,
+    },
     
 });
     

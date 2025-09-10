@@ -1045,108 +1045,108 @@ const OutletDetailScreen = ({ route }) => {
             : 'N/A';
 
 
-            return (
-              <View style={OutletDetailStyles.container3}>
-                {/* Header */}
-                <Text style={OutletDetailStyles.headerText3}>
-                  Order ID: {item.orderId}
-                  {orderItems.length > 0 && ` | Order Date: ${orderDate}`}
-                </Text>
-            
-                {/* Only show if there are order items */}
-                {orderItems.length > 0 && (
-                  <>
-                    <View style={OutletDetailStyles.skuContainer}>
-                      <View style={OutletDetailStyles.skuHeaderRow}>
-                        <Text style={OutletDetailStyles.skuHeaderText}>SKU Name</Text>
-                        <Text style={OutletDetailStyles.skuHeaderText}>Qty</Text>
-                        <Text style={OutletDetailStyles.skuHeaderText}>Value</Text>
-                      </View>
-            
-                      {orderItems.map((subItem, index) => (
-                        <View key={index} style={OutletDetailStyles.skuDataRow}>
-                          <Text style={OutletDetailStyles.skuText}>{subItem.sku_name}</Text>
-                          <Text style={OutletDetailStyles.skuText1}>{subItem.item_qty}</Text>
-                          <Text style={OutletDetailStyles.skuText1}>{subItem.item_value}</Text>
-                        </View>
-                      ))}
-            
-                      {/* Total Row with same structure */}
-                      <View style={[OutletDetailStyles.skuDataRow, { borderTopWidth: 1}]}>
-                        <Text style={[OutletDetailStyles.skuText, { fontWeight: 'bold' }]}>Total</Text>
-                        <Text style={OutletDetailStyles.skuText1}></Text>
-                        <Text style={[OutletDetailStyles.skuText1, { color: 'green', fontWeight: 'bold' }]}>
-                          ₹{totalValue.toFixed(2)}
-                        </Text>
-                      </View>
+          return (
+            <View style={OutletDetailStyles.container3}>
+              {/* Header */}
+              <Text style={OutletDetailStyles.headerText3}>
+                Order ID: {item.orderId}
+                {orderItems.length > 0 && ` | Order Date: ${orderDate}`}
+              </Text>
+
+              {/* Only show if there are order items */}
+              {orderItems.length > 0 && (
+                <>
+                  <View style={OutletDetailStyles.skuContainer}>
+                    <View style={OutletDetailStyles.skuHeaderRow}>
+                      <Text style={OutletDetailStyles.skuHeaderText}>SKU Name</Text>
+                      <Text style={OutletDetailStyles.skuHeaderText}>Qty</Text>
+                      <Text style={OutletDetailStyles.skuHeaderText}>Value</Text>
                     </View>
-                  </>
-                )}
-            
-                {/* Activity Section (unchanged) */}
-                {activityItems.length > 0 && (
-                  <>
-                    <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Activity:</Text>
-                    {activityItems.map((subItem, index) => (
-                      <View
-                        key={index}
-                        style={{
-                          marginBottom: 16,
-                          padding: 12,
-                          backgroundColor: '#ffffff',
-                          borderRadius: 8,
-                          shadowColor: '#000',
-                          shadowOpacity: 0.1,
-                          shadowRadius: 4,
-                          shadowOffset: { width: 0, height: 2 },
-                          elevation: 3,
-                        }}
-                      >
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
-                          <Text style={{ color: 'black', fontSize: 13 }}>Contact Person:  </Text>
-                          <Text style={{ color: 'green', fontSize: 12 }}>{subItem.contactPerson}</Text>
-                        </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
-                          <Text style={{ color: 'black', fontSize: 13 }}>Date:  </Text>
-                          <Text style={{ color: 'green', fontSize: 12 }}>
-                            {new Date(subItem.date).toISOString().split('T')[0]}
-                          </Text>
-                        </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
-                          <Text style={{ color: 'black', fontSize: 13 }}>Department:  </Text>
-                          <Text style={{ color: 'green', fontSize: 12 }}>{subItem.department}</Text>
-                        </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
-                          <Text style={{ color: 'black', fontSize: 13 }}>SKU Name:  </Text>
-                          <Text style={{ color: 'green', fontSize: 12 }}>{subItem.sku_name}</Text>
-                        </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
-                          <Text style={{ color: 'black', fontSize: 13 }}>Remarks:  </Text>
-                          <Text style={{ color: 'green', fontSize: 12 }}>{subItem.remark}</Text>
-                        </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
-                          <Text style={{ color: 'black', fontSize: 13 }}>Follow-up:  </Text>
-                          <Text style={{ color: 'green', fontSize: 12 }}>
-                            {subItem.follow_up
-                              ? new Date(subItem.follow_up).toLocaleDateString('en-IN', {
-                                  day: '2-digit',
-                                  month: '2-digit',
-                                  year: 'numeric',
-                                })
-                              : ''}
-                          </Text>
-                        </Text>
+
+                    {orderItems.map((subItem, index) => (
+                      <View key={index} style={OutletDetailStyles.skuDataRow}>
+                        <Text style={OutletDetailStyles.skuText}>{subItem.sku_name}</Text>
+                        <Text style={OutletDetailStyles.skuText1}>{subItem.item_qty}</Text>
+                        <Text style={OutletDetailStyles.skuText1}>{subItem.item_value}</Text>
                       </View>
                     ))}
-                  </>
-                )}
-              </View>
-            );
-            
+
+                    {/* Total Row with same structure */}
+                    <View style={[OutletDetailStyles.skuDataRow, { borderTopWidth: 1 }]}>
+                      <Text style={[OutletDetailStyles.skuText, { fontWeight: 'bold' }]}>Total</Text>
+                      <Text style={OutletDetailStyles.skuText1}></Text>
+                      <Text style={[OutletDetailStyles.skuText1, { color: 'green', fontWeight: 'bold' }]}>
+                        ₹{totalValue.toFixed(2)}
+                      </Text>
+                    </View>
+                  </View>
+                </>
+              )}
+
+              {/* Activity Section (unchanged) */}
+              {activityItems.length > 0 && (
+                <>
+                  <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Activity:</Text>
+                  {activityItems.map((subItem, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        marginBottom: 16,
+                        padding: 12,
+                        backgroundColor: '#ffffff',
+                        borderRadius: 8,
+                        shadowColor: '#000',
+                        shadowOpacity: 0.1,
+                        shadowRadius: 4,
+                        shadowOffset: { width: 0, height: 2 },
+                        elevation: 3,
+                      }}
+                    >
+                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
+                        <Text style={{ color: 'black', fontSize: 13 }}>Contact Person:  </Text>
+                        <Text style={{ color: 'green', fontSize: 12 }}>{subItem.contactPerson}</Text>
+                      </Text>
+                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
+                        <Text style={{ color: 'black', fontSize: 13 }}>Date:  </Text>
+                        <Text style={{ color: 'green', fontSize: 12 }}>
+                          {new Date(subItem.date).toISOString().split('T')[0]}
+                        </Text>
+                      </Text>
+                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
+                        <Text style={{ color: 'black', fontSize: 13 }}>Department:  </Text>
+                        <Text style={{ color: 'green', fontSize: 12 }}>{subItem.department}</Text>
+                      </Text>
+                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
+                        <Text style={{ color: 'black', fontSize: 13 }}>SKU Name:  </Text>
+                        <Text style={{ color: 'green', fontSize: 12 }}>{subItem.sku_name}</Text>
+                      </Text>
+                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
+                        <Text style={{ color: 'black', fontSize: 13 }}>Remarks:  </Text>
+                        <Text style={{ color: 'green', fontSize: 12 }}>{subItem.remark}</Text>
+                      </Text>
+                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
+                        <Text style={{ color: 'black', fontSize: 13 }}>Follow-up:  </Text>
+                        <Text style={{ color: 'green', fontSize: 12 }}>
+                          {subItem.follow_up
+                            ? new Date(subItem.follow_up).toLocaleDateString('en-IN', {
+                              day: '2-digit',
+                              month: '2-digit',
+                              year: 'numeric',
+                            })
+                            : ''}
+                        </Text>
+                      </Text>
+                    </View>
+                  ))}
+                </>
+              )}
+            </View>
+          );
+
         }}
         ListEmptyComponent={() => (
           <View style={{ padding: 20, alignItems: 'center' }}>
-            <Text>Data Loading.....</Text>
+            <Text>No data available.....</Text>
           </View>
         )}
         ListFooterComponent={

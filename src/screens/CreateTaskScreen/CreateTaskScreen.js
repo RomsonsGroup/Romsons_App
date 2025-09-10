@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { HomeDropDown } from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Geolocation from '@react-native-community/geolocation';
+import { Platform, PermissionsAndroid } from 'react-native';
 
 const CreateTaskScreen = ({ route }) => {
     const { followupDate } = route.params || {};
@@ -31,9 +33,106 @@ const CreateTaskScreen = ({ route }) => {
         taskName: '',
         remarks: '',
     });
-
     const [followup_status, setFollowupStatus] = useState('Pending');
     const [followup_priority, setFollowupPriority] = useState('High');
+    const [
+        currentLongitude,
+        setCurrentLongitude
+    ] = useState('...');
+    const [
+        currentLatitude,
+        setCurrentLatitude
+    ] = useState('...');
+    const [
+        locationStatus,
+        setLocationStatus
+    ] = useState('');
+
+    useEffect(() => {
+        const requestLocationPermission = async () => {
+            if (Platform.OS === 'ios') {
+                getOneTimeLocation();
+                subscribeLocationLocation();
+            } else {
+                try {
+                    const granted = await PermissionsAndroid.request(
+                        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                        {
+                            title: 'Location Access Required',
+                            message: 'This App needs to Access your location',
+                        },
+                    );
+                    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                        //To Check, If Permission is granted
+                        getOneTimeLocation();
+                        subscribeLocationLocation();
+                    } else {
+                        setLocationStatus('Permission Denied');
+                    }
+                } catch (err) {
+                    console.warn(err);
+                }
+            }
+        };
+        requestLocationPermission();
+        return () => {
+            Geolocation.clearWatch(watchID);
+        };
+    }, []);
+
+    const getOneTimeLocation = () => {
+        setLocationStatus('Getting Location ...');
+        Geolocation.getCurrentPosition(
+            (position) => {
+                setLocationStatus('You are Here');
+                const currentLongitude = JSON.stringify(position.coords.longitude);
+                const currentLatitude = JSON.stringify(position.coords.latitude);
+    
+                setCurrentLongitude(currentLongitude);
+                setCurrentLatitude(currentLatitude);
+            },
+            (error) => {
+                setLocationStatus(error.message);
+            },
+            {
+                enableHighAccuracy: false,
+                timeout: 30000,
+                maximumAge: 1000
+            },
+        );
+    };
+
+    const subscribeLocationLocation = () => {
+        watchID = Geolocation.watchPosition(
+            (position) => {
+                //Will give you the location on location change
+
+                setLocationStatus('You are Here');
+                console.log(position);
+
+                //getting the Longitude from the location json        
+                const currentLongitude =
+                    JSON.stringify(position.coords.longitude);
+
+                //getting the Latitude from the location json
+                const currentLatitude =
+                    JSON.stringify(position.coords.latitude);
+
+                //Setting Longitude state
+                setCurrentLongitude(currentLongitude);
+
+                //Setting Latitude state
+                setCurrentLatitude(currentLatitude);
+            },
+            (error) => {
+                setLocationStatus(error.message);
+            },
+            {
+                enableHighAccuracy: false,
+                maximumAge: 1000
+            },
+        );
+    };
 
 
     useEffect(() => {
@@ -151,9 +250,11 @@ const CreateTaskScreen = ({ route }) => {
                 jointname: callerName,
                 followup: followupDate,
                 enterBy: empid[0].emp_id,
+                tasklat: currentLatitude,
+                tasklag: currentLongitude,
             });
 
-            const response = await fetch("https://crm.romsons.com:8080/AddNewTask", {
+            const response = await fetch("http://localhost:8091/AddNewTask", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: raw

@@ -31,7 +31,7 @@ const EodScreen = () => {
     let [activitydatas, setActivitydatas] = useState([]);
     let [flagDate, setFlagDate] = React.useState([]);
     const EodStyles = useMemo(() => EodStyle(currentColors), [currentColors]);
-    const viewShotRef = useRef(null);
+    // const viewShotRef = useRef(null);
 
 
 
@@ -40,65 +40,67 @@ const EodScreen = () => {
         EodNotpunchin();
     };
 
-    const captureScreenAndShare = async () => {
-        try {
-            // Take a screenshot
-            const uri = await viewShotRef.current.capture();
+    // const captureScreenAndShare = async () => {
+    //     try {
+    //         // Take a screenshot
+    //         const uri = await viewShotRef.current.capture();
 
-            // Convert image to base64
-            const base64Data = await RNFS.readFile(uri, "base64");
+    //         // Convert image to base64
+    //         const base64Data = await RNFS.readFile(uri, "base64");
 
-            // Fetch API data
-            const apiData = await flag();
+    //         // Fetch API data
+    //         const apiData = await flag();
 
-            // Prepare WhatsApp message with API data
-            const message = `Attendance Report:\nDate: ${Moment(flagDate).format('YYYY-MM-DD')}`;
+    //         // Prepare WhatsApp message with API data
+    //         const message = `Attendance Report:\nDate: ${Moment(flagDate).format('YYYY-MM-DD')}`;
 
-            // Share via WhatsApp
-            const shareOptions = {
-                message: message,
-                url: `data:image/png;base64,${base64Data}`,
-                social: Share.Social.WHATSAPP,
-            };
+    //         // Share via WhatsApp
+    //         const shareOptions = {
+    //             message: message,
+    //             url: `data:image/png;base64,${base64Data}`,
+    //             social: Share.Social.WHATSAPP,
+    //         };
 
-            await Share.shareSingle(shareOptions);
-        } catch (error) {
-            Alert.alert("Error", error.message || "Failed to share screenshot!");
-        }
-    };
+    //         await Share.shareSingle(shareOptions);
+    //     } catch (error) {
+    //         Alert.alert("Error", error.message || "Failed to share screenshot!");
+    //     }
+    // };
 
 
-    // Modified flag() function to return API data
-    const flag = async () => {
-        try {
-            const user = await AsyncStorage.getItem('userInfor');
-            const empid = JSON.parse(user);
+    
 
-            const myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
 
-            const raw = JSON.stringify({
-                "punchdate": Moment(flagDate).format('YYYY-MM-DD'),
-                "enterBy": empid[0].emp_id
-            });
+    // const flag = async () => {
+    //     try {
+    //         const user = await AsyncStorage.getItem('userInfor');
+    //         const empid = JSON.parse(user);
 
-            const requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-            };
+    //         const myHeaders = new Headers();
+    //         myHeaders.append("Content-Type", "application/json");
 
-            const response = await fetch("https://crm.romsons.com:8080/EodShareUpdate", requestOptions);
-            const result = await response.json();
+    //         const raw = JSON.stringify({
+    //             "punchdate": Moment(flagDate).format('YYYY-MM-DD'),
+    //             "enterBy": empid[0].emp_id
+    //         });
 
-            // Return API data to use in WhatsApp message
-            return result;
+    //         const requestOptions = {
+    //             method: 'POST',
+    //             headers: myHeaders,
+    //             body: raw,
+    //             redirect: 'follow'
+    //         };
 
-        } catch (error) {
-            throw new Error("API Error: " + error.message);
-        }
-    };
+    //         const response = await fetch("https://crm.romsons.com:8080/EodShareUpdate", requestOptions);
+    //         const result = await response.json();
+
+    //         // Return API data to use in WhatsApp message
+    //         return result;
+
+    //     } catch (error) {
+    //         throw new Error("API Error: " + error.message);
+    //     }
+    // };
 
 
 
@@ -647,7 +649,7 @@ const EodScreen = () => {
     return (
 
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-            <ViewShot
+            {/* <ViewShot
                 ref={viewShotRef}
                 options={{
                     format: 'png',
@@ -656,7 +658,7 @@ const EodScreen = () => {
                     width: 1080,
                     height: 1920
                 }}
-            >
+            > */}
 
                 <View style={EodStyles.container}>
                     {/* Pending EOD Button */}
@@ -665,10 +667,11 @@ const EodScreen = () => {
                             <Text style={EodStyles.pendingText}>Pending EOD</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={captureScreenAndShare}>
+                        {/* <TouchableOpacity>
                             <Icon name="share" size={30} color="#000" />
+                        </TouchableOpacity> */}
 
-                        </TouchableOpacity>
+                        
 
                     </View>
 
@@ -926,7 +929,7 @@ const EodScreen = () => {
                         })}
                     </>
                 </View>
-            </ViewShot>
+            {/* </ViewShot> */}
         </ScrollView>
 
     );

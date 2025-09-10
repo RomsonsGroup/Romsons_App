@@ -113,28 +113,28 @@ const HomeTab = (props) => {
       .catch(error => console.error("Fetch error:", error));
   };
 
-  const handleOutletClick = async () => {
-    if (eodd) {
-      Alert.alert(
-        'Submit Your Pending EOD Report',
-        'Do you want to submit EOD?',
-        [
-          {
-            text: 'Yes',
-            onPress: () => navigation.navigate(RouteName.EODSCREEN)
-          },
-          {
-            text: 'No',
-            style: 'cancel'
-          }
-        ],
-        { cancelable: false }
-      );
-    } else {
-      // Proceed with normal flow if eodd is false, maybe navigate elsewhere
-      navigation.navigate(RouteName.OUTLET);
-    }
-  };
+  // const handleOutletClick = async () => {
+  //   if (eodd) {
+  //     Alert.alert(
+  //       'Submit Your Pending EOD Report',
+  //       'Do you want to submit EOD?',
+  //       [
+  //         {
+  //           text: 'Yes',
+  //           onPress: () => navigation.navigate(RouteName.EODSCREEN)
+  //         },
+  //         {
+  //           text: 'No',
+  //           style: 'cancel'
+  //         }
+  //       ],
+  //       { cancelable: false }
+  //     );
+  //   } else {
+  //     // Proceed with normal flow if eodd is false, maybe navigate elsewhere
+  //     navigation.navigate(RouteName.OUTLET);
+  //   }
+  // };
 
 
 
@@ -336,28 +336,28 @@ const HomeTab = (props) => {
     try {
       const user = await AsyncStorage.getItem("userInfor");
       const empid = JSON.parse(user);
-  
+
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-  
+
       const raw = JSON.stringify({
         empidd: empid[0]?.emp_id,
       });
-  
+
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
         body: raw,
         redirect: "follow",
       };
-  
+
       const response = await fetch(
         "https://crm.romsons.com:8080/getPendingLeaveCount",
         requestOptions
       );
       const result = await response.json();
-  
-  
+
+
       if (result.error === false) {
         setLeavePendingCount(result.data.pending_count);
       }
@@ -365,7 +365,7 @@ const HomeTab = (props) => {
       console.error("Error fetching pending leave count:", error);
     }
   };
-  
+
 
 
   useFocusEffect(
@@ -483,17 +483,17 @@ const HomeTab = (props) => {
         <Spacing space={20} />
         {/* Modules Section */}
         <View style={HomeTabStyles.modulesSection}>
-          {eodd == true ? (
-            <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={handleOutletClick}>
+
+          {/* <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={handleOutletClick}>
               <VectorIcon icon="AntDesign" size={SF(33)} name="shrink" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
               <Spacing space={10} />
               <Text style={HomeTabStyles.moduleLabel} >{t("Attendance")}</Text>
-            </TouchableOpacity>
-          ) : <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.PUNCHINOUT)}>
+            </TouchableOpacity> */}
+          <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.PUNCHINOUT)}>
             <VectorIcon icon="AntDesign" size={SF(33)} name="shrink" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
             <Spacing space={10} />
             <Text style={HomeTabStyles.moduleLabel} >{t("Attendance")}</Text>
-          </TouchableOpacity>}
+          </TouchableOpacity>
 
 
           <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.LEAVEAPPLY)}>
@@ -511,17 +511,20 @@ const HomeTab = (props) => {
             <VectorIcon icon="AntDesign" size={SF(33)} name="contacts" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
             <Text style={HomeTabStyles.moduleLabel}>{t("Assets")}</Text>
           </TouchableOpacity> */}
-          {eodd == true ? (
-            <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={handleOutletClick}>
-              {/* <VectorIcon icon="AntDesign" size={SF(33)} name="zhihu" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} /> */}
-              <Icon name="local-hospital" size={70} color={Colors.theme_background} />
+          <TouchableOpacity
+            style={HomeTabStyles.moduleBox}
+            onPress={() => navigation.navigate(RouteName.OUTLET)}
+          >
+            <Icon
+              name="local-hospital"
+              size={70}
+              color={Colors.theme_background}
+            />
+            <Text style={HomeTabStyles.moduleLabel}>
+              {t("Outlet")}
+            </Text>
+          </TouchableOpacity>
 
-              <Text style={HomeTabStyles.moduleLabel}>{t("Outlet")}</Text>
-            </TouchableOpacity>
-          ) : <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.OUTLET)}>
-            <Icon name="local-hospital" size={70} color={Colors.theme_background} />
-            <Text style={HomeTabStyles.moduleLabel}>{t("Outlet")}</Text>
-          </TouchableOpacity>}
 
 
           <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.EODSCREEN)}>
@@ -553,6 +556,12 @@ const HomeTab = (props) => {
             <Spacing space={10} />
 
             <Text style={HomeTabStyles.moduleLabel}>{t("Task")}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.MTPTOURPLANSCREEN)}>
+            <VectorIcon icon="FontAwesome" size={SF(33)} name="tasks" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
+            <Spacing space={10} />
+            <Text style={HomeTabStyles.moduleLabel}>{t("MTP")}</Text>
           </TouchableOpacity>
         </View>
         <Text style={HomeTabStyles.LableText}>{t("Approvals")}</Text>

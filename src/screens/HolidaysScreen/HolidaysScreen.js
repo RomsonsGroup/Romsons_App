@@ -127,7 +127,7 @@ const HolidaysScreen = () => {
     <FlatList
       data={holidays}
       renderItem={renderHolidayItem}
-      keyExtractor={(item) => item.date}
+      keyExtractor={(item, index) => `${item.date}-${index}`}
       ListHeaderComponent={
         <View style={HolidaysStyles.headerRow}>
           <Text style={[HolidaysStyles.cell, HolidaysStyles.header]}>{t("Date")}</Text>

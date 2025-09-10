@@ -42,6 +42,7 @@ export * from './PaystubDetailsScreen';
 export * from './LeaveRequestsScreen';
 export * from './PayrollScreen';
 export * from './CheckInOutScreen';
+export * from './MtpTourPlanScreen';
 
 
 

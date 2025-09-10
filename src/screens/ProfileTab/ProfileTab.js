@@ -114,7 +114,7 @@ const ProfileTab = (props) => {
               <Spacing space={4} />
 
               <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
-                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Comapny Code:</Text>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black' }}>Company Code:</Text>
                 <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 7, color: 'white' }}>{res.company_code}</Text>
               </View>
               <Spacing space={4} />

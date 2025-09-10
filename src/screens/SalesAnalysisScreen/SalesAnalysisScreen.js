@@ -13,10 +13,10 @@ const SalesAnalysis = () => {
   const isDarkMode = useSelector((state) => state.DarkReducer.isDarkMode);
   const currentColors = isDarkMode ? darkTheme : lightTheme;
   const SalesAnalysisStyles = useMemo(() => SalesAnalysisStyle(currentColors), [currentColors]);
-  const [fromDate, setFromDate] = useState(null);
+  const [fromDate, setFromDate] = useState(new Date());
   const [salesAnalysisCode, setSalesAnalysisCode] = useState([]);  // This stores the list of sales codes
   const [salesGroups, setSalesGroups] = useState([]);  // Assuming this is populated elsewhere
-  const [toDate, setToDate] = useState(null);
+  const [toDate, setToDate] = useState(new Date());
   const [salesData, setSalesData] = useState([]);
   const { t } = useTranslation();
   const [selectedService, setSelectedService] = useState("");  // To store selected sales group code
@@ -180,21 +180,21 @@ const SalesAnalysis = () => {
   };
 
   const handleSubmit = () => {
-    if (!fromDate || !toDate || !selectedService) {
-      alert("Please select all fields: Sales Group, From Date, To Date");
+    if (!selectedService) {
+      // alert("Please select Sales Group");
       return;
     }
-
-    const formattedFromDate = fromDate ? fromDate.toISOString().split('T')[0] : '';
-    const formattedToDate = toDate ? toDate.toISOString().split('T')[0] : '';
-
-    // Log the formatted dates and selected sales group code to the console
+  
+    const formattedFromDate = fromDate.toISOString().split('T')[0];
+    const formattedToDate = toDate.toISOString().split('T')[0];
+  
     console.log("From Date:", formattedFromDate);
     console.log("To Date:", formattedToDate);
     console.log("Selected Sales Group Code:", selectedService);
-
+  
     salesAnalysisList(selectedService);  // Call the function to fetch sales data
   };
+  
 
 
 

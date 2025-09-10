@@ -95,28 +95,16 @@ const MsdActivityScreen = ({ route }) => {
     const getOneTimeLocation = () => {
         setLocationStatus('Getting Location ...');
         Geolocation.getCurrentPosition(
-            //Will give you the current location
             (position) => {
                 setLocationStatus('You are Here');
-
-                //getting the Longitude from the location json
-                const currentLongitude =
-                    JSON.stringify(position.coords.longitude);
-
-                //getting the Latitude from the location json
-                const currentLatitude =
-                    JSON.stringify(position.coords.latitude);
-
-                //Setting Longitude state
+                const currentLongitude = JSON.stringify(position.coords.longitude);
+                const currentLatitude = JSON.stringify(position.coords.latitude);
+    
                 setCurrentLongitude(currentLongitude);
-
-                //Setting Longitude state
                 setCurrentLatitude(currentLatitude);
-                Alert.alert("Success", "Location fetch successfully,Please submit your activity.");
             },
             (error) => {
                 setLocationStatus(error.message);
-                Alert.alert("Error", "Please try again to fetch the location.");
             },
             {
                 enableHighAccuracy: false,
@@ -125,6 +113,7 @@ const MsdActivityScreen = ({ route }) => {
             },
         );
     };
+    
 
     const subscribeLocationLocation = () => {
         watchID = Geolocation.watchPosition(
@@ -192,8 +181,16 @@ const MsdActivityScreen = ({ route }) => {
     };
 
     const fetchLocation = () => {
-        setDummy(prev => !prev)
-    }
+        getOneTimeLocation();   // yahin call karo
+        setTimeout(() => {
+            if (currentLatitude !== '...' && currentLongitude !== '...') {
+                Alert.alert("Success", "Location fetch successfully, Please submit your activity.");
+            } else {
+                Alert.alert("Error", "Please turn on location and try again.");
+            }
+        }, 2000);
+    };
+    
 
     const msdActivitySubmit = async () => {
         if (isSubmitting) return; // Prevent multiple submissions
