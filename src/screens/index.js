@@ -43,6 +43,8 @@ export * from './LeaveRequestsScreen';
 export * from './PayrollScreen';
 export * from './CheckInOutScreen';
 export * from './MtpTourPlanScreen';
+export * from './MtpReportScreen';
+export * from './MtpApprovalScreen';
 
 
 

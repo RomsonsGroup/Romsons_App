@@ -1,0 +1,1 @@
+export {default as MtpReportStyle} from './MtpReportStyle';

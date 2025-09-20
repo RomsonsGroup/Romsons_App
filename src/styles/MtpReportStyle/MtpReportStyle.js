@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Fonts, SF, SH } from '../../utils'; // Adjust the import path as needed
+import { Colors, Fonts, SF, SH } from '../../utils';
 
-export default MtpTourPlanStyle = (Colors) =>
+export default MtpReportStyle = (Colors) =>
     StyleSheet.create({
 
         title: {
@@ -49,18 +49,6 @@ export default MtpTourPlanStyle = (Colors) =>
         borderRadius: 7,
         fontSize: 12,
     },
-
-        // input: {
-        //     borderWidth: 1,
-        //     borderColor: Colors.blue_color,
-        //     paddingHorizontal: 8,
-        //     paddingVertical: 4,
-        //     marginHorizontal: 2,
-        //     borderRadius: 7,
-        //     fontSize: 12,
-        //     width: 100,          // ✅ Fix button width
-        //     overflow: 'hidden',  // ✅ Prevent content overflow
-        // },
     modalOverlay: {
         flex: 1,
         backgroundColor: "rgba(0,0,0,0.5)",
@@ -120,8 +108,20 @@ export default MtpTourPlanStyle = (Colors) =>
         fontWeight: "600",
         color: "#fff",
       },
-      
+
+      infoContainer: {
+        backgroundColor: Colors.theme_background,
+        padding: 7,
+        borderRadius: 8,
+        marginBottom: 5,
+        borderWidth: 1,
+        borderColor: Colors.gray_text_color,
+        alignItems: 'center',
+      },
+      hospitalText: {
+        fontSize: 14,
+        fontWeight: '500',
+        color: Colors.white_text_color,
+      },
         
     });
-
-

@@ -608,6 +608,14 @@ const HomeTab = (props) => {
             <Spacing space={10} />
             <Text style={HomeTabStyles.moduleLabel}>{t("Regularization")}</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.MTPAPPROVALSCREEN)}>
+            {/* <VectorIcon icon="Feather" size={SF(33)} name="dollar-sign" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} /> */}
+            <Icon name="groups" size={60} color={Colors.theme_background} />
+
+            <Spacing space={10} />
+            <Text style={HomeTabStyles.moduleLabel} >{t("MTP APPROVAL")}</Text>
+          </TouchableOpacity>
         </View>
 
         <Spacing space={20} />
@@ -667,6 +675,12 @@ const HomeTab = (props) => {
             <VectorIcon icon="FontAwesome" size={SF(33)} name="tasks" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
             <Spacing space={10} />
             <Text style={HomeTabStyles.moduleLabel}>{t("Day Summary")}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={()=> navigation.navigate(RouteName.MTPREPORTSCREEN)}>
+            <VectorIcon icon="FontAwesome" size={SF(33)} name="tasks" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
+            <Spacing space={10} />
+            <Text style={HomeTabStyles.moduleLabel}>{t("MTP REPORT")}</Text>
           </TouchableOpacity>
         </View>
         <Spacing space={100} />

@@ -78,23 +78,23 @@ const DaysummaryScreen = () => {
       const fetchData = async () => {
         const user = await AsyncStorage.getItem("userInfor");
         const empid = JSON.parse(user);
-  
+
         // Agar manager ne team select kiya hai toh wahi id use hogi
         // warna login kiya hua employee ka emp_id use hoga
         const effectiveEmpId = selectedTeamId || empid[0].emp_id;
-  
+
         handlePunchinPunchoutData(fromDate, effectiveEmpId);
         EodOrderDetails(fromDate, effectiveEmpId);
         EodActivityDetails(fromDate, effectiveEmpId);
         eodReturnDetail(fromDate, effectiveEmpId);
         AddNewTaskDetails(fromDate, effectiveEmpId);
       };
-  
+
       fetchData();
     }
   }, [fromDate, selectedTeamId]);
-  
-  
+
+
 
   const AddNewTaskDetails = async (selectedDate) => {
     const user = await AsyncStorage.getItem('userInfor');

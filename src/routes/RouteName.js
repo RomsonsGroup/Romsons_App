@@ -60,6 +60,8 @@ const RouteName = {
     LEAVEREQUESTSSCREEN:'LeaveRequestsScreen',
     PAYROLLSCREEN:'PayrollScreen',
     CHECKINOUTSCREEN:'CheckInOutScreen',
-    MTPTOURPLANSCREEN:'MtpTourPlanScreen'
+    MTPTOURPLANSCREEN:'MtpTourPlanScreen',
+    MTPREPORTSCREEN: 'MtpReportScreen',
+    MTPAPPROVALSCREEN: 'MtpApprovalScreen'
 }
 export default RouteName;

@@ -70,7 +70,7 @@ const LoginScreen = () => {
             // Password: "1234"
         };
 
-        axios.post("https://crm.romsons.com:8080/loginApps", requestData, {
+        axios.post("http://localhost:8091/loginApps", requestData, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -81,6 +81,7 @@ const LoginScreen = () => {
                 if (arr.userData.error === false) {
                     // Set success message and display alert
                     await AsyncStorage.setItem("userInfor", JSON.stringify(arr.userData.data));
+                    console.log(arr.userData.data,'comeeeee');
                     setAlertMessage(alertdata.loginSuccess);
                     navigation.navigate(RouteName.HOME_SCREEN);
                     setAlertVisible(false);

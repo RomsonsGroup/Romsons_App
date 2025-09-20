@@ -68,7 +68,7 @@ const EodScreen = () => {
     // };
 
 
-    
+
 
 
     // const flag = async () => {
@@ -660,275 +660,275 @@ const EodScreen = () => {
                 }}
             > */}
 
-                <View style={EodStyles.container}>
-                    {/* Pending EOD Button */}
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <TouchableOpacity style={EodStyles.pendingButton} onPress={toggleModal}>
-                            <Text style={EodStyles.pendingText}>Pending EOD</Text>
-                        </TouchableOpacity>
+            <View style={EodStyles.container}>
+                {/* Pending EOD Button */}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <TouchableOpacity style={EodStyles.pendingButton} onPress={toggleModal}>
+                        <Text style={EodStyles.pendingText}>Pending EOD</Text>
+                    </TouchableOpacity>
 
-                        {/* <TouchableOpacity>
+                    {/* <TouchableOpacity>
                             <Icon name="share" size={30} color="#000" />
                         </TouchableOpacity> */}
 
-                        
-
-                    </View>
-
-                    {/* Date Display */}
-                    <>
-                        <Text style={EodStyles.dateText1}>{Moment(flagDate).format('DD-MMM-YYYY')}</Text>
 
 
-                        {statuspunch.map((res, ind) => (
-                            <View style={EodStyles.datesContainer} key={ind}>
-                                <Text style={EodStyles.dateText1}>
-                                    {Moment(res.punch_in).format(' hh:mm:ss a')}
-                                </Text>
-                                <Text style={EodStyles.dateText1}>
-                                    {res.punch_out ? Moment(res.punch_out).format(' hh:mm:ss a') : 'Not punched out'}
-                                </Text>
-                            </View>
-                        ))}
+                </View>
+
+                {/* Date Display */}
+                <>
+                    <Text style={EodStyles.dateText1}>{Moment(flagDate).format('DD-MMM-YYYY')}</Text>
+
+
+                    {statuspunch.map((res, ind) => (
+                        <View style={EodStyles.datesContainer} key={ind}>
+                            <Text style={EodStyles.dateText1}>
+                                {Moment(res.punch_in).format(' hh:mm:ss a')}
+                            </Text>
+                            <Text style={EodStyles.dateText1}>
+                                {res.punch_out ? Moment(res.punch_out).format(' hh:mm:ss a') : 'Not punched out'}
+                            </Text>
+                        </View>
+                    ))}
 
 
 
 
-                        <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={isModalVisible}
-                            onRequestClose={toggleModal}
-                        >
-                            <View style={EodStyles.modalOverlay}>
-                                <View style={EodStyles.modalContainer}>
-                                    <Text style={EodStyles.modalTitle}>Select Pending EOD Date</Text>
-                                    <View style={EodStyles.divider} />
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={isModalVisible}
+                        onRequestClose={toggleModal}
+                    >
+                        <View style={EodStyles.modalOverlay}>
+                            <View style={EodStyles.modalContainer}>
+                                <Text style={EodStyles.modalTitle}>Select Pending EOD Date</Text>
+                                <View style={EodStyles.divider} />
 
-                                    {/* Date Container */}
-                                    {punchinDates.map((res, ind) => (
-                                        <TouchableOpacity style={EodStyles.dateContainer} key={ind} onPress={() => { dateWiseData(res.punch_date) }}>
-                                            <Text style={EodStyles.dateText}>
-                                                {Moment(res.punch_date).format('DD-MMM-YYYY')}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    ))}
-
-
-                                    {/* Close Button */}
-                                    <TouchableOpacity
-                                        style={EodStyles.closeButton}
-                                        onPress={toggleModal}
-                                    >
-                                        <Text style={EodStyles.closeButtonText}>Close</Text>
+                                {/* Date Container */}
+                                {punchinDates.map((res, ind) => (
+                                    <TouchableOpacity style={EodStyles.dateContainer} key={ind} onPress={() => { dateWiseData(res.punch_date) }}>
+                                        <Text style={EodStyles.dateText}>
+                                            {Moment(res.punch_date).format('DD-MMM-YYYY')}
+                                        </Text>
                                     </TouchableOpacity>
-                                </View>
+                                ))}
+
+
+                                {/* Close Button */}
+                                <TouchableOpacity
+                                    style={EodStyles.closeButton}
+                                    onPress={toggleModal}
+                                >
+                                    <Text style={EodStyles.closeButtonText}>Close</Text>
+                                </TouchableOpacity>
                             </View>
-                        </Modal>
+                        </View>
+                    </Modal>
 
-                        {/* Hospital Info */}
-                        {dates
-                            ?.filter(
-                                (res, index, self) =>
-                                    index === self.findIndex((item) => item.outlet_id === res.outlet_id)
-                            ) // Filter to remove duplicates based on outlet_id
-                            .map((res, ind) => {
-                                // Filter data for the current outlet_id
-                                const outletData = eodData?.filter((item) => item.outlet_id === res.outlet_id);
+                    {/* Hospital Info */}
+                    {dates
+                        ?.filter(
+                            (res, index, self) =>
+                                index === self.findIndex((item) => item.outlet_id === res.outlet_id)
+                        ) // Filter to remove duplicates based on outlet_id
+                        .map((res, ind) => {
+                            // Filter data for the current outlet_id
+                            const outletData = eodData?.filter((item) => item.outlet_id === res.outlet_id);
 
-                                // Calculate total amount for the filtered data
-                                const totalAmount = outletData?.reduce((sum, item) => sum + (item.order_amt || 0), 0);
-
-                                return (
-                                    <View key={ind}>
-                                        {/* Outlet Info */}
-                                        <View style={EodStyles.infoContainer}>
-                                            <Text style={EodStyles.hospitalText}>
-                                                {res.outlet_id}, {res.outlet_name || 'N/A'}
-                                            </Text>
-                                        </View>
-
-                                        {/* Order Info */}
-                                        <View style={EodStyles.orderContainer}>
-                                            <Text style={EodStyles.orderType}>Type: Order</Text>
-                                            <Text style={EodStyles.orderId}>OrderID: {res.order_id || 'N/A'}</Text>
-                                        </View>
-                                        <View style={EodStyles.orderContainer}>
-                                            <Text style={EodStyles.orderType}>Call Status</Text>
-                                            <Text style={EodStyles.orderId}>
-                                                {res.call_type ? res.call_type : 'N/A'} ({res.joined_name ? res.joined_name : 'N/A'})
-                                            </Text>
-
-                                        </View>
-
-                                        <View style={EodStyles.orderContainer}>
-                                            <Text style={EodStyles.orderType}>Dealer Name</Text>
-                                            <Text style={EodStyles.orderId}>
-                                                {res.dealer_name ? res.dealer_name : 'N/A'}
-                                            </Text>
-
-                                        </View>
-
-                                        {/* SKU Data */}
-                                        <View style={EodStyles.skuContainer}>
-                                            <View style={EodStyles.skuHeaderRow}>
-                                                <Text style={EodStyles.skuHeaderText}>SKU Name</Text>
-                                                <Text style={EodStyles.skuHeaderText}>Unit Price</Text>
-                                                <Text style={EodStyles.skuHeaderText}>Unit</Text>
-                                                <Text style={EodStyles.skuHeaderText}>Amount</Text>
-                                            </View>
-
-                                            {outletData?.map((item, index) => (
-                                                <View key={index} style={EodStyles.skuDataRow}>
-                                                    <Text style={EodStyles.skuText}>{item.sku_name || 'N/A'}</Text>
-                                                    <Text style={EodStyles.skuText1}>{item.item_price_unit || '0'}</Text>
-                                                    <Text style={EodStyles.skuText1}>{item.item_qty || '0'}</Text>
-                                                    <Text style={EodStyles.skuText1}>{item.order_amt || '0'}</Text>
-                                                </View>
-                                            ))}
-                                        </View>
-
-                                        {/* Total Amount */}
-                                        <View style={[EodStyles.totalContainer, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                            <Text style={EodStyles.totalText}>Total:</Text>
-                                            <Text style={EodStyles.totalText}>₹{totalAmount?.toFixed(2) || '0.00'}</Text>
-                                        </View>
-
-                                    </View>
-                                );
-                            })}
-
-                        {eodreturnDate
-                            ?.filter((res, index, self) =>
-                                index === self.findIndex((t) => t.outlet_id === res.outlet_id)
-                            )
-                            .map((res, ind) => {
-                                const returnData = eodreturnData?.filter((t) => t.outlet_id === res.outlet_id);
-
-                                return (
-                                    <View key={ind}>
-
-                                        <View style={EodStyles.infoContainer} key={ind}>
-                                            <Text style={EodStyles.hospitalText}>
-                                                {res.outlet_id}, {res.outlet_name}
-                                            </Text>
-                                        </View>
-
-                                        <View style={EodStyles.orderContainer}>
-                                            <Text style={EodStyles.orderType}>Type: Return</Text>
-                                            {/* <Text>{JSON.stringify(eodreturnDate)}</Text> */}
-                                            <Text style={EodStyles.orderId}>OrderID: {res.m_return_orderID || 'N/A'}</Text>
-                                        </View>
-
-
-                                        <View style={EodStyles.skuContainer}>
-                                            <View style={EodStyles.skuHeaderRow}>
-                                                <Text style={EodStyles.skuHeaderText}>SKU Name</Text>
-                                                <Text style={EodStyles.skuHeaderText}>Unit Price</Text>
-                                                <Text style={EodStyles.skuHeaderText}>Unit</Text>
-                                                <Text style={EodStyles.skuHeaderText}>Amount</Text>
-                                            </View>
-                                            {returnData.map((res, ind) => (
-                                                <View style={EodStyles.skuDataRow} key={ind}>
-                                                    <Text style={EodStyles.skuText}>{res.sku_name}</Text>
-                                                    <Text style={EodStyles.skuText}>{res.item_price_unit}</Text>
-                                                    <Text style={EodStyles.skuText}>{res.item_qty}</Text>
-                                                    <Text style={EodStyles.skuText}>{res.return_order_amt}</Text>
-                                                </View>
-                                            ))}
-                                        </View>
-
-                                    </View>
-                                )
-
-                            })
-                        }
-
-                        {/* Additional Info */}
-                        {activitydata?.map((outlet, outletIndex) => {
-                            // Filter activities for the current outlet_id
-                            const activitiesForOutlet = activitydatas?.filter(
-                                (activity) => activity.outlet_id === outlet.outlet_id
-                            );
-                            const callType = activitiesForOutlet?.length ? activitiesForOutlet[0].call_type : 'N/A';
-                            const joinedName = activitiesForOutlet?.length ? activitiesForOutlet[0].joined_name : 'N/A';
-
-
-                            // Skip rendering outlets with no activities
-                            if (!activitiesForOutlet?.length) return null;
+                            // Calculate total amount for the filtered data
+                            const totalAmount = outletData?.reduce((sum, item) => sum + (item.order_amt || 0), 0);
 
                             return (
-                                <View key={outletIndex}>
+                                <View key={ind}>
                                     {/* Outlet Info */}
                                     <View style={EodStyles.infoContainer}>
                                         <Text style={EodStyles.hospitalText}>
-                                            {outlet.outlet_id}, {outlet.outlet_name}
+                                            {res.outlet_id}, {res.outlet_name || 'N/A'}
                                         </Text>
                                     </View>
 
-                                    {/* Activity Type */}
+                                    {/* Order Info */}
                                     <View style={EodStyles.orderContainer}>
-                                        <Text style={EodStyles.orderType}>Type: Activity</Text>
+                                        <Text style={EodStyles.orderType}>Type: Order</Text>
+                                        <Text style={EodStyles.orderId}>OrderID: {res.order_id || 'N/A'}</Text>
                                     </View>
-
                                     <View style={EodStyles.orderContainer}>
                                         <Text style={EodStyles.orderType}>Call Status</Text>
-                                        <Text style={EodStyles.orderId}>{callType} ({joinedName})</Text>
+                                        <Text style={EodStyles.orderId}>
+                                            {res.call_type ? res.call_type : 'N/A'} ({res.joined_name ? res.joined_name : 'N/A'})
+                                        </Text>
+
                                     </View>
 
+                                    <View style={EodStyles.orderContainer}>
+                                        <Text style={EodStyles.orderType}>Dealer Name</Text>
+                                        <Text style={EodStyles.orderId}>
+                                            {res.dealer_name ? res.dealer_name : 'N/A'}
+                                        </Text>
 
-                                    {/* Activity Data */}
-                                    {activitiesForOutlet.map((activity, activityIndex) => (
-                                        <View
-                                            style={{
-                                                marginBottom: 16,
-                                                padding: 12,
-                                                backgroundColor: '#ffffff',
-                                                borderRadius: 8,
-                                                shadowColor: '#000',
-                                                shadowOpacity: 0.1,
-                                                shadowRadius: 4,
-                                                shadowOffset: { width: 0, height: 2 },
-                                                elevation: 3,
-                                            }}
-                                            key={activityIndex}
-                                        >
-                                            <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
-                                                <Text style={{ color: 'black', fontSize: 13 }}>Customer Name: </Text>
-                                                <Text style={{ color: 'green', fontSize: 12 }}>{activity.hospital_customer_name}</Text>
-                                            </Text>
+                                    </View>
 
-                                            <Text style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 4 }}>
-                                                <Text style={{ color: 'black', fontSize: 13 }}>SKU Name: </Text>
-                                                <Text style={{ color: 'green', fontSize: 13 }}>{activity.sku_name}</Text>
-                                            </Text>
-
-                                            <Text style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 4 }}>
-                                                <Text style={{ color: 'black', fontSize: 13 }}>Remarks: </Text>
-                                                <Text style={{ color: 'green', fontSize: 13 }}>{activity.remark}</Text>
-                                            </Text>
-
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
-                                                <Text style={{ fontSize: 14, fontWeight: 'bold', flex: 1 }}>
-                                                    <Text style={{ color: 'black', fontSize: 13 }}>Follow-up Date: </Text>
-                                                    <Text style={{ color: 'green', fontSize: 12 }}>
-                                                        {activity.follow_up && !isNaN(new Date(activity.follow_up).getTime())
-                                                            ? new Date(activity.follow_up).toLocaleDateString('en-IN', {
-                                                                day: '2-digit',
-                                                                month: '2-digit',
-                                                                year: 'numeric',
-                                                            })
-                                                            : ''}
-                                                    </Text>
-                                                </Text>
-                                            </View>
+                                    {/* SKU Data */}
+                                    <View style={EodStyles.skuContainer}>
+                                        <View style={EodStyles.skuHeaderRow}>
+                                            <Text style={EodStyles.skuHeaderText}>SKU Name</Text>
+                                            <Text style={EodStyles.skuHeaderText}>Unit Price</Text>
+                                            <Text style={EodStyles.skuHeaderText}>Unit</Text>
+                                            <Text style={EodStyles.skuHeaderText}>Amount</Text>
                                         </View>
-                                    ))}
+
+                                        {outletData?.map((item, index) => (
+                                            <View key={index} style={EodStyles.skuDataRow}>
+                                                <Text style={EodStyles.skuText}>{item.sku_name || 'N/A'}</Text>
+                                                <Text style={EodStyles.skuText1}>{item.item_price_unit || '0'}</Text>
+                                                <Text style={EodStyles.skuText1}>{item.item_qty || '0'}</Text>
+                                                <Text style={EodStyles.skuText1}>{item.order_amt || '0'}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+
+                                    {/* Total Amount */}
+                                    <View style={[EodStyles.totalContainer, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                        <Text style={EodStyles.totalText}>Total:</Text>
+                                        <Text style={EodStyles.totalText}>₹{totalAmount?.toFixed(2) || '0.00'}</Text>
+                                    </View>
+
                                 </View>
                             );
                         })}
-                    </>
-                </View>
+
+                    {eodreturnDate
+                        ?.filter((res, index, self) =>
+                            index === self.findIndex((t) => t.outlet_id === res.outlet_id)
+                        )
+                        .map((res, ind) => {
+                            const returnData = eodreturnData?.filter((t) => t.outlet_id === res.outlet_id);
+
+                            return (
+                                <View key={ind}>
+
+                                    <View style={EodStyles.infoContainer} key={ind}>
+                                        <Text style={EodStyles.hospitalText}>
+                                            {res.outlet_id}, {res.outlet_name}
+                                        </Text>
+                                    </View>
+
+                                    <View style={EodStyles.orderContainer}>
+                                        <Text style={EodStyles.orderType}>Type: Return</Text>
+                                        {/* <Text>{JSON.stringify(eodreturnDate)}</Text> */}
+                                        <Text style={EodStyles.orderId}>OrderID: {res.m_return_orderID || 'N/A'}</Text>
+                                    </View>
+
+
+                                    <View style={EodStyles.skuContainer}>
+                                        <View style={EodStyles.skuHeaderRow}>
+                                            <Text style={EodStyles.skuHeaderText}>SKU Name</Text>
+                                            <Text style={EodStyles.skuHeaderText}>Unit Price</Text>
+                                            <Text style={EodStyles.skuHeaderText}>Unit</Text>
+                                            <Text style={EodStyles.skuHeaderText}>Amount</Text>
+                                        </View>
+                                        {returnData.map((res, ind) => (
+                                            <View style={EodStyles.skuDataRow} key={ind}>
+                                                <Text style={EodStyles.skuText}>{res.sku_name}</Text>
+                                                <Text style={EodStyles.skuText}>{res.item_price_unit}</Text>
+                                                <Text style={EodStyles.skuText}>{res.item_qty}</Text>
+                                                <Text style={EodStyles.skuText}>{res.return_order_amt}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+
+                                </View>
+                            )
+
+                        })
+                    }
+
+                    {/* Additional Info */}
+                    {activitydata?.map((outlet, outletIndex) => {
+                        // Filter activities for the current outlet_id
+                        const activitiesForOutlet = activitydatas?.filter(
+                            (activity) => activity.outlet_id === outlet.outlet_id
+                        );
+                        const callType = activitiesForOutlet?.length ? activitiesForOutlet[0].call_type : 'N/A';
+                        const joinedName = activitiesForOutlet?.length ? activitiesForOutlet[0].joined_name : 'N/A';
+
+
+                        // Skip rendering outlets with no activities
+                        if (!activitiesForOutlet?.length) return null;
+
+                        return (
+                            <View key={outletIndex}>
+                                {/* Outlet Info */}
+                                <View style={EodStyles.infoContainer}>
+                                    <Text style={EodStyles.hospitalText}>
+                                        {outlet.outlet_id}, {outlet.outlet_name}
+                                    </Text>
+                                </View>
+
+                                {/* Activity Type */}
+                                <View style={EodStyles.orderContainer}>
+                                    <Text style={EodStyles.orderType}>Type: Activity</Text>
+                                </View>
+
+                                <View style={EodStyles.orderContainer}>
+                                    <Text style={EodStyles.orderType}>Call Status</Text>
+                                    <Text style={EodStyles.orderId}>{callType} ({joinedName})</Text>
+                                </View>
+
+
+                                {/* Activity Data */}
+                                {activitiesForOutlet.map((activity, activityIndex) => (
+                                    <View
+                                        style={{
+                                            marginBottom: 16,
+                                            padding: 12,
+                                            backgroundColor: '#ffffff',
+                                            borderRadius: 8,
+                                            shadowColor: '#000',
+                                            shadowOpacity: 0.1,
+                                            shadowRadius: 4,
+                                            shadowOffset: { width: 0, height: 2 },
+                                            elevation: 3,
+                                        }}
+                                        key={activityIndex}
+                                    >
+                                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
+                                            <Text style={{ color: 'black', fontSize: 13 }}>Customer Name: </Text>
+                                            <Text style={{ color: 'green', fontSize: 12 }}>{activity.hospital_customer_name}</Text>
+                                        </Text>
+
+                                        <Text style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 4 }}>
+                                            <Text style={{ color: 'black', fontSize: 13 }}>SKU Name: </Text>
+                                            <Text style={{ color: 'green', fontSize: 13 }}>{activity.sku_name}</Text>
+                                        </Text>
+
+                                        <Text style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 4 }}>
+                                            <Text style={{ color: 'black', fontSize: 13 }}>Remarks: </Text>
+                                            <Text style={{ color: 'green', fontSize: 13 }}>{activity.remark}</Text>
+                                        </Text>
+
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+                                            <Text style={{ fontSize: 14, fontWeight: 'bold', flex: 1 }}>
+                                                <Text style={{ color: 'black', fontSize: 13 }}>Follow-up Date: </Text>
+                                                <Text style={{ color: 'green', fontSize: 12 }}>
+                                                    {activity.follow_up && !isNaN(new Date(activity.follow_up).getTime())
+                                                        ? new Date(activity.follow_up).toLocaleDateString('en-IN', {
+                                                            day: '2-digit',
+                                                            month: '2-digit',
+                                                            year: 'numeric',
+                                                        })
+                                                        : ''}
+                                                </Text>
+                                            </Text>
+                                        </View>
+                                    </View>
+                                ))}
+                            </View>
+                        );
+                    })}
+                </>
+            </View>
             {/* </ViewShot> */}
         </ScrollView>
 

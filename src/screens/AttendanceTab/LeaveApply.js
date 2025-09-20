@@ -98,7 +98,7 @@ const LeaveApply = () => {
     const fetchLeaveTypes = async () => {
 
         try {
-            const response = await axios.get("https://crm.romsons.com:8080/leave_type", {
+            const response = await axios.get("http://localhost:8091/leave_type", {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -160,7 +160,7 @@ const LeaveApply = () => {
             console.log("Payload being sent:", leavePayload);
 
             // Send POST request
-            const response = await axios.post("https://crm.romsons.com:8080/LeaveApp", leavePayload, {
+            const response = await axios.post("http://localhost:8091/LeaveApp", leavePayload, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -189,7 +189,7 @@ const LeaveApply = () => {
             const user = await AsyncStorage.getItem('userInfor');
             const empid = JSON.parse(user);
             // Send a GET request to the API endpoint with the emp_id query parameter
-            const response = await axios.get('https://crm.romsons.com:8080/leave_history', {
+            const response = await axios.get('http://localhost:8091/leave_history', {
                 params: {
                     emp_id: empid[0].emp_id // Pass the emp_id parameter dynamically if needed
                 }

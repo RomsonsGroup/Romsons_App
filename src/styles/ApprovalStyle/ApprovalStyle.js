@@ -34,31 +34,6 @@ import { StyleSheet } from 'react-native';
     filterIcon: {
       padding: SH(10),
     },
-    // tabContainer: {
-    //   flexDirection: 'row',
-    //   // justifyContent: 'space-between',
-    // },
-    // tabButton: {
-    //   flex: 1, // Equal width for all tabs
-    //   paddingVertical: SH(10),
-    //   borderBottomWidth: 2,
-    //   borderBottomColor: 'transparent',
-    //   alignItems: 'center', // Center tab text horizontally
-    //   justifyContent: 'center',
-    // },
-    // selectedTabButton: {
-    //   borderBottomColor: Colors.theme_background
-    // },
-    // tabText: {
-    //   fontSize: SF(15),
-    //   fontFamily: Fonts.Poppins_Medium,
-    //   fontWeight: 'bold',
-    //   color: Colors.gray_text_color,
-    //   textAlign: 'center',
-    // },
-    // selectedTabText: {
-    //   color: Colors.theme_background
-    // },
 
     tabContainer: {
       flexDirection: 'row',
