@@ -125,11 +125,6 @@ const OrderHistoryScreen = () => {
     }
   };
 
-
-
-
-
-
   const selectBeat = async () => {
     try {
       const user = await AsyncStorage.getItem('userInfor');
@@ -205,18 +200,11 @@ const OrderHistoryScreen = () => {
     }
   };
 
-
-
   const handleOutletSelect = (outletId, outletName) => {
     setSelectot(outletId);
     setSelectedOutletname(outletName);
     setOutletModalVisible(false);
   };
-
-
-
-
-
 
   const OrderHistory_MIS = async (fromDate, toDate) => {
     try {
@@ -259,18 +247,12 @@ const OrderHistoryScreen = () => {
     }
   };
 
-
-
-
   return (
     <View style={OrderHistoryStyles.container}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <TouchableOpacity style={[OrderHistoryStyles.pendingButton, { marginRight: 10 }]} onPress={openModal}>
           <Text style={OrderHistoryStyles.pendingText}>Team</Text>
         </TouchableOpacity>
-        {/* {selectedTeam && (
-    <Text style={OrderHistoryStyles.selectedTeamText}>{selectedTeam}</Text>
-  )} */}
 
         <TouchableOpacity style={[OrderHistoryStyles.pendingButton, { marginRight: 10 }]} onPress={selectBeat}>
           <Text style={OrderHistoryStyles.pendingText}>Beat</Text>
@@ -437,9 +419,6 @@ const OrderHistoryScreen = () => {
           </View>
         </View>
       </Modal>
-
-
-
 
       <Text style={OrderHistoryStyles.selectedText}>
         Selected Outlet:

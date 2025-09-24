@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
     Text,
     View,
-    ScrollView
+    ScrollView,
+    TouchableOpacity,
+    Modal, loading
 } from "react-native";
 import { MtpReportStyle } from '../../styles/MtpReportStyle'
 import { useNavigation } from '@react-navigation/native';
@@ -24,6 +26,10 @@ const MtpReportScreen = () => {
     const [holidayDates, setHolidayDates] = useState([]);
     const [leaveDates, setLeaveDates] = useState([]);
     const [stateId, setStateId] = useState(null);
+    const [modalVisible1, setModalVisible1] = useState(false);
+    const [teamLists, setTeamLists] = useState([]);
+    const [selectedTeam, setSelectedTeam] = useState("");
+    const [selectedTeamId, setSelectedTeamId] = useState(null);
 
     const months = [
         { label: "Jan", value: 0 }, { label: "Feb", value: 1 }, { label: "Mar", value: 2 },
@@ -36,10 +42,47 @@ const MtpReportScreen = () => {
     useEffect(() => {
         GetMtpMonthWiseData();
         fetchMetaData();
-    }, [selectedMonth, selectedYear]);
+    }, [selectedMonth, selectedYear, selectedTeamId]);
+
+    const openModal = async () => {
+        setModalVisible1(true);
+        const user = await AsyncStorage.getItem("userInfor");
+        const empid = JSON.parse(user);
+        await teamList();
+    };
+
+    const teamList = async () => {
+        const user = await AsyncStorage.getItem("userInfor");
+        const empid = JSON.parse(user);
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "enterBy": empid[0].emp_id,
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://crm.romsons.com:8080/ManagerTeam", requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.error == false) {
+                    // console.log('listttt', result.data);
+                    setTeamLists(result.data)
+
+                }
+            })
+            .catch((error) => console.error(error));
+    }
 
     const GetMtpMonthWiseData = async () => {
-        const empid = JSON.parse(await AsyncStorage.getItem("userInfor"))[0].emp_id;
+        const user = JSON.parse(await AsyncStorage.getItem("userInfor"));
+        const empid = selectedTeamId || user[0].emp_id;
         const res = await fetch(`http://localhost:8091/GetMtpTourPlan?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`);
         const result = await res.json();
         if (!result.error) setGetmtpdata(result.data);
@@ -47,7 +90,8 @@ const MtpReportScreen = () => {
 
     const fetchMetaData = async () => {
         const user = JSON.parse(await AsyncStorage.getItem("userInfor"));
-        const empid = user[0].emp_id;
+        const empid = selectedTeamId || user[0].emp_id;
+        // const empid = user[0].emp_id;
         const stId = user[0].state_id;
         setStateId(stId);
 
@@ -84,8 +128,6 @@ const MtpReportScreen = () => {
         return "#ffffff";
     };
 
-
-
     const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
     const allDates = Array.from({ length: daysInMonth }, (_, i) => {
         const iso = `${selectedYear}-${String(selectedMonth + 1).padStart(2, "0")}-${String(i + 1).padStart(2, "0")}`;
@@ -99,12 +141,62 @@ const MtpReportScreen = () => {
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <HomeDropDown style={{ width: 100, marginRight: 1 }} value={selectedMonth} setValue={setSelectedMonth} data={months} placeholder="Month" />
                     <HomeDropDown style={{ width: 100 }} value={selectedYear} setValue={setSelectedYear} data={years} placeholder="Year" />
-                    <Text style={{ marginLeft: 10, color: "#000", fontWeight: "bold" }}>
-                        Status: {getmtpdata.length > 0 ? getmtpdata[0].status : "N/A"}
-                    </Text>
+                    <TouchableOpacity style={[MtpReportStyles.pendingButton, { marginLeft: 10 }]} onPress={openModal}>
+                        <Text style={MtpReportStyles.pendingText}>Team</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
 
+            <Modal
+                transparent={true}
+                visible={modalVisible1}
+                animationType="fade"
+                onRequestClose={() => setModalVisible1(false)}
+            >
+                <View style={MtpReportStyles.modalOverlay4}>
+                    <View style={MtpReportStyles.dropdownContainer4}>
+
+                        {/* Beautiful Close Button */}
+                        <TouchableOpacity
+                            onPress={() => setModalVisible1(false)}
+                            style={MtpReportStyles.modal1}
+                        >
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#333' }}>×</Text>
+                        </TouchableOpacity>
+
+                        {/* Modal Content */}
+                        {loading ? (
+                            <ActivityIndicator size="medium" color="#0000ff" style={{ marginTop: 50 }} />
+                        ) : (
+                            <ScrollView style={{ marginTop: 50 }}>
+                                {teamLists.length > 0 ? (
+                                    teamLists.map((team, index) => (
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={MtpReportStyles.option4}
+                                            onPress={() => {
+                                                setSelectedTeam(team.reporting_person_name);
+                                                setSelectedTeamId(team.emp_id);
+                                                setModalVisible1(false);
+                                            }}
+
+                                        >
+                                            <Text style={MtpReportStyles.optionText4}>
+                                                {team.reporting_person_name}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    ))
+                                ) : (
+                                    <Text style={{ textAlign: 'center', padding: 10 }}>
+
+                                    </Text>
+                                )}
+                            </ScrollView>
+                        )}
+                    </View>
+                </View>
+            </Modal>
+            <Text style={{ marginBottom: 5, color: '#000000', fontWeight: "bold" }}>{selectedTeam}</Text>
             {/* Scrollable Dates and Records */}
             <ScrollView
                 style={{ flex: 1 }}
@@ -113,22 +205,43 @@ const MtpReportScreen = () => {
                 {allDates.map((isoDate) => {
                     const dateLabel = new Date(isoDate).toLocaleDateString("en-GB");
                     const records = groupedData[isoDate] || [];
+                    const status = records.length > 0 && records[0].status ? records[0].status : "";
+                    const getStatusColor = (status) => {
+                        switch (status) {
+                            case "A": // Approved
+                                return "green";
+                            case "P": // Pending
+                                return "orange";
+                            case "R": // Rejected
+                                return "red";
+                            default:
+                                return "#000"; // default black if needed
+                        }
+                    };
                     return (
                         <View key={isoDate} style={{ marginBottom: 8 }}>
-                            {/* 🟢 Header always visible */}
                             <View
                                 style={[
                                     MtpReportStyles.infoContainer,
-                                    { backgroundColor: getHeaderColor(isoDate) },
+                                    {
+                                        backgroundColor: getHeaderColor(isoDate),
+                                        flexDirection: "row",          // ✅ Row layout
+                                        alignItems: "center",
+                                        justifyContent: "center",         // ✅ Center vertically
+                                    },
                                 ]}
                             >
-                                <Text style={[MtpReportStyles.hospitalText, { color: "#000" }]}>
+                                <Text style={[MtpReportStyles.hospitalText, { color: "#000", marginRight: 6 }]}>
                                     {dateLabel} (
                                     {new Date(isoDate).toLocaleDateString("en-US", { weekday: "short" })})
                                 </Text>
+                                {status ? (
+                                    <View style={[MtpReportStyles.notificationBadge, { backgroundColor: getStatusColor(status) }]}>
+                                        <Text style={MtpReportStyles.badgeText}>{status}</Text>
+                                    </View>
+                                ) : null}
                             </View>
 
-                            {/* 🔹 Records */}
                             {records.length > 0 ? (
                                 records.map((res, ind) => (
                                     <View
@@ -166,7 +279,6 @@ const MtpReportScreen = () => {
                                     </View>
                                 ))
                             ) : (
-                                // 🔸 Even if no records, show an empty message or spacer (optional)
                                 <View style={{ paddingVertical: 4 }} />
                             )}
                         </View>
@@ -177,5 +289,4 @@ const MtpReportScreen = () => {
         </View>
     );
 };
-
 export default MtpReportScreen;

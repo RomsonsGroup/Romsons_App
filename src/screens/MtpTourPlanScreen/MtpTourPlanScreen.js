@@ -8,6 +8,7 @@ import {
     StyleSheet,
     Modal,
     TouchableOpacity,
+    loading, ScrollView
 } from "react-native";
 import { HomeDropDown } from "../../components";
 import { MtpTourPlanStyle } from '../../styles/MtpTourPlanStyle'
@@ -66,7 +67,10 @@ const MtpTourPlanScreen = () => {
     const [activeRemarksId, setActiveRemarksId] = useState(null);
     const [tempRemarks, setTempRemarks] = useState("");
     const [currentStatus, setCurrentStatus] = useState("P");
-
+    const [modalVisible1, setModalVisible1] = useState(false);
+    const [teamLists, setTeamLists] = useState([]);
+    const [selectedTeam, setSelectedTeam] = useState("");
+    const [selectedTeamId, setSelectedTeamId] = useState(null);
 
     useEffect(() => {
         const initCalendar = async () => {
@@ -99,17 +103,22 @@ const MtpTourPlanScreen = () => {
 
             setCalendarData(data);
             fetchSubmittedPlans();
-            await fetchHolidays(employee_state_id, selectedYear, selectedMonth + 1); // ✅ new function
+            await fetchHolidays(employee_state_id, selectedYear, selectedMonth + 1, selectedTeamId); // ✅ new function
 
         };
 
         initCalendar();
-    }, [selectedMonth, selectedYear]);
+    }, [selectedMonth, selectedYear, selectedTeamId]);
 
     useEffect(() => {
         const fetchLeaves = async () => {
             const user = await AsyncStorage.getItem("userInfor");
-            const empid = JSON.parse(user)[0].emp_id;
+            let empid = JSON.parse(user)[0].emp_id;
+
+            // ✅ selectedTeamId agar choose hua ho to use karo
+            if (selectedTeamId) {
+                empid = selectedTeamId;
+            }
 
             const response = await fetch(
                 `http://localhost:8091/GetEmployeeLeaves?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`
@@ -139,27 +148,73 @@ const MtpTourPlanScreen = () => {
         };
 
         fetchLeaves();
-    }, [selectedMonth, selectedYear]);
+    }, [selectedMonth, selectedYear, selectedTeamId]);
 
     useEffect(() => {
         fetchSubmittedPlans();
-    }, [selectedMonth, selectedYear]);
+    }, [selectedMonth, selectedYear, selectedTeamId]);
+
+    const openModal = async () => {
+        setModalVisible1(true);
+        const user = await AsyncStorage.getItem("userInfor");
+        const empid = JSON.parse(user);
+        await teamList();
+    };
+
+    const teamList = async () => {
+        const user = await AsyncStorage.getItem("userInfor");
+        const empid = JSON.parse(user);
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "enterBy": empid[0].emp_id,
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://crm.romsons.com:8080/ManagerTeam", requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.error == false) {
+                    // console.log('listttt', result.data);
+                    setTeamLists(result.data)
+
+                }
+            })
+            .catch((error) => console.error(error));
+    }
 
     const fetchHolidays = async (state_id, year, month) => {
         try {
+            // 🔹 Agar manager ne team member select kiya hai, to uska state_id use karein
+            let effectiveStateId = state_id;
+            if (selectedTeamId && teamLists?.length) {
+                const teamMember = teamLists.find(t => t.emp_id === selectedTeamId);
+                if (teamMember?.state_id) {
+                    effectiveStateId = teamMember.state_id;
+                }
+            }
+
             const response = await fetch(
-                `http://localhost:8091/GetHolidays?state_id=${state_id}&month=${month}&year=${year}`
+                `http://localhost:8091/GetHolidays?state_id=${effectiveStateId}&month=${month}&year=${year}`
             );
             const result = await response.json();
-            console.log(result,'holidays comeee');
-            
-    
+            console.log(result, "holidays comeee");
+
             if (!result.error && result.data.length) {
                 const holidayDates = result.data.map(h => h.date); // YYYY-MM-DD
-    
+
                 setCalendarData(prev =>
                     prev.map(day => {
-                        const dayStr = `${year}-${String(month).padStart(2, '0')}-${String(day.id).padStart(2, '0')}`;
+                        const dayStr = `${year}-${String(month).padStart(2, "0")}-${String(
+                            day.id
+                        ).padStart(2, "0")}`;
                         const isHoliday = holidayDates.includes(dayStr);
                         return {
                             ...day,
@@ -173,12 +228,16 @@ const MtpTourPlanScreen = () => {
             console.error("Error fetching holidays:", err);
         }
     };
-    
-
 
     const fetchSubmittedPlans = async () => {
         try {
-            const empid = JSON.parse(await AsyncStorage.getItem("userInfor"))[0].emp_id;
+            const user = await AsyncStorage.getItem("userInfor");
+            let empid = JSON.parse(user)[0].emp_id;
+
+            // Agar team member select hua ho, toh uska empid use karo
+            if (selectedTeamId) {
+                empid = selectedTeamId;
+            }
 
             const response = await fetch(
                 `http://localhost:8091/GetMtpTourPlan?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`
@@ -206,8 +265,10 @@ const MtpTourPlanScreen = () => {
                                         : matched.joint_name || "Joint",
                                 joint_id: matched.joint_id || null,
                                 remarks: matched.comments || "",
+                                status: matched.status,
+                                editable: matched.status !== "A",
                             }
-                            : day;
+                            : { ...day, editable: true };
                     })
                 );
             }
@@ -226,8 +287,6 @@ const MtpTourPlanScreen = () => {
             })
         );
     };
-
-
 
     // Beat select
     const handleBeatSelect = (beat) => {
@@ -304,7 +363,6 @@ const MtpTourPlanScreen = () => {
             .catch((error) => console.error(error));
     }
 
-
     const handleJointMemberSelect = (member) => {
         if (workingRowId && member) {
             setCalendarData(prev =>
@@ -322,29 +380,22 @@ const MtpTourPlanScreen = () => {
         setShowJointModal(false);
     };
 
-
-
     const openRemarksModal = (item) => {
         setActiveRemarksId(item.id);
         setTempRemarks(item.remarks || "");
         setShowRemarksModal(true);
     };
 
-
     const saveRemarks = () => {
         updateField(activeRemarksId, "remarks", tempRemarks);
         setShowRemarksModal(false);
     };
 
-
-
     const handleSubmit = async () => {
         try {
             const empid = JSON.parse(await AsyncStorage.getItem("userInfor"))[0].emp_id;
-
             const rows = calendarData.filter(r => r.beat && r.working);
             if (!rows.length) return alert("Please select at least one valid day.");
-
             const responses = await Promise.all(
                 rows.map(async (row) => {
                     const beat_id =
@@ -355,14 +406,12 @@ const MtpTourPlanScreen = () => {
                         m => m.reporting_to_name === row.working
                     );
                     const joint_id = plan_type === "joint" ? selectedMember?.reporting_to || null : null;
-
-
                     const payload = {
-                        id: row.plan_id || null, // ✅ Agar ID hai to update karo
+                        id: row.plan_id || null,
                         user_id: empid,
                         beat_id,
                         outlet_date,
-                        status: "P",
+                        status: row.plan_id ? row.status : "P",
                         plan_type,
                         joint_id,
                         comments: row.remarks || "",
@@ -397,7 +446,7 @@ const MtpTourPlanScreen = () => {
                 if (isUpdate) {
                     alert("MTP Tour Plan updated successfully!");
                 } else {
-                    alert("All MTP Tour Plans submitted successfully!");
+                    alert("MTP Tour Plans submitted successfully!");
                 }
                 navigation.goBack();
             } else {
@@ -414,11 +463,16 @@ const MtpTourPlanScreen = () => {
         }
     };
 
-
-
     return (
         <View style={{ flex: 1, padding: 10 }}>
             {/* Month & Status dropdowns */}
+            <View style={{ flexDirection: "row", marginBottom: 2 }}>
+                <TouchableOpacity style={[MtpTourPlanStyles.pendingButton, { alignSelf: "flex-start", marginBottom: 8 }]} onPress={openModal}>
+                    <Text style={MtpTourPlanStyles.pendingText}>Team</Text>
+                </TouchableOpacity>
+
+                <Text style={{ marginBottom: 5, color: '#000000', fontWeight: "bold" }}>{selectedTeam}</Text>
+            </View>
             <View
                 style={MtpTourPlanStyles.dropdown}
             >
@@ -437,14 +491,14 @@ const MtpTourPlanScreen = () => {
                         data={years}
                         placeholder="Year"
                     />
-                    <Text style={{ marginLeft: 10 }}>Status: {currentStatus || ""}</Text>
+                    {/* <Text style={{ marginLeft: 10 }}>Status: {currentStatus || ""}</Text> */}
                 </View>
 
                 <TouchableOpacity
                     onPress={handleSubmit}
                     style={[
                         MtpTourPlanStyles.smallButton,
-                        { backgroundColor: "gray", paddingHorizontal: 14 },
+                        { backgroundColor: "gray", paddingHorizontal: 20 },
                     ]}
                 >
                     <Text style={MtpTourPlanStyles.smallButtonText}>Submit</Text>
@@ -459,6 +513,56 @@ const MtpTourPlanScreen = () => {
                 <Text style={MtpTourPlanStyles.headerCol}>Remarks</Text>
             </View>
 
+            <Modal
+                transparent={true}
+                visible={modalVisible1}
+                animationType="fade"
+                onRequestClose={() => setModalVisible1(false)}
+            >
+                <View style={MtpTourPlanStyles.modalOverlay4}>
+                    <View style={MtpTourPlanStyles.dropdownContainer4}>
+
+                        {/* Beautiful Close Button */}
+                        <TouchableOpacity
+                            onPress={() => setModalVisible1(false)}
+                            style={MtpTourPlanStyles.modal1}
+                        >
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#333' }}>×</Text>
+                        </TouchableOpacity>
+
+                        {/* Modal Content */}
+                        {loading ? (
+                            <ActivityIndicator size="medium" color="#0000ff" style={{ marginTop: 50 }} />
+                        ) : (
+                            <ScrollView style={{ marginTop: 50 }}>
+                                {teamLists.length > 0 ? (
+                                    teamLists.map((team, index) => (
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={MtpTourPlanStyles.option4}
+                                            onPress={() => {
+                                                setSelectedTeam(team.reporting_person_name);
+                                                setSelectedTeamId(team.emp_id);
+                                                setModalVisible1(false);
+                                                fetchSubmittedPlans();
+                                            }}
+
+                                        >
+                                            <Text style={MtpTourPlanStyles.optionText4}>
+                                                {team.reporting_person_name}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    ))
+                                ) : (
+                                    <Text style={{ textAlign: 'center', padding: 10 }}>
+
+                                    </Text>
+                                )}
+                            </ScrollView>
+                        )}
+                    </View>
+                </View>
+            </Modal>
 
             <FlatList
                 data={calendarData}
@@ -466,30 +570,37 @@ const MtpTourPlanScreen = () => {
                 renderItem={({ item }) => {
                     let rowStyle = {};
 
-                    if (item.disabled) {
-                        // Agar row already disabled (weekend), gray
-                        rowStyle = { backgroundColor: "#f5f5f5", opacity: 0.5 };
-                    }
+                    // Weekend / leave / holiday coloring for entire row background
+                    if (item.disabled) rowStyle = { backgroundColor: "#f5f5f5", opacity: 0.5 };
+                    if (item.leave) rowStyle = { backgroundColor: "yellow" };
+                    if (item.holiday) rowStyle = { backgroundColor: "#FFB6C1" };
 
-                    if (item.leave) {
-                        // Leave row, yellow
-                        rowStyle = { backgroundColor: "yellow" };
-                    }
-                    if (item.holiday) {
-                        rowStyle = { backgroundColor: "#FFB6C1" }; // Light red for holiday
-                    }
+                    // ✅ Decide status color for first two cells only
+                    let statusColor = "transparent";
+                    if (item.status === "P") statusColor = "orange";   // Pending
+                    if (item.status === "R") statusColor = "red";      // Rejected
+                    if (item.status === "A") statusColor = "green";    // Approved
+
+                    const isRowDisabled = item.disabled || item.leave || item.status === "A";
 
                     return (
                         <View style={[MtpTourPlanStyles.row, rowStyle]}>
-                            <Text style={MtpTourPlanStyles.col}>{item.date}</Text>
-                            <Text style={MtpTourPlanStyles.col}>{item.day}</Text>
+                            {/* Date column with status color */}
+                            <Text style={[MtpTourPlanStyles.col, { backgroundColor: statusColor }]}>
+                                {item.date}
+                            </Text>
+
+                            {/* Day column with status color */}
+                            <Text style={[MtpTourPlanStyles.col, { backgroundColor: statusColor }]}>
+                                {item.day}
+                            </Text>
 
                             {/* Beat */}
                             <TouchableOpacity
                                 style={[MtpTourPlanStyles.input, { justifyContent: "center" }]}
-                                disabled={item.disabled || item.leave}
+                                disabled={isRowDisabled}
                                 onPress={() => {
-                                    if (!item.disabled && !item.leave) {
+                                    if (!isRowDisabled) {
                                         setActiveRowId(item.id);
                                         setShowBeatModal(true);
                                     }
@@ -501,9 +612,9 @@ const MtpTourPlanScreen = () => {
                             {/* Working */}
                             <TouchableOpacity
                                 style={[MtpTourPlanStyles.input, { justifyContent: "center" }]}
-                                disabled={item.disabled || item.leave}
+                                disabled={isRowDisabled}
                                 onPress={() => {
-                                    if (!item.disabled && !item.leave) {
+                                    if (!isRowDisabled) {
                                         setWorkingRowId(item.id);
                                         setShowWorkingModal(true);
                                     }
@@ -517,9 +628,9 @@ const MtpTourPlanScreen = () => {
                             {/* Remarks */}
                             <TouchableOpacity
                                 style={[MtpTourPlanStyles.input, { backgroundColor: "#eee" }]}
-                                disabled={item.disabled || item.leave}
+                                disabled={isRowDisabled}
                                 onPress={() => {
-                                    if (!item.disabled && !item.leave) openRemarksModal(item);
+                                    if (!isRowDisabled) openRemarksModal(item);
                                 }}
                             >
                                 <Text numberOfLines={1} ellipsizeMode="tail">
@@ -645,7 +756,5 @@ const MtpTourPlanScreen = () => {
         </View>
     );
 };
-
-
 
 export default MtpTourPlanScreen;

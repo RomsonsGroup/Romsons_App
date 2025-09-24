@@ -196,31 +196,30 @@ export default MtpApprovalStyle = (Colors) => StyleSheet.create({
     },
 
     approvedContainer: {
-        backgroundColor: Colors.light_green, // Light green background
+        backgroundColor: Colors.light_green,
         paddingVertical: 4,
         paddingHorizontal: 10,
-        borderRadius: 8, // Cute rounded corners
-        alignSelf: "flex-end", // Align to right
-        // marginTop: 5,
+        borderRadius: 8, 
+        alignSelf: "flex-end", 
     },
 
     rejectedContainer: {
-        backgroundColor: Colors.red, // Light green background
+        backgroundColor: Colors.red, 
         paddingVertical: 4,
         paddingHorizontal: 10,
-        borderRadius: 8, // Cute rounded corners
-        alignSelf: "flex-end", // Align to right
+        borderRadius: 8, 
+        alignSelf: "flex-end",
     },
 
     approvedText: {
         fontSize: 12,
-        color: Colors.green_color, // Dark green text
+        color: Colors.green_color,
         fontWeight: "bold",
     },
 
     rejectedText: {
         fontSize: 12,
-        color: Colors.black_text_color, // Dark green text
+        color: Colors.black_text_color,
         fontWeight: "bold",
     },
 

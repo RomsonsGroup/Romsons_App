@@ -49,18 +49,7 @@ export default MtpTourPlanStyle = (Colors) =>
         borderRadius: 7,
         fontSize: 12,
     },
-
-        // input: {
-        //     borderWidth: 1,
-        //     borderColor: Colors.blue_color,
-        //     paddingHorizontal: 8,
-        //     paddingVertical: 4,
-        //     marginHorizontal: 2,
-        //     borderRadius: 7,
-        //     fontSize: 12,
-        //     width: 100,          // ✅ Fix button width
-        //     overflow: 'hidden',  // ✅ Prevent content overflow
-        // },
+        
     modalOverlay: {
         flex: 1,
         backgroundColor: "rgba(0,0,0,0.5)",
@@ -121,6 +110,42 @@ export default MtpTourPlanStyle = (Colors) =>
         color: "#fff",
       },
       
+      pendingButton: {
+        backgroundColor: Colors.theme_background,
+        paddingVertical: 4,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        marginRight: 10,
+    },
+    pendingText: {
+      color: 'white',
+      fontSize: 14,
+      fontWeight: 'bold',
+  },
+
+  modalOverlay4: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dropdownContainer4: {
+    width: '90%',
+    maxHeight: '70%', // Limits the height to make room for scrolling
+    backgroundColor: Colors.diamond_color,
+    borderRadius: 10,
+    padding: 10,
+    elevation: 5,
+  },
+  option4: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.peach_orange,
+  },
+  optionText4: {
+    fontSize: 16,
+    color: Colors.black_text_color,
+  },
         
     });
 

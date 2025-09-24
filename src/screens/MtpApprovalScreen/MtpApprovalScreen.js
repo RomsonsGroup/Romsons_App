@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, Alert, Modal, loading, ScrollView } from "react-native";
 import { MtpApprovalStyle } from '../../styles/MtpApprovalStyle';
@@ -26,11 +27,9 @@ const MtpApprovalScreen = () => {
     const [selectedTeamId, setSelectedTeamId] = useState(null);
     const [MtpApprovedData, setMtpApprovedData] = useState([]);
     const [MtpRejectedData, setMtpRejectedData] = useState([]);
-    const [selectedBeatId, setSelectedBeatId] = useState(null);
     const [outlets, setOutlets] = useState([]);
     const [outletModalVisible, setOutletModalVisible] = useState(false);
-
-
+    
 
     const months = [
         { label: "Jan", value: 0 },
@@ -82,6 +81,7 @@ const MtpApprovalScreen = () => {
         await teamList();
 
     };
+    
     const teamList = async () => {
         const user = await AsyncStorage.getItem("userInfor");
         const empid = JSON.parse(user);
@@ -255,8 +255,8 @@ const MtpApprovalScreen = () => {
             const response = await fetch(`http://localhost:8091/MtpBeatidOutlet?beat_id=${beatId}`);
             const result = await response.json();
             if (!result.error) {
-                setOutlets(result.data[0].outlet_names.split(",")); // Comma se split karke array banaya
-                setOutletModalVisible(true); // Modal open karo
+                setOutlets(result.data[0].outlet_names.split(","));
+                setOutletModalVisible(true);
             }
         } catch (err) {
             console.error("Error fetching outlets:", err);
@@ -370,7 +370,6 @@ const MtpApprovalScreen = () => {
                     <TouchableOpacity style={[MtpApprovalStyles.pendingButton, { marginLeft: 15 }]} onPress={openModal}>
                         <Text style={MtpApprovalStyles.pendingText}>Team</Text>
                     </TouchableOpacity>
-
                 </View>
             </View>
             {/* <Spacing space={10} /> */}
@@ -470,7 +469,7 @@ const MtpApprovalScreen = () => {
                         <TouchableOpacity
                             onPress={() => setOutletModalVisible(false)}
                             style={{
-                                marginTop: 10, backgroundColor: "#2196F3",
+                                marginTop: 10, backgroundColor: "#1f7a2b",
                                 padding: 10, borderRadius: 5, alignSelf: "flex-end"
                             }}
                         >
