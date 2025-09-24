@@ -189,7 +189,7 @@ export default MtpReportStyle = (Colors) =>
 
     badgeText: {
       color: Colors.white_color,
-      fontSize: 13,
+      fontSize: 10,
       fontWeight: "bold",
     },
 

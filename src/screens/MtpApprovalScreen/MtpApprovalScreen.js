@@ -29,7 +29,7 @@ const MtpApprovalScreen = () => {
     const [MtpRejectedData, setMtpRejectedData] = useState([]);
     const [outlets, setOutlets] = useState([]);
     const [outletModalVisible, setOutletModalVisible] = useState(false);
-    
+
 
     const months = [
         { label: "Jan", value: 0 },
@@ -81,7 +81,7 @@ const MtpApprovalScreen = () => {
         await teamList();
 
     };
-    
+
     const teamList = async () => {
         const user = await AsyncStorage.getItem("userInfor");
         const empid = JSON.parse(user);

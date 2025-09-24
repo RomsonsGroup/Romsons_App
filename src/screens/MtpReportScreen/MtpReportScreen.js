@@ -30,6 +30,8 @@ const MtpReportScreen = () => {
     const [teamLists, setTeamLists] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState("");
     const [selectedTeamId, setSelectedTeamId] = useState(null);
+    const [outlets, setOutlets] = useState([]);
+    const [outletModalVisible, setOutletModalVisible] = useState(false);
 
     const months = [
         { label: "Jan", value: 0 }, { label: "Feb", value: 1 }, { label: "Mar", value: 2 },
@@ -108,6 +110,19 @@ const MtpReportScreen = () => {
                     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
                 })
             );
+        }
+    };
+
+    const fetchOutletsForBeat = async (beatId) => {
+        try {
+            const response = await fetch(`http://localhost:8091/MtpBeatidOutlet?beat_id=${beatId}`);
+            const result = await response.json();
+            if (!result.error) {
+                setOutlets(result.data[0].outlet_names.split(","));
+                setOutletModalVisible(true);
+            }
+        } catch (err) {
+            console.error("Error fetching outlets:", err);
         }
     };
 
@@ -197,6 +212,47 @@ const MtpReportScreen = () => {
                 </View>
             </Modal>
             <Text style={{ marginBottom: 5, color: '#000000', fontWeight: "bold" }}>{selectedTeam}</Text>
+
+            <Modal
+                visible={outletModalVisible}
+                transparent={true}
+                animationType="slide"
+                onRequestClose={() => setOutletModalVisible(false)}
+            >
+                <View style={{
+                    flex: 1, backgroundColor: "rgba(0,0,0,0.5)",
+                    justifyContent: "center", alignItems: "center"
+                }}>
+                    <View style={{
+                        backgroundColor: "#fff", padding: 20,
+                        borderRadius: 8, width: "60%", maxHeight: "70%"
+                    }}>
+                        <Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10 }}>
+                            Outlets
+                        </Text>
+                        <ScrollView>
+                            {outlets.length > 0 ? (
+                                outlets.map((outlet, idx) => (
+                                    <Text key={idx} style={{ marginBottom: 5, color: "#333" }}>
+                                        {outlet.trim()}
+                                    </Text>
+                                ))
+                            ) : (
+                                <Text>No Outlets Found</Text>
+                            )}
+                        </ScrollView>
+                        <TouchableOpacity
+                            onPress={() => setOutletModalVisible(false)}
+                            style={{
+                                marginTop: 10, backgroundColor: "#1f7a2b",
+                                padding: 10, borderRadius: 5, alignSelf: "flex-end"
+                            }}
+                        >
+                            <Text style={{ color: "#fff" }}>Close</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
             {/* Scrollable Dates and Records */}
             <ScrollView
                 style={{ flex: 1 }}
@@ -208,14 +264,14 @@ const MtpReportScreen = () => {
                     const status = records.length > 0 && records[0].status ? records[0].status : "";
                     const getStatusColor = (status) => {
                         switch (status) {
-                            case "A": // Approved
+                            case "A": 
                                 return "green";
-                            case "P": // Pending
+                            case "P":
                                 return "orange";
-                            case "R": // Rejected
+                            case "R":
                                 return "red";
                             default:
-                                return "#000"; // default black if needed
+                                return "#000";
                         }
                     };
                     return (
@@ -225,9 +281,9 @@ const MtpReportScreen = () => {
                                     MtpReportStyles.infoContainer,
                                     {
                                         backgroundColor: getHeaderColor(isoDate),
-                                        flexDirection: "row",          // ✅ Row layout
+                                        flexDirection: "row",
                                         alignItems: "center",
-                                        justifyContent: "center",         // ✅ Center vertically
+                                        justifyContent: "center",
                                     },
                                 ]}
                             >
@@ -258,10 +314,12 @@ const MtpReportScreen = () => {
                                             elevation: 3,
                                         }}
                                     >
-                                        <Text style={{ fontSize: 14, fontWeight: "bold" }}>
-                                            <Text style={{ color: "black", fontSize: 13 }}>Beat Name: </Text>
-                                            <Text style={{ color: "green", fontSize: 12 }}>{res.beat_name}</Text>
-                                        </Text>
+                                        <TouchableOpacity onPress={() => fetchOutletsForBeat(res.beat_id)}>
+                                            <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+                                                <Text style={{ color: "black", fontSize: 13 }}>Beat Name: </Text>
+                                                <Text style={{ color: "green", fontSize: 12, color: "green", textDecorationLine: "underline" }}>{res.beat_name}</Text>
+                                            </Text>
+                                        </TouchableOpacity>
                                         <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 4 }}>
                                             <Text style={{ fontSize: 14, fontWeight: "bold" }}>
                                                 <Text style={{ color: "black", fontSize: 13 }}>Call Type: </Text>
