@@ -24,7 +24,7 @@ const DaysummaryScreen = () => {
   const [modalVisible1, setModalVisible1] = useState(false);
   const [teamLists, setTeamLists] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState("");
-  const [selectedTeamId, setSelectedTeamId] = useState(null); // Manager’s selected team member ID
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
 
   const openModal = async () => {
     setModalVisible1(true);

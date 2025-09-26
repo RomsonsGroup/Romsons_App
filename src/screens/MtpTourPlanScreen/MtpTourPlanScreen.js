@@ -544,7 +544,7 @@ const MtpTourPlanScreen = () => {
                                                 setSelectedTeam(team.reporting_person_name);
                                                 setSelectedTeamId(team.emp_id);
                                                 setModalVisible1(false);
-                                                fetchSubmittedPlans();
+                                                // fetchSubmittedPlans();
                                             }}
 
                                         >
