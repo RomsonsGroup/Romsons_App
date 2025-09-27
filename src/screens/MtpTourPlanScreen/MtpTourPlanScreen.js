@@ -342,7 +342,6 @@ const MtpTourPlanScreen = () => {
         AssignedBeat();
     }, []);
 
-
     const AssignedBeat = async () => {
         const user = await AsyncStorage.getItem("userInfor");
         const empid = JSON.parse(user);
