@@ -42,7 +42,7 @@ const LeaveRequestsScreen = () => {
         }),
       };
 
-      const response = await fetch("https://crm.romsons.com:8080/Leavestatuslist", requestOptions);
+      const response = await fetch("https://devcrm.romsons.com:8080/Leavestatuslist", requestOptions);
       const result = await response.json();
 
       if (!result.error) {

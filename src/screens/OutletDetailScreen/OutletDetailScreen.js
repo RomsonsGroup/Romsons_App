@@ -171,7 +171,7 @@ const OutletDetailScreen = ({ route }) => {
     };
 
     axios
-      .post("https://crm.romsons.com:8080/SelectedOutlet", requestData, {
+      .post("https://devcrm.romsons.com:8080/SelectedOutlet", requestData, {
         headers: {
           "Content-Type": "application/json", // Set headers for the request
         },
@@ -218,7 +218,7 @@ const OutletDetailScreen = ({ route }) => {
       setReportingModalVisible(true);
       setLoading(true);
 
-      const response = await fetch("https://crm.romsons.com:8080/Reporting_hierarchy", requestOptions);
+      const response = await fetch("https://devcrm.romsons.com:8080/Reporting_hierarchy", requestOptions);
       const result = await response.json();
 
       if (result.error === false) {
@@ -253,7 +253,7 @@ const OutletDetailScreen = ({ route }) => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/Dealernamelist", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/Dealernamelist", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -286,7 +286,7 @@ const OutletDetailScreen = ({ route }) => {
         redirect: "follow"
       };
 
-      const response = await fetch("https://crm.romsons.com:8080/LastTwovisit_OrderHistory", requestOptions);
+      const response = await fetch("https://devcrm.romsons.com:8080/LastTwovisit_OrderHistory", requestOptions);
       const result = await response.json();
 
       if (result.error === false) {
@@ -598,7 +598,7 @@ const OutletDetailScreen = ({ route }) => {
     };
 
     try {
-      const response = await fetch("https://crm.romsons.com:8080/jioAddress", requestOptions);
+      const response = await fetch("https://devcrm.romsons.com:8080/jioAddress", requestOptions);
       const result = await response.json();
 
       if (result.error === false) {

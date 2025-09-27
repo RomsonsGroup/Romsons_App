@@ -27,7 +27,7 @@ const RegulizationScreen = () => {
             const user = await AsyncStorage.getItem("userInfor");
             const empid = JSON.parse(user);
 
-            const response = await fetch("https://crm.romsons.com:8080/getPendingRegularizations", {
+            const response = await fetch("https://devcrm.romsons.com:8080/getPendingRegularizations", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -78,7 +78,7 @@ const RegulizationScreen = () => {
             };
             console.log("Sent payload:", payload);
 
-            const response = await fetch("https://crm.romsons.com:8080/Regulizationidapproval", {
+            const response = await fetch("https://devcrm.romsons.com:8080/Regulizationidapproval", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -124,7 +124,7 @@ const RegulizationScreen = () => {
                 return;
             }
 
-            const response = await fetch("https://crm.romsons.com:8080/Regulizationidrejected", {
+            const response = await fetch("https://devcrm.romsons.com:8080/Regulizationidrejected", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -155,7 +155,7 @@ const RegulizationScreen = () => {
             const user = await AsyncStorage.getItem("userInfor");
             const empid = JSON.parse(user);
 
-            const response = await fetch("https://crm.romsons.com:8080/ApprovedRegularizationList", {
+            const response = await fetch("https://devcrm.romsons.com:8080/ApprovedRegularizationList", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ "empidd": empid[0].emp_id }),
@@ -188,7 +188,7 @@ const RegulizationScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://crm.romsons.com:8080/RejectedRegularizationList", requestOptions)
+        fetch("https://devcrm.romsons.com:8080/RejectedRegularizationList", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {

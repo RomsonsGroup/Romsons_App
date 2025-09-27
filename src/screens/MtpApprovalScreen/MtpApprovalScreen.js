@@ -99,7 +99,7 @@ const MtpApprovalScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://crm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -119,7 +119,7 @@ const MtpApprovalScreen = () => {
             const empid = JSON.parse(user);
 
             const response = await fetch(
-                `https://crm.romsons.com:8080/MtpPendingList?empidd=${empid[0].emp_id}&month=${month + 1}&year=${year}`
+                `https://devcrm.romsons.com:8080/MtpPendingList?empidd=${empid[0].emp_id}&month=${month + 1}&year=${year}`
             );
             const result = await response.json();
 
@@ -142,7 +142,7 @@ const MtpApprovalScreen = () => {
         if (selectedIds.length === 0) return alert("Please select at least one MTP to approve.");
 
         try {
-            const response = await fetch("https://crm.romsons.com:8080/MtpApprovedIdBy", {
+            const response = await fetch("https://devcrm.romsons.com:8080/MtpApprovedIdBy", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -181,7 +181,7 @@ const MtpApprovalScreen = () => {
             redirect: "follow"
         };
 
-        fetch(`https://crm.romsons.com:8080/MtpApprovedList?empidd=${empid[0].emp_id}&month=${selectedMonth + 1}&year=${selectedYear}`, requestOptions)
+        fetch(`https://devcrm.romsons.com:8080/MtpApprovedList?empidd=${empid[0].emp_id}&month=${selectedMonth + 1}&year=${selectedYear}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, 'approved list');
@@ -203,7 +203,7 @@ const MtpApprovalScreen = () => {
         if (selectedIds.length === 0) return alert("Please select at least one MTP to approve.");
 
         try {
-            const response = await fetch("https://crm.romsons.com:8080/MtpRejectedIdBy", {
+            const response = await fetch("https://devcrm.romsons.com:8080/MtpRejectedIdBy", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -238,7 +238,7 @@ const MtpApprovalScreen = () => {
             redirect: "follow"
         };
 
-        fetch(`https://crm.romsons.com:8080/MtpRejectedList?empidd=${empid[0].emp_id}&month=${selectedMonth + 1}&year=${selectedYear}`, requestOptions)
+        fetch(`https://devcrm.romsons.com:8080/MtpRejectedList?empidd=${empid[0].emp_id}&month=${selectedMonth + 1}&year=${selectedYear}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, 'approved list');
@@ -252,7 +252,7 @@ const MtpApprovalScreen = () => {
 
     const fetchOutletsForBeat = async (beatId) => {
         try {
-            const response = await fetch(`https://crm.romsons.com:8080/MtpBeatidOutlet?beat_id=${beatId}`);
+            const response = await fetch(`https://devcrm.romsons.com:8080/MtpBeatidOutlet?beat_id=${beatId}`);
             const result = await response.json();
             if (!result.error) {
                 setOutlets(result.data[0].outlet_names.split(","));

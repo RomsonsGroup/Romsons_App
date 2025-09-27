@@ -121,7 +121,7 @@ const MtpTourPlanScreen = () => {
             }
 
             const response = await fetch(
-                `https://crm.romsons.com:8080/GetEmployeeLeaves?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`
+                `https://devcrm.romsons.com:8080/GetEmployeeLeaves?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`
             );
             const result = await response.json();
 
@@ -178,7 +178,7 @@ const MtpTourPlanScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://crm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -202,7 +202,7 @@ const MtpTourPlanScreen = () => {
             }
 
             const response = await fetch(
-                `https://crm.romsons.com:8080/GetHolidays?state_id=${effectiveStateId}&month=${month}&year=${year}`
+                `https://devcrm.romsons.com:8080/GetHolidays?state_id=${effectiveStateId}&month=${month}&year=${year}`
             );
             const result = await response.json();
             console.log(result, "holidays comeee");
@@ -240,7 +240,7 @@ const MtpTourPlanScreen = () => {
             }
 
             const response = await fetch(
-                `https://crm.romsons.com:8080/GetMtpTourPlan?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`
+                `https://devcrm.romsons.com:8080/GetMtpTourPlan?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`
             );
             const result = await response.json();
             console.log(result, "API response");
@@ -316,7 +316,7 @@ const MtpTourPlanScreen = () => {
             const user = await AsyncStorage.getItem("userInfor");
             const empid = JSON.parse(user);
 
-            const response = await fetch("https://crm.romsons.com:8080/Reporting_hierarchy", {
+            const response = await fetch("https://devcrm.romsons.com:8080/Reporting_hierarchy", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ empid: empid[0].emp_id }),
@@ -351,7 +351,7 @@ const MtpTourPlanScreen = () => {
             redirect: "follow"
         };
 
-        fetch(`https://crm.romsons.com:8080/MtpTourPlanBeat?empidd=${empid[0].emp_id}`, requestOptions)
+        fetch(`https://devcrm.romsons.com:8080/MtpTourPlanBeat?empidd=${empid[0].emp_id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, 'poohgshshs');
@@ -420,7 +420,7 @@ const MtpTourPlanScreen = () => {
                     console.log("Submitting payload carefully:", payload);
 
                     try {
-                        const res = await fetch("https://crm.romsons.com:8080/InsertMtpTourPlan", {
+                        const res = await fetch("https://devcrm.romsons.com:8080/InsertMtpTourPlan", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload),
@@ -529,8 +529,7 @@ const MtpTourPlanScreen = () => {
                         >
                             <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#333' }}>×</Text>
                         </TouchableOpacity>
-
-                        {/* Modal Content */}
+                        
                         {loading ? (
                             <ActivityIndicator size="medium" color="#0000ff" style={{ marginTop: 50 }} />
                         ) : (

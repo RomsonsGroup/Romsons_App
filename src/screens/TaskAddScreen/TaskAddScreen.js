@@ -48,7 +48,7 @@ const TaskAddScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://crm.romsons.com:8080/GetPendingTaskDates", requestOptions)
+        fetch("https://devcrm.romsons.com:8080/GetPendingTaskDates", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 // console.log('poojabhbdhddh', result);
@@ -125,7 +125,7 @@ const TaskAddScreen = () => {
         };
 
         try {
-            const response = await fetch("https://crm.romsons.com:8080/GetFollowUpActivities", requestOptions);
+            const response = await fetch("https://devcrm.romsons.com:8080/GetFollowUpActivities", requestOptions);
             const result = await response.json();
             // console.log('nhjughhh', result);
 
@@ -159,7 +159,7 @@ const TaskAddScreen = () => {
         };
 
         try {
-            const response = await fetch("https://crm.romsons.com:8080/UpdateMultipleFollowUpTasks", requestOptions);
+            const response = await fetch("https://devcrm.romsons.com:8080/UpdateMultipleFollowUpTasks", requestOptions);
             const result = await response.json();
             // console.log("Updated:", result);
             if (result.error === false) {

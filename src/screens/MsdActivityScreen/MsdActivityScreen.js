@@ -234,7 +234,7 @@ const MsdActivityScreen = ({ route }) => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://crm.romsons.com:8080/ActivityHospital", requestOptions);
+            const response = await fetch("https://devcrm.romsons.com:8080/ActivityHospital", requestOptions);
             const result = await response.json();
 
             if (result.error === false) {
@@ -313,7 +313,7 @@ const MsdActivityScreen = ({ route }) => {
             redirect: "follow"
         };
 
-        fetch("https://crm.romsons.com:8080/outlet_activity", requestOptions)
+        fetch("https://devcrm.romsons.com:8080/outlet_activity", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result);
@@ -341,7 +341,7 @@ const MsdActivityScreen = ({ route }) => {
             redirect: "follow"
         };
 
-        fetch("https://crm.romsons.com:8080/skulisthospital", requestOptions)
+        fetch("https://devcrm.romsons.com:8080/skulisthospital", requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 let arr = JSON.parse(result);

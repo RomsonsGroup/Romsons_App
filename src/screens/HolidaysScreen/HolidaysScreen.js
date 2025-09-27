@@ -42,7 +42,7 @@ const HolidaysScreen = () => {
     };
 
     try {
-      const response = await fetch("https://crm.romsons.com:8080/HolidayList", requestOptions);
+      const response = await fetch("https://devcrm.romsons.com:8080/HolidayList", requestOptions);
       const result = await response.json();
       setHolidays(result.data);  // Assuming the response structure has a `data` field
     } catch (error) {

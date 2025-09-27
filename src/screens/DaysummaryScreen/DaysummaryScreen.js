@@ -55,7 +55,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/ManagerTeam", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -115,7 +115,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/TaskShowDaysummary", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/TaskShowDaysummary", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -143,7 +143,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/EODAttendancebutton", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/EODAttendancebutton", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -171,7 +171,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/EODOrderbutton", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/EODOrderbutton", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -199,7 +199,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/ActivityDatabutton", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/ActivityDatabutton", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -231,7 +231,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/EodReturnbutton", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/EodReturnbutton", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {

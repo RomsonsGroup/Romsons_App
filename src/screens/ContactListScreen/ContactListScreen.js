@@ -41,7 +41,7 @@ const ContactListScreen = ({ route }) => {
             redirect: "follow",
         };
 
-        fetch("https://crm.romsons.com:8080/hospitalContact", requestOptions)
+        fetch("https://devcrm.romsons.com:8080/hospitalContact", requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 let arr = JSON.parse(result);

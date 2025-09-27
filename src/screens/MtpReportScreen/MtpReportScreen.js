@@ -70,7 +70,7 @@ const MtpReportScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://crm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -85,7 +85,7 @@ const MtpReportScreen = () => {
     const GetMtpMonthWiseData = async () => {
         const user = JSON.parse(await AsyncStorage.getItem("userInfor"));
         const empid = selectedTeamId || user[0].emp_id;
-        const res = await fetch(`https://crm.romsons.com:8080/GetMtpTourPlan?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`);
+        const res = await fetch(`https://devcrm.romsons.com:8080/GetMtpTourPlan?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`);
         const result = await res.json();
         if (!result.error) setGetmtpdata(result.data);
     };
@@ -97,11 +97,11 @@ const MtpReportScreen = () => {
         const stId = user[0].state_id;
         setStateId(stId);
 
-        const holRes = await fetch(`https://crm.romsons.com:8080/GetHolidays?state_id=${stId}&month=${selectedMonth + 1}&year=${selectedYear}`);
+        const holRes = await fetch(`https://devcrm.romsons.com:8080/GetHolidays?state_id=${stId}&month=${selectedMonth + 1}&year=${selectedYear}`);
         const holData = await holRes.json();
         if (!holData.error) setHolidayDates(holData.data.map(h => h.date));
 
-        const leaveRes = await fetch(`https://crm.romsons.com:8080/GetEmployeeLeaves?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`);
+        const leaveRes = await fetch(`https://devcrm.romsons.com:8080/GetEmployeeLeaves?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`);
         const leaveData = await leaveRes.json();
         if (!leaveData.error) {
             setLeaveDates(
@@ -115,7 +115,7 @@ const MtpReportScreen = () => {
 
     const fetchOutletsForBeat = async (beatId) => {
         try {
-            const response = await fetch(`https://crm.romsons.com:8080/MtpBeatidOutlet?beat_id=${beatId}`);
+            const response = await fetch(`https://devcrm.romsons.com:8080/MtpBeatidOutlet?beat_id=${beatId}`);
             const result = await response.json();
             if (!result.error) {
                 setOutlets(result.data[0].outlet_names.split(","));

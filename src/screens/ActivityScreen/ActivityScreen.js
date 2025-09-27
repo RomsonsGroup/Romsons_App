@@ -174,7 +174,7 @@ export default ActivityScreen;
 //         redirect: "follow",
 //       };
 
-//       fetch("https://crm.romsons.com:8080/outlet_activity", requestOptions)
+//       fetch("https://devcrm.romsons.com:8080/outlet_activity", requestOptions)
 //         .then((response) => response.json()) // Parse response as JSON
 //         .then((result) => {
 //           console.log(result); // Log the result to check
@@ -219,7 +219,7 @@ export default ActivityScreen;
 //   redirect: "follow"
 // };
 
-// fetch("https://crm.romsons.com:8080/retail_activity", requestOptions)
+// fetch("https://devcrm.romsons.com:8080/retail_activity", requestOptions)
 //   .then((response) => response.json())
 //   .then((result) => {
 //     console.log(result, 'sennnnddddd');

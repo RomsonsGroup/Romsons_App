@@ -25,7 +25,7 @@ const ApprovalScreen = () => {
       const user = await AsyncStorage.getItem("userInfor");
       const empid = JSON.parse(user);
 
-      const response = await fetch("https://crm.romsons.com:8080/Leaveapproval", {
+      const response = await fetch("https://devcrm.romsons.com:8080/Leaveapproval", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -60,7 +60,7 @@ const ApprovalScreen = () => {
         return;
       }
 
-      const response = await fetch("https://crm.romsons.com:8080/Leaveidapproval", {
+      const response = await fetch("https://devcrm.romsons.com:8080/Leaveidapproval", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -100,7 +100,7 @@ const ApprovalScreen = () => {
         return;
       }
 
-      const response = await fetch("https://crm.romsons.com:8080/LeaveidRejection", {
+      const response = await fetch("https://devcrm.romsons.com:8080/LeaveidRejection", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -130,7 +130,7 @@ const ApprovalScreen = () => {
       const user = await AsyncStorage.getItem("userInfor");
       const empid = JSON.parse(user);
 
-      const response = await fetch("https://crm.romsons.com:8080/Leaveapprovallist", {
+      const response = await fetch("https://devcrm.romsons.com:8080/Leaveapprovallist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ "empidd": empid[0].emp_id }),
@@ -163,7 +163,7 @@ const ApprovalScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/Leaverejectedlist", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/Leaverejectedlist", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {

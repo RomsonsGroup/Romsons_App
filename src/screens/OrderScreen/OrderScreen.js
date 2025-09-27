@@ -348,7 +348,7 @@ const OrderScreen = ({ route }) => {
         redirect: "follow",
       };
 
-      const response = await fetch("https://crm.romsons.com:8080/orderfilleds", requestOptions);
+      const response = await fetch("https://devcrm.romsons.com:8080/orderfilleds", requestOptions);
       const result = await response.json();
       console.log("Server Responseffff:", result);
       setLoading(false);
@@ -415,7 +415,7 @@ const OrderScreen = ({ route }) => {
         redirect: "follow",
       };
 
-      const response = await fetch("https://crm.romsons.com:8080/orderreturn", requestOptions);
+      const response = await fetch("https://devcrm.romsons.com:8080/orderreturn", requestOptions);
       const result = await response.json();
       setLoading(false);
       // Display success alert
@@ -474,7 +474,7 @@ const OrderScreen = ({ route }) => {
         redirect: "follow",
       };
 
-      const response = await fetch("https://crm.romsons.com:8080/skulist", requestOptions);
+      const response = await fetch("https://devcrm.romsons.com:8080/skulist", requestOptions);
       const result = await response.json();
 
       if (result.error === false) {

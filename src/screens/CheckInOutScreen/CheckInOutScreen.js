@@ -62,7 +62,7 @@ const CheckInOutScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://crm.romsons.com:8080/monthlyAttendance", requestOptions)
+    fetch("https://devcrm.romsons.com:8080/monthlyAttendance", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error === false) {
@@ -204,7 +204,7 @@ const CheckInOutScreen = () => {
   //         redirect: "follow"
   //       };
 
-  //       fetch("https://crm.romsons.com:8080/attendance_regulization", requestOptions)
+  //       fetch("https://devcrm.romsons.com:8080/attendance_regulization", requestOptions)
   //         .then((response) => response.json())
   //         .then((result) => {
   //           if (result.error === false) {
@@ -266,7 +266,7 @@ const CheckInOutScreen = () => {
         redirect: "follow",
       };
     
-      fetch("https://crm.romsons.com:8080/attendance_regulization", requestOptions)
+      fetch("https://devcrm.romsons.com:8080/attendance_regulization", requestOptions)
         .then(async (response) => response.json())
         .then(async (result) => {
           if (result.error === false) {
