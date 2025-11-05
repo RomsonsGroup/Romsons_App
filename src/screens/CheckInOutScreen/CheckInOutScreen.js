@@ -11,6 +11,7 @@ import { Spacing } from "../../components";
 import moment from 'moment';  // Import moment here
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import API_URL from "../../config/api_url";
 
 const CheckInOutScreen = () => {
   const { t } = useTranslation();
@@ -62,7 +63,7 @@ const CheckInOutScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/monthlyAttendance", requestOptions)
+    fetch(API_URL.MY_CALENDER_URL.MONTHLY_ATTENDANCE_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error === false) {
@@ -181,57 +182,6 @@ const CheckInOutScreen = () => {
     setSelectedPunchItem(null);
   };
 
-  //   const handleSubmit = () => {
-  //     if (selectedPunchItem) {
-  //       setReasonData(prevState => ({
-  //         ...prevState,
-  //         [selectedPunchItem.punch_date]: reasonData
-  //       }));
-
-  //       const myHeaders = new Headers();
-  //       myHeaders.append("Content-Type", "application/json");
-
-  //       const raw = JSON.stringify({
-  //         "emp_id": selectedPunchItem.emp_id,
-  //         "Request_Remarks": reasonData,
-  //         "requestDate": moment(selectedPunchItem.punch_date).format("YYYY-MM-DD")
-  //       });
-
-  //       const requestOptions = {
-  //         method: "POST",
-  //         headers: myHeaders,
-  //         body: raw,
-  //         redirect: "follow"
-  //       };
-
-  //       fetch("https://devcrm.romsons.com:8080/attendance_regulization", requestOptions)
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           if (result.error === false) {
-  //             console.log("Regularization request submitted successfully", result);
-  //             alert(result.data);
-  //             const updatedRegularizedDates = [...regularizedDates, selectedPunchItem.punch_date];
-  //             AsyncStorage.setItem('regularizedDates', JSON.stringify(updatedRegularizedDates));
-  //             // ✅ UI ko turant update karo (manual underline)
-  //             setRegularizedDates(updatedRegularizedDates);
-  //             monthlyInOutList();
-
-  //             // ✅ Fresh API data ke liye list update karo
-
-  //           } else {
-  //             alert(result.data || "Failed to submit regularization request.");
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error:", error);
-  //           alert("An error occurred while submitting the request.");
-  //         });
-
-  //       setModalVisible(null);
-  //       setShowInput(null);
-  //     }
-  // };
-
   const handleSubmit = async () => {
     if (selectedPunchItem) {
       const today = new Date();
@@ -266,7 +216,7 @@ const CheckInOutScreen = () => {
         redirect: "follow",
       };
     
-      fetch("https://devcrm.romsons.com:8080/attendance_regulization", requestOptions)
+      fetch(API_URL.MY_CALENDER_URL.ATTENDANCE_REGULARIZATION_URL, requestOptions)
         .then(async (response) => response.json())
         .then(async (result) => {
           if (result.error === false) {

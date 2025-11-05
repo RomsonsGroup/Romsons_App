@@ -21,6 +21,7 @@ import Share from "react-native-share";
 import RNFS from "react-native-fs";
 import { msdActivity, setResetMsdActivity } from "../../redux/action/orderActions";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import API_URL from '../../config/api_url';
 
 const MsdActivityScreen = ({ route }) => {
     const { customer_name, customer_contact_no, hospital_name, outlet_category_name, outlet_id, customer_department, user_type } = route.params;
@@ -234,7 +235,7 @@ const MsdActivityScreen = ({ route }) => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/ActivityHospital", requestOptions);
+            const response = await fetch(API_URL.MSD_ACTIVITY_URLS.ACTIVITY_HOSTIPTAL_URL, requestOptions);
             const result = await response.json();
 
             if (result.error === false) {
@@ -313,7 +314,7 @@ const MsdActivityScreen = ({ route }) => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/outlet_activity", requestOptions)
+        fetch(API_URL.MSD_ACTIVITY_URLS.OUTLET_ACTIVITY_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result);
@@ -341,7 +342,7 @@ const MsdActivityScreen = ({ route }) => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/skulisthospital", requestOptions)
+        fetch(API_URL.MSD_ACTIVITY_URLS.SKU_LIST_HOSTIPTAL_URL, requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 let arr = JSON.parse(result);

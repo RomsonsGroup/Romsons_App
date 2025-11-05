@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { darkTheme, lightTheme } from '../../utils';
 import { SH, SF } from '../../utils';
 import { useTranslation } from 'react-i18next';
+import API_URL from '../../config/api_url';
 
 const TeamScreen = () => {
     const isDarkMode = useSelector((state) => state.DarkReducer.isDarkMode);
@@ -38,7 +39,7 @@ const TeamScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/Teamlink", requestOptions);
+            const response = await fetch(API_URL.TEAM_URL.TEAM_LINK_URL, requestOptions);
 
             const result = await response.json();  // Use response.json() instead of text()
 

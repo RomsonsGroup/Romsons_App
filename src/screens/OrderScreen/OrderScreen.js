@@ -20,6 +20,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { Picker } from '@react-native-picker/picker';
 import { PickerIOS } from './PickerIOS';
 import { Divider } from "react-native-elements";
+import API_URL from "../../config/api_url";
 
 const OrderScreen = ({ route }) => {
   const { outletDetail } = route.params || {};
@@ -314,7 +315,6 @@ const OrderScreen = ({ route }) => {
 
       console.log(outletDetail, "outletDetail");
 
-
       const raw = JSON.stringify({
         outletID: outletDetail.outlet_id,
         pnumber: outletDetail.phone_number,
@@ -348,7 +348,7 @@ const OrderScreen = ({ route }) => {
         redirect: "follow",
       };
 
-      const response = await fetch("https://devcrm.romsons.com:8080/orderfilleds", requestOptions);
+      const response = await fetch(API_URL.ORDER_URL.ORDER_SUBMIT_URL, requestOptions);
       const result = await response.json();
       console.log("Server Responseffff:", result);
       setLoading(false);
@@ -415,7 +415,7 @@ const OrderScreen = ({ route }) => {
         redirect: "follow",
       };
 
-      const response = await fetch("https://devcrm.romsons.com:8080/orderreturn", requestOptions);
+      const response = await fetch(API_URL.ORDER_URL.ORDER_RETURN_URL, requestOptions);
       const result = await response.json();
       setLoading(false);
       // Display success alert
@@ -474,7 +474,7 @@ const OrderScreen = ({ route }) => {
         redirect: "follow",
       };
 
-      const response = await fetch("https://devcrm.romsons.com:8080/skulist", requestOptions);
+      const response = await fetch(API_URL.ORDER_URL.ORDER_SKULIST_URL, requestOptions);
       const result = await response.json();
 
       if (result.error === false) {

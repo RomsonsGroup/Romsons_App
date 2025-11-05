@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../../utils";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Spacing } from "../../components";
+import API_URL from "../../config/api_url";
 
 const ApprovalScreen = () => {
   const { t } = useTranslation();
@@ -25,7 +26,7 @@ const ApprovalScreen = () => {
       const user = await AsyncStorage.getItem("userInfor");
       const empid = JSON.parse(user);
 
-      const response = await fetch("https://devcrm.romsons.com:8080/Leaveapproval", {
+      const response = await fetch(API_URL.LEAVE_APPROVAL_URL.LEAVE_LIST_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -60,7 +61,7 @@ const ApprovalScreen = () => {
         return;
       }
 
-      const response = await fetch("https://devcrm.romsons.com:8080/Leaveidapproval", {
+      const response = await fetch(API_URL.LEAVE_APPROVAL_URL.LEAVE_ID_APPROVAL_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -100,7 +101,7 @@ const ApprovalScreen = () => {
         return;
       }
 
-      const response = await fetch("https://devcrm.romsons.com:8080/LeaveidRejection", {
+      const response = await fetch(API_URL.LEAVE_APPROVAL_URL.LEAVE_ID_REJECTION_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -130,7 +131,7 @@ const ApprovalScreen = () => {
       const user = await AsyncStorage.getItem("userInfor");
       const empid = JSON.parse(user);
 
-      const response = await fetch("https://devcrm.romsons.com:8080/Leaveapprovallist", {
+      const response = await fetch(API_URL.LEAVE_APPROVAL_URL.LEAVE_APPROVAL_LIST_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ "empidd": empid[0].emp_id }),
@@ -163,7 +164,7 @@ const ApprovalScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/Leaverejectedlist", requestOptions)
+    fetch(API_URL.LEAVE_APPROVAL_URL.LEAVE_REJECTED_LIST_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -246,7 +247,7 @@ const ApprovalScreen = () => {
           <Text style={ApprovalStyles.moduleName}>{formatDate(item.end_date)}</Text>
         </View>
         <Text style={ApprovalStyles.moduleName}>{item.leave_days} -- {item.leave_type} / Applied: {formatDate(item.enter_date)}</Text>
-        
+
         <Text style={ApprovalStyles.moduleName}>{item.leave_reason} / Approved Date: {formatDate(item.approved_date)}</Text>
         {selectedTab === "Accepted" && (
           <View style={ApprovalStyles.approvedContainer}>

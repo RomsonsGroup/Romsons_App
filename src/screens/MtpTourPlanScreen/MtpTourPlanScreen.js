@@ -17,6 +17,8 @@ import { useSelector } from 'react-redux';
 import { darkTheme, lightTheme } from '../../utils';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import API_URL from '../../config/api_url';
+
 
 const months = [
     { label: "Jan", value: 0 },
@@ -121,13 +123,13 @@ const MtpTourPlanScreen = () => {
             }
 
             const response = await fetch(
-                `https://devcrm.romsons.com:8080/GetEmployeeLeaves?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`
+                API_URL.MTP_WORKING_PLAN_URL.GET_EMPLOYEE_LEAVE_URL(empid, selectedMonth, selectedYear)
             );
             const result = await response.json();
 
             if (!result.error && result.data.length) {
                 const leaveDates = result.data.map(ld => {
-                    const d = new Date(ld.leave_date); // ensure Date object
+                    const d = new Date(ld.leave_date);
                     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                 });
 
@@ -178,7 +180,7 @@ const MtpTourPlanScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch(API_URL.MTP_WORKING_PLAN_URL.MANAGER_TEAM_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -202,7 +204,7 @@ const MtpTourPlanScreen = () => {
             }
 
             const response = await fetch(
-                `https://devcrm.romsons.com:8080/GetHolidays?state_id=${effectiveStateId}&month=${month}&year=${year}`
+                API_URL.MTP_WORKING_PLAN_URL.GET_HOLIDAYS_URL(effectiveStateId, month, year)
             );
             const result = await response.json();
             console.log(result, "holidays comeee");
@@ -240,7 +242,7 @@ const MtpTourPlanScreen = () => {
             }
 
             const response = await fetch(
-                `https://devcrm.romsons.com:8080/GetMtpTourPlan?empidd=${empid}&month=${selectedMonth + 1}&year=${selectedYear}`
+                API_URL.MTP_WORKING_PLAN_URL.GET_MTP_TOUR_PLAN_URL(empid, selectedMonth, selectedYear)
             );
             const result = await response.json();
             console.log(result, "API response");
@@ -316,7 +318,7 @@ const MtpTourPlanScreen = () => {
             const user = await AsyncStorage.getItem("userInfor");
             const empid = JSON.parse(user);
 
-            const response = await fetch("https://devcrm.romsons.com:8080/Reporting_hierarchy", {
+            const response = await fetch(API_URL.MTP_WORKING_PLAN_URL.REPORTING_HIERARCHY_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ empid: empid[0].emp_id }),
@@ -351,7 +353,7 @@ const MtpTourPlanScreen = () => {
             redirect: "follow"
         };
 
-        fetch(`https://devcrm.romsons.com:8080/MtpTourPlanBeat?empidd=${empid[0].emp_id}`, requestOptions)
+        fetch(API_URL.MTP_WORKING_PLAN_URL.MTP_TOUR_BEAT_PLAN(empid[0].emp_id), requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, 'poohgshshs');
@@ -420,7 +422,7 @@ const MtpTourPlanScreen = () => {
                     console.log("Submitting payload carefully:", payload);
 
                     try {
-                        const res = await fetch("https://devcrm.romsons.com:8080/InsertMtpTourPlan", {
+                        const res = await fetch(API_URL.MTP_WORKING_PLAN_URL.INSERT_MTP_PLAN_URL, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload),
@@ -529,7 +531,7 @@ const MtpTourPlanScreen = () => {
                         >
                             <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#333' }}>×</Text>
                         </TouchableOpacity>
-                        
+
                         {loading ? (
                             <ActivityIndicator size="medium" color="#0000ff" style={{ marginTop: 50 }} />
                         ) : (

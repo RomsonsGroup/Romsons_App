@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import CheckBox from '@react-native-community/checkbox';
 import { Spacing } from "../../components";
 import { HomeDropDown } from "../../components";
+import API_URL from '../../config/api_url';
+
 
 const MtpApprovalScreen = () => {
     const { t } = useTranslation();
@@ -99,7 +101,7 @@ const MtpApprovalScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch(API_URL.MTP_APPROVAL_URL.MANAGER_TEAM_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -119,7 +121,7 @@ const MtpApprovalScreen = () => {
             const empid = JSON.parse(user);
 
             const response = await fetch(
-                `https://devcrm.romsons.com:8080/MtpPendingList?empidd=${empid[0].emp_id}&month=${month + 1}&year=${year}`
+                API_URL.MTP_APPROVAL_URL.MTP_PENDING_LIST_URL(empid, month, year)
             );
             const result = await response.json();
 
@@ -142,7 +144,7 @@ const MtpApprovalScreen = () => {
         if (selectedIds.length === 0) return alert("Please select at least one MTP to approve.");
 
         try {
-            const response = await fetch("https://devcrm.romsons.com:8080/MtpApprovedIdBy", {
+            const response = await fetch(API_URL.MTP_APPROVAL_URL.MTP_APPROVE_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -181,7 +183,7 @@ const MtpApprovalScreen = () => {
             redirect: "follow"
         };
 
-        fetch(`https://devcrm.romsons.com:8080/MtpApprovedList?empidd=${empid[0].emp_id}&month=${selectedMonth + 1}&year=${selectedYear}`, requestOptions)
+        fetch(API_URL.MTP_APPROVAL_URL.MTP_APPROVED_LIST_URL(empid[0].emp_id, selectedMonth, selectedYear), requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, 'approved list');
@@ -203,7 +205,7 @@ const MtpApprovalScreen = () => {
         if (selectedIds.length === 0) return alert("Please select at least one MTP to approve.");
 
         try {
-            const response = await fetch("https://devcrm.romsons.com:8080/MtpRejectedIdBy", {
+            const response = await fetch(API_URL.MTP_APPROVAL_URL.MTP_REJECT_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -238,7 +240,7 @@ const MtpApprovalScreen = () => {
             redirect: "follow"
         };
 
-        fetch(`https://devcrm.romsons.com:8080/MtpRejectedList?empidd=${empid[0].emp_id}&month=${selectedMonth + 1}&year=${selectedYear}`, requestOptions)
+        fetch(API_URL.MTP_APPROVAL_URL.MTP_REJECTED_LIST_URL(empid[0].emp_id, month, year), requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, 'approved list');
@@ -252,7 +254,7 @@ const MtpApprovalScreen = () => {
 
     const fetchOutletsForBeat = async (beatId) => {
         try {
-            const response = await fetch(`https://devcrm.romsons.com:8080/MtpBeatidOutlet?beat_id=${beatId}`);
+            const response = await fetch(API_URL.MTP_APPROVAL_URL.MTP_BEAT_OUTLET_URL(beatId));
             const result = await response.json();
             if (!result.error) {
                 setOutlets(result.data[0].outlet_names.split(","));

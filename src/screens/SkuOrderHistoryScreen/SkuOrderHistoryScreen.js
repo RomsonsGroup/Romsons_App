@@ -10,6 +10,7 @@ import { RouteName } from '../../routes';
 import { SkuOrderScreen } from '../SkuOrderScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import API_URL from '../../config/api_url';
 
 const SkuOrderHistoryScreen = () => {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ const SkuOrderHistoryScreen = () => {
       const empid = JSON.parse(user);
 
       const response = await axios.post(
-        "https://devcrm.romsons.com:8080/skulist",
+        API_URL.SKU_HISTORY_URL.SKULIST_URL,
         {
           division: empid[0].division,
         },

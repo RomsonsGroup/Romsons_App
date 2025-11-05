@@ -9,13 +9,14 @@ import { Picker } from '@react-native-picker/picker';
 import { darkTheme, Fonts, lightTheme, SF, SH } from "../../utils";
 import { Spacing } from "../../components";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import API_URL from "../../config/api_url";
 
 const LeaveRequestsScreen = () => {
   const isDarkMode = useSelector(state => state.DarkReducer.isDarkMode);
   const Colors = isDarkMode ? darkTheme : lightTheme;
   const { t } = useTranslation();
-  const currentYear = new Date().getFullYear().toString(); 
-  const [selectedYear, setSelectedYear] = useState(currentYear);  
+  const currentYear = new Date().getFullYear().toString();
+  const [selectedYear, setSelectedYear] = useState(currentYear);
   const [leaveData, setLeaveData] = useState([]);
   const LeaveRequestsStyles = useMemo(() => LeaveRequestsStyle(Colors), [Colors]);
   const HolidaysStyles = useMemo(() => HolidaysStyle(Colors), [Colors]);
@@ -35,14 +36,14 @@ const LeaveRequestsScreen = () => {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           "empidd": empid[0].emp_id,
-           "year": selectedYear 
+          "year": selectedYear
 
         }),
       };
 
-      const response = await fetch("https://devcrm.romsons.com:8080/Leavestatuslist", requestOptions);
+      const response = await fetch(API_URL.LEAVE_STATUS_URL.LEAVE_STATUS_LIST_URL, requestOptions);
       const result = await response.json();
 
       if (!result.error) {
@@ -117,7 +118,7 @@ const LeaveRequestsScreen = () => {
                             item.leave_status === 'R' ? 'red' : 'gray',
                         paddingHorizontal: 10,
                         paddingVertical: 3,
-                        borderRadius: 30, 
+                        borderRadius: 30,
                         flex: 1,
                         marginLeft: 20,
                       }]}>

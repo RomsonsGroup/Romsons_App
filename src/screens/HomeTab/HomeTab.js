@@ -10,6 +10,7 @@ import images from '../../index';
 import { useSelector } from 'react-redux';
 import { Spacing, VectorIcon } from '../../components';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import API_URL from '../../config/api_url';
 
 
 const HomeTab = (props) => {
@@ -31,57 +32,11 @@ const HomeTab = (props) => {
   const [countPendingRegulization, setCountPendingRegulization] = useState(0);
   const [leavePendingCount, setLeavePendingCount] = useState(0)
 
-  // const checkUserStatus = async (navigation) => {
-  //   try {
-  //     const userInfo = await AsyncStorage.getItem("userInfor");
-  //     if (!userInfo) return;
-
-  //     const empId = JSON.parse(userInfo)[0]?.emp_id;
-  //     if (!empId) return;
-
-  //     const myHeaders = new Headers();
-  //     myHeaders.append("Content-Type", "application/json");
-
-  //     const raw = JSON.stringify({ empid: empId });
-
-  //     const requestOptions = {
-  //       method: "POST",
-  //       headers: myHeaders,
-  //       body: raw,
-  //       redirect: "follow"
-  //     };
-
-  //     const response = await fetch("https://devcrm.romsons.com:8080/checkStatus", requestOptions);
-  //     const result = await response.json();
-
-  //     if (result.status === 'I') {
-  //       Alert.alert(
-  //         "Account Inactive",
-  //         "Your ID is blocked. Please contact Support Admin.",
-  //         [{ text: "OK" }]
-  //       );
-  //       await AsyncStorage.clear();
-  //       navigation.replace(RouteName.LOGIN_SCREEN);
-  //     }
-
-  //   } catch (error) {
-  //     console.error("Error checking status:", error);
-
-  //   }
-  // };
-
-
-  // useEffect(() => {
-  //   checkUserStatus(navigation);
-  // }, []);
-
-
 
   useFocusEffect(
     useCallback(() => {
-      // This will be called when the screen comes into focus
       EodNotpunchin();
-    }, []) // Empty dependency array means this runs only when the screen is focused
+    }, [])
   );
 
 
@@ -89,7 +44,7 @@ const HomeTab = (props) => {
     setEodd(false)
     const user = JSON.parse(await AsyncStorage.getItem('userInfor'));
 
-    fetch(`https://devcrm.romsons.com:8080/EodNotPunchIn`, {
+    fetch(API_URL.HOMETAB_URL.NOT_PUNCH_IN_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -112,31 +67,6 @@ const HomeTab = (props) => {
       })
       .catch(error => console.error("Fetch error:", error));
   };
-
-  // const handleOutletClick = async () => {
-  //   if (eodd) {
-  //     Alert.alert(
-  //       'Submit Your Pending EOD Report',
-  //       'Do you want to submit EOD?',
-  //       [
-  //         {
-  //           text: 'Yes',
-  //           onPress: () => navigation.navigate(RouteName.EODSCREEN)
-  //         },
-  //         {
-  //           text: 'No',
-  //           style: 'cancel'
-  //         }
-  //       ],
-  //       { cancelable: false }
-  //     );
-  //   } else {
-  //     // Proceed with normal flow if eodd is false, maybe navigate elsewhere
-  //     navigation.navigate(RouteName.OUTLET);
-  //   }
-  // };
-
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -175,7 +105,7 @@ const HomeTab = (props) => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/punchInOutTime", requestOptions)
+    fetch(API_URL.HOMETAB_URL.PUNCH_IN_OUT_TIME_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -208,70 +138,6 @@ const HomeTab = (props) => {
   }, []);
 
 
-
-  // const handleLogout = () => {
-  //   Alert.alert(
-  //     "Confirmation",
-  //     "Are you sure you want to logout?",
-  //     [
-  //       {
-  //         text: "Cancel",
-  //         style: "cancel"
-  //       },
-  //       {
-  //         text: "OK",
-  //         onPress: () => performLogout()
-  //       }
-  //     ]
-  //   );
-  // };
-
-  // const performLogout = async () => {
-  //   try {
-  //     await AsyncStorage.removeItem("userInfor");  // Remove user data from storage
-  //     navigation.navigate(RouteName.LOGIN_SCREEN); // Navigate to login screen
-  //     console.log("User successfully logged out");
-  //   } catch (error) {
-  //     console.error("Logout Error: ", error);
-  //   }
-  // };
-
-
-
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     const backAction = () => {
-  //       if (exitConfirm) {
-  //         BackHandler.exitApp(); // ✅ Second back press pe app exit karega
-  //         return true;
-  //       }
-
-  //       Alert.alert("Exit App", "Are you sure you want to exit?", [
-  //         {
-  //           text: "Cancel",
-  //           onPress: () => setExitConfirm(false),
-  //           style: "cancel",
-  //         },
-  //         {
-  //           text: "Exit",
-  //           onPress: () => {
-  //             navigation.navigate(RouteName.LOGIN_SCREEN); // ✅ Pehle Login pe navigate
-  //             setExitConfirm(true); // ✅ Agli baar back kare toh exit ho
-  //           },
-  //         },
-  //       ]);
-
-  //       return true; // ✅ Prevent default back action
-  //     };
-
-  //     BackHandler.addEventListener("hardwareBackPress", backAction);
-
-  //     return () => BackHandler.removeEventListener("hardwareBackPress", backAction);
-  //   }, [exitConfirm])
-  // )
-
-
   const fetchPendingCount = async () => {
     const user = await AsyncStorage.getItem("userInfor");
     const empid = JSON.parse(user);
@@ -287,7 +153,7 @@ const HomeTab = (props) => {
     };
 
     try {
-      const response = await fetch("https://devcrm.romsons.com:8080/GetPendingTaskCount", requestOptions);
+      const response = await fetch(API_URL.HOMETAB_URL.PENDING_TASK_COUNT_URL, requestOptions);
       const data = await response.json();
       if (!data.error && data.pendingCount !== undefined) {
         setPendingCount(data.pendingCount);
@@ -319,7 +185,7 @@ const HomeTab = (props) => {
       };
 
       const response = await fetch(
-        "https://devcrm.romsons.com:8080/getPendingRegularizationCount",
+        API_URL.HOMETAB_URL.PENDING_REGULIZATION_COUNT_URL,
         requestOptions
       );
       const result = await response.json();
@@ -352,7 +218,7 @@ const HomeTab = (props) => {
       };
 
       const response = await fetch(
-        "https://devcrm.romsons.com:8080/getPendingLeaveCount",
+        API_URL.HOMETAB_URL.PENDING_LEAVE_COUNT_URL,
         requestOptions
       );
       const result = await response.json();
@@ -384,13 +250,6 @@ const HomeTab = (props) => {
         <Spacing space={3} />
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <Text style={HomeTabStyles.subText}>Division: {division}</Text>
-
-          {/* <TouchableOpacity
-            onPress={handleLogout}
-            style={{ paddingHorizontal: 10, paddingVertical: 5, backgroundColor: 'red', borderRadius: 5 }}
-          >
-            <Text style={{ color: 'white', fontSize: 14 }}>Logout</Text>
-          </TouchableOpacity> */}
         </View>
 
       </View>
@@ -448,47 +307,10 @@ const HomeTab = (props) => {
 
           </View>
         ))}
-
-
-
-        {/* <Text style={HomeTabStyles.LableText}>{t("Summary")}</Text> */}
-        {/* Summary Section */}
-        {/* <View style={HomeTabStyles.summarySection}>
-          <TouchableOpacity style={HomeTabStyles.summaryBox} >
-            <View style={HomeTabStyles.summaryBoxTop}>
-              <VectorIcon icon="AntDesign" size={SF(25)} name="exception1" style={HomeTabStyles.InOutIcon3} color={Colors.theme_background} />
-              <Text style={HomeTabStyles.summaryText}>25</Text>
-            </View>
-            <Spacing space={10} />
-            <Text style={HomeTabStyles.summaryLabel}>{t("Missed_Attendance")}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={HomeTabStyles.summaryBox}>
-            <View style={HomeTabStyles.summaryBoxTop}>
-              <VectorIcon icon="AntDesign" size={SF(25)} name="unknowfile1" style={HomeTabStyles.InOutIcon3} color={Colors.theme_background} />
-              <Text style={HomeTabStyles.summaryText}>06</Text>
-            </View>
-            <Spacing space={10} />
-            <Text style={HomeTabStyles.summaryLabel}>{t("Pending_Approval")}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={HomeTabStyles.summaryBox}>
-            <View style={HomeTabStyles.summaryBoxTop}>
-              <VectorIcon icon="AntDesign" size={SF(25)} name="notification" style={HomeTabStyles.InOutIcon3} color={Colors.theme_background} />
-              <Text style={HomeTabStyles.summaryText}>05</Text>
-            </View>
-            <Spacing space={10} />
-            <Text style={HomeTabStyles.summaryLabel}>{t("New_Notices")}</Text>
-          </TouchableOpacity>
-        </View> */}
         <Text style={HomeTabStyles.LableText}>{t("Task")}</Text>
         <Spacing space={20} />
         {/* Modules Section */}
         <View style={HomeTabStyles.modulesSection}>
-
-          {/* <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={handleOutletClick}>
-              <VectorIcon icon="AntDesign" size={SF(33)} name="shrink" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
-              <Spacing space={10} />
-              <Text style={HomeTabStyles.moduleLabel} >{t("Attendance")}</Text>
-            </TouchableOpacity> */}
           <TouchableOpacity style={HomeTabStyles.moduleBox} onPress={() => navigation.navigate(RouteName.PUNCHINOUT)}>
             <VectorIcon icon="AntDesign" size={SF(33)} name="shrink" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
             <Spacing space={10} />
@@ -507,10 +329,6 @@ const HomeTab = (props) => {
             <Spacing space={10} />
             <Text style={HomeTabStyles.moduleLabel}>{t("Claim")}</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity style={HomeTabStyles.moduleBox}>
-            <VectorIcon icon="AntDesign" size={SF(33)} name="contacts" style={HomeTabStyles.moduleBoxIcon} color={Colors.theme_background} />
-            <Text style={HomeTabStyles.moduleLabel}>{t("Assets")}</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity
             style={HomeTabStyles.moduleBox}
             onPress={() => navigation.navigate(RouteName.OUTLET)}

@@ -9,9 +9,10 @@ import { SH } from '../../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform, PermissionsAndroid } from 'react-native';
 import { use } from 'i18next';
+import API_URL from '../../config/api_url';
 
 
-const RetailActivityScreen = ({route}) => {
+const RetailActivityScreen = ({ route }) => {
   const { outletDetail } = route.params || {};
   const [reasons, setReasons] = useState([]); // State to store reasons from API
   const isDarkMode = useSelector(state => state.DarkReducer.isDarkMode);
@@ -69,15 +70,15 @@ const RetailActivityScreen = ({route}) => {
     Geolocation.getCurrentPosition(
       (position) => {
         setLocationStatus('You are Here');
-  
+
         // Getting the Longitude and Latitude from the position object
         const longitude = position.coords.longitude;
         const latitude = position.coords.latitude;
-  
+
         // Log the values before updating the state
         console.log("Longitude:", longitude);
         console.log("Latitude:", latitude);
-  
+
         // Setting the states
         setCurrentLongitude(longitude);
         setCurrentLatitude(latitude);
@@ -92,7 +93,7 @@ const RetailActivityScreen = ({route}) => {
       },
     );
   };
-  
+
 
   const subscribeLocationLocation = () => {
     watchID = Geolocation.watchPosition(
@@ -135,12 +136,12 @@ const RetailActivityScreen = ({route}) => {
       try {
         const user = await AsyncStorage.getItem("userInfor");
         const loginData = JSON.parse(user);
-  
+
         const raw = JSON.stringify({
           divid: loginData[0].division,
         });
-  
-        const response = await fetch("https://devcrm.romsons.com:8080/outlet_activity", {
+
+        const response = await fetch(API_URL.RETAIL_ACTIVITY_URL.OUTLET_ACTIVITY_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -148,10 +149,10 @@ const RetailActivityScreen = ({route}) => {
           body: raw,
           redirect: "follow",
         });
-  
+
         const result = await response.json();
         console.log("API Response:", result);
-  
+
         const activities = Array.isArray(result.data) ? result.data : [];
         setReasons(activities);
       } catch (error) {
@@ -159,53 +160,53 @@ const RetailActivityScreen = ({route}) => {
         setReasons([]); // prevent .map crash
       }
     };
-  
+
     selectActivity();
   }, [outletDetail.division_id]);
-   // Dependency on division_id
+  // Dependency on division_id
 
   // useEffect(()=>{
   //   handleSubmit();
   // }, [])
 
 
-   const handleSubmit = async() => {
+  const handleSubmit = async () => {
     const user = await AsyncStorage.getItem("userInfor");
-      const empid = JSON.parse(user);
-      console.log("Latitude: ", currentLatitude);
-  console.log("Longitude: ", currentLongitude);
+    const empid = JSON.parse(user);
+    console.log("Latitude: ", currentLatitude);
+    console.log("Longitude: ", currentLongitude);
     const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Content-Type", "application/json");
 
-const raw = JSON.stringify({
-  "outletid": outletDetail.outlet_id,
-  "remark": selectedReason,
-  "empid": empid[0].emp_id,
-  "zoneid": outletDetail.zone_id,
-  "divid": outletDetail.division_id,
-  "lat": currentLatitude,
-  "lag": currentLongitude,
-  "hospitalname": outletDetail.outlet_name
-});
+    const raw = JSON.stringify({
+      "outletid": outletDetail.outlet_id,
+      "remark": selectedReason,
+      "empid": empid[0].emp_id,
+      "zoneid": outletDetail.zone_id,
+      "divid": outletDetail.division_id,
+      "lat": currentLatitude,
+      "lag": currentLongitude,
+      "hospitalname": outletDetail.outlet_name
+    });
 
 
 
-const requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: raw,
-  redirect: "follow"
-};
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
 
-fetch("https://devcrm.romsons.com:8080/retail_activity", requestOptions)
-  .then((response) => response.json())
-  .then((result) => {
-    console.log(result, 'sennnnddddd');
-    Alert.alert("Success", "Activity submitted successfully!");
-  })
-  .catch((error) => console.error(error));
-     
-   };
+    fetch(API_URL.RETAIL_ACTIVITY_URL.RETAIL_ACTIVITY_URL, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result, 'sennnnddddd');
+        Alert.alert("Success", "Activity submitted successfully!");
+      })
+      .catch((error) => console.error(error));
+
+  };
 
   return (
     <View style={RetailActivityStyles.container}>
@@ -214,16 +215,16 @@ fetch("https://devcrm.romsons.com:8080/retail_activity", requestOptions)
 
       {/* Dropdown Picker */}
       <View style={RetailActivityStyles.pickerContainer}>
-      <Picker
-        selectedValue={selectedReason}
-        onValueChange={(itemValue) => setSelectedReason(itemValue)}
-        style={RetailActivityStyles.picker}
-      >
-        <Picker.Item label="Please Select for Zero Order" value="" />
-        {reasons.map((reason, index) => (
-          <Picker.Item key={index} label={reason.remarks_m} value={reason.remarks_m} />
-        ))}
-      </Picker>
+        <Picker
+          selectedValue={selectedReason}
+          onValueChange={(itemValue) => setSelectedReason(itemValue)}
+          style={RetailActivityStyles.picker}
+        >
+          <Picker.Item label="Please Select for Zero Order" value="" />
+          {reasons.map((reason, index) => (
+            <Picker.Item key={index} label={reason.remarks_m} value={reason.remarks_m} />
+          ))}
+        </Picker>
       </View>
 
       {/* Submit Button */}

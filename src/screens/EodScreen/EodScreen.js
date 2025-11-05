@@ -11,6 +11,8 @@ import Moment from 'moment';
 import ViewShot from "react-native-view-shot";
 import Share from "react-native-share";
 import RNFS from "react-native-fs";
+import API_URL from '../../config/api_url';
+
 // import Share from 'react-native-share';
 
 
@@ -33,77 +35,10 @@ const EodScreen = () => {
     const EodStyles = useMemo(() => EodStyle(currentColors), [currentColors]);
     // const viewShotRef = useRef(null);
 
-
-
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
         EodNotpunchin();
     };
-
-    // const captureScreenAndShare = async () => {
-    //     try {
-    //         // Take a screenshot
-    //         const uri = await viewShotRef.current.capture();
-
-    //         // Convert image to base64
-    //         const base64Data = await RNFS.readFile(uri, "base64");
-
-    //         // Fetch API data
-    //         const apiData = await flag();
-
-    //         // Prepare WhatsApp message with API data
-    //         const message = `Attendance Report:\nDate: ${Moment(flagDate).format('YYYY-MM-DD')}`;
-
-    //         // Share via WhatsApp
-    //         const shareOptions = {
-    //             message: message,
-    //             url: `data:image/png;base64,${base64Data}`,
-    //             social: Share.Social.WHATSAPP,
-    //         };
-
-    //         await Share.shareSingle(shareOptions);
-    //     } catch (error) {
-    //         Alert.alert("Error", error.message || "Failed to share screenshot!");
-    //     }
-    // };
-
-
-
-
-
-    // const flag = async () => {
-    //     try {
-    //         const user = await AsyncStorage.getItem('userInfor');
-    //         const empid = JSON.parse(user);
-
-    //         const myHeaders = new Headers();
-    //         myHeaders.append("Content-Type", "application/json");
-
-    //         const raw = JSON.stringify({
-    //             "punchdate": Moment(flagDate).format('YYYY-MM-DD'),
-    //             "enterBy": empid[0].emp_id
-    //         });
-
-    //         const requestOptions = {
-    //             method: 'POST',
-    //             headers: myHeaders,
-    //             body: raw,
-    //             redirect: 'follow'
-    //         };
-
-    //         const response = await fetch("https://devcrm.romsons.com:8080/EodShareUpdate", requestOptions);
-    //         const result = await response.json();
-
-    //         // Return API data to use in WhatsApp message
-    //         return result;
-
-    //     } catch (error) {
-    //         throw new Error("API Error: " + error.message);
-    //     }
-    // };
-
-
-
 
     const statusAttendance = async () => {
         const user = await AsyncStorage.getItem('userInfor');
@@ -122,7 +57,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EODAttendance", requestOptions)
+        fetch(API_URL.EOD_URL.STATUS_ATTENDANCE_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result, 'punchhhhhhhh');
@@ -154,7 +89,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodReturn", requestOptions)
+        fetch(API_URL.EOD_URL.RETURN_COMPLETE_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
 
@@ -186,7 +121,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodReturnbutton", requestOptions)
+        fetch(API_URL.EOD_URL.RETURN_BUTTON_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result,"result Line 189");
@@ -218,7 +153,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodDateReturn", requestOptions)
+        fetch(API_URL.EOD_URL.RETURN_DATE_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result, 'returndatataat');
@@ -251,7 +186,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodDateReturnbutton", requestOptions)
+        fetch(API_URL.EOD_URL.RETURN_DATE_BUTTON_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result, 'returndatataat');
@@ -285,7 +220,7 @@ const EodScreen = () => {
             redirect: 'follow'
         };
 
-        fetch("https://devcrm.romsons.com:8080/EODActivityDatebutton", requestOptions)
+        fetch(API_URL.EOD_URL.ACTIVITY_DATE_BUTTON_URL, requestOptions)
             .then(response => response.text())
             .then(result => {
 
@@ -320,7 +255,7 @@ const EodScreen = () => {
             redirect: 'follow'
         };
 
-        fetch("https://devcrm.romsons.com:8080/ActivityDatabutton", requestOptions)
+        fetch(API_URL.EOD_URL.ACTIVITY_DATA_BUTTON_URL, requestOptions)
             .then(response => response.text())
             .then(result => {
                 let parsedResult = JSON.parse(result);
@@ -359,7 +294,7 @@ const EodScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/EodDate", requestOptions);
+            const response = await fetch(API_URL.EOD_URL.ORDER_TODAY_DATE_URL, requestOptions);
             const result = await response.json();
 
             if (result.error === false) {
@@ -392,7 +327,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodOrder", requestOptions)
+        fetch(API_URL.EOD_URL.ORDER_TODAY_DATA_URL, requestOptions)
             .then((response) => response.json())  // Convert response to JSON
             .then((result) => {
 
@@ -428,7 +363,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EODActivityDate", requestOptions)
+        fetch(API_URL.EOD_URL.ACTIVITY_TODAY_DATE_URL, requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 //result, 'API result');
@@ -466,7 +401,7 @@ const EodScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/ActivityData", requestOptions);
+            const response = await fetch(API_URL.EOD_URL.ACTIVITY_DATA_URL, requestOptions);
             const result = await response.json();  // Parse JSON response
 
 
@@ -501,7 +436,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodNotPunchIn", requestOptions)
+        fetch(API_URL.EOD_URL.NOT_PUNCH_IN_URL, requestOptions)
             .then((response) => response.json()) // Ensure JSON response
             .then((result) => {
                 //"API Response:", result);
@@ -534,7 +469,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodDatebutton", requestOptions)
+        fetch(API_URL.EOD_URL.ORDER_DATE_BUTTON_URL, requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 //result,"==========>Line 471")
@@ -571,7 +506,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EodOrderbutton", requestOptions)
+        fetch(API_URL.EOD_URL.ORDER_DATA_BUTTON_URL, requestOptions)
             .then((response) => response.json()) // Parse JSON instead of text
             .then((result) => {
                 if (result && !result.error) {
@@ -618,7 +553,7 @@ const EodScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/EODAttendancebutton", requestOptions)
+        fetch(API_URL.EOD_URL.STATUS_ATTENDANCE_BUTTON_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 //result, 'punchhhhhhhh');

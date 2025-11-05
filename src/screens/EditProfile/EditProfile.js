@@ -8,6 +8,8 @@ import { useTranslation } from "react-i18next";
 import images from "../../index";
 import { useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../../utils";
+import API_URL from '../../config/api_url';
+
 
 const EditProfile = (props) => {
   const { navigation } = props;
@@ -42,7 +44,7 @@ const EditProfile = (props) => {
         redirect: "follow"
       };
 
-      fetch("https://devcrm.romsons.com:8080/changepassword", requestOptions)
+      fetch(API_URL.EDIT_PROFILE_URL.CHANGE_PASSWORD_URL, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.userData.error === false) {

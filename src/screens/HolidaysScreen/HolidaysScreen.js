@@ -8,6 +8,7 @@ import { darkTheme, lightTheme } from "../../utils";
 import { Picker } from '@react-native-picker/picker';
 import { Spacing } from "../../components";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import API_URL from "../../config/api_url";
 
 const HolidaysScreen = () => {
   const { t } = useTranslation();
@@ -42,7 +43,7 @@ const HolidaysScreen = () => {
     };
 
     try {
-      const response = await fetch("https://devcrm.romsons.com:8080/HolidayList", requestOptions);
+      const response = await fetch(API_URL.HOLIDAY_URL.HOLIDAY_LIST_URL, requestOptions);
       const result = await response.json();
       setHolidays(result.data);  // Assuming the response structure has a `data` field
     } catch (error) {

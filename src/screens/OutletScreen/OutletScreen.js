@@ -11,6 +11,7 @@ import { SH, SF } from '../../utils';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon1 from 'react-native-vector-icons/Entypo';
+import API_URL from '../../config/api_url';
 
 
 const OutletScreen = () => {
@@ -44,7 +45,7 @@ const OutletScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/dateWiseOutlet", requestOptions)
+    fetch(API_URL.OUTLET_URL.DATEWISE_OUTLET_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error === false) {
@@ -66,7 +67,7 @@ const OutletScreen = () => {
 
       const payload = { empid: empid[0].emp_id, outletDate: currentDate };
 
-      const response = await axios.post('https://devcrm.romsons.com:8080/DatewiseOutlet_data', payload, {
+      const response = await axios.post(API_URL.OUTLET_URL.DATEWISE_OUTLET_DATA_URL, payload, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -87,7 +88,7 @@ const OutletScreen = () => {
       const empid = JSON.parse(user);
       const payload = { empid: empid[0].emp_id, outletDate: currentDate };
 
-      const response = await axios.post('https://devcrm.romsons.com:8080/countOutlet', payload, {
+      const response = await axios.post(API_URL.OUTLET_URL.COUNT_OUTLET_URL, payload, {
         headers: { 'Content-Type': 'application/json' },
       });
 

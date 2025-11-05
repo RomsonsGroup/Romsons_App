@@ -7,6 +7,7 @@ import { darkTheme, lightTheme, Fonts, SF, SH } from "../../utils";
 import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import Moment from 'moment';
+import API_URL from "../../config/api_url";
 
 const DaysummaryScreen = () => {
   const isDarkMode = useSelector((state) => state.DarkReducer.isDarkMode);
@@ -55,7 +56,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
+    fetch(API_URL.DAY_SUMMARY_URL.MANAGER_TEAM_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -115,7 +116,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/TaskShowDaysummary", requestOptions)
+    fetch(API_URL.DAY_SUMMARY_URL.TASKSHOW_DAY_SUMMARY_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -143,7 +144,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/EODAttendancebutton", requestOptions)
+    fetch(API_URL.DAY_SUMMARY_URL.EOD_ATTENDANCE_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -171,7 +172,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/EODOrderbutton", requestOptions)
+    fetch(API_URL.DAY_SUMMARY_URL.EOD_ORDER_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -199,7 +200,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/ActivityDatabutton", requestOptions)
+    fetch(API_URL.DAY_SUMMARY_URL.EOD_ACTIVITY_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -231,7 +232,7 @@ const DaysummaryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/EodReturnbutton", requestOptions)
+    fetch(API_URL.DAY_SUMMARY_URL.EOD_RETURN_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {

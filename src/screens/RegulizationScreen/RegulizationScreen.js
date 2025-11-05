@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../../utils";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Spacing } from "../../components";
+import API_URL from "../../config/api_url";
 
 const RegulizationScreen = () => {
     const { t } = useTranslation();
@@ -27,7 +28,7 @@ const RegulizationScreen = () => {
             const user = await AsyncStorage.getItem("userInfor");
             const empid = JSON.parse(user);
 
-            const response = await fetch("https://devcrm.romsons.com:8080/getPendingRegularizations", {
+            const response = await fetch(API_URL.REGULARIZATION_URL.GET_PENDINGLIST_REGU_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -78,7 +79,7 @@ const RegulizationScreen = () => {
             };
             console.log("Sent payload:", payload);
 
-            const response = await fetch("https://devcrm.romsons.com:8080/Regulizationidapproval", {
+            const response = await fetch(API_URL.REGULARIZATION_URL.REGU_ID_APPROVAL_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -99,9 +100,6 @@ const RegulizationScreen = () => {
             Alert.alert("Error", "Error approving leaves.");
         }
     };
-
-
-
 
     const Leaverejected = async () => {
         try {
@@ -124,7 +122,7 @@ const RegulizationScreen = () => {
                 return;
             }
 
-            const response = await fetch("https://devcrm.romsons.com:8080/Regulizationidrejected", {
+            const response = await fetch(API_URL.REGULARIZATION_URL.REGU_ID_REJECTED_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -155,7 +153,7 @@ const RegulizationScreen = () => {
             const user = await AsyncStorage.getItem("userInfor");
             const empid = JSON.parse(user);
 
-            const response = await fetch("https://devcrm.romsons.com:8080/ApprovedRegularizationList", {
+            const response = await fetch(API_URL.REGULARIZATION_URL.APPROVED_REGU_LIST_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ "empidd": empid[0].emp_id }),
@@ -188,7 +186,7 @@ const RegulizationScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/RejectedRegularizationList", requestOptions)
+        fetch(API_URL.REGULARIZATION_URL.REJECTED_REGU_LIST_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {

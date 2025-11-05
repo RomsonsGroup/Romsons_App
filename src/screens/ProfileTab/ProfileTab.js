@@ -9,6 +9,8 @@ import { RouteName } from '../../routes';
 import { useSelector } from 'react-redux';
 import images from '../../index';
 import Moment from 'moment';
+import API_URL from '../../config/api_url';
+
 import { Spacing, VectorIcon } from '../../components';
 
 const ProfileTab = (props) => {
@@ -57,7 +59,7 @@ const ProfileTab = (props) => {
         redirect: "follow",
       };
 
-      const response = await fetch("https://devcrm.romsons.com:8080/profiledata", requestOptions);
+      const response = await fetch(API_URL.PROFILE_URL.PROFILE_DATA_URL, requestOptions);
       const result = await response.json();
 
       if (result.error === false) {

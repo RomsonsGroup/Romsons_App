@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import moment from 'moment';
 import { format, parseISO } from "date-fns";
+import API_URL from '../../config/api_url';
 
 const OrderHistoryScreen = () => {
   const isDarkMode = useSelector(state => state.DarkReducer.isDarkMode);
@@ -77,7 +78,7 @@ const OrderHistoryScreen = () => {
       redirect: "follow"
     };
 
-    fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
+    fetch(API_URL.ORDER_HISTORY_URL.MANAGER_TEAM_URL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.error == false) {
@@ -146,7 +147,7 @@ const OrderHistoryScreen = () => {
         redirect: "follow"
       };
 
-      const response = await fetch("https://devcrm.romsons.com:8080/SelectedBeat", requestOptions);
+      const response = await fetch(API_URL.ORDER_HISTORY_URL.SELECT_BEAT_URL, requestOptions);
       const result = await response.json();
 
       if (result.data.length > 0) {
@@ -188,7 +189,7 @@ const OrderHistoryScreen = () => {
         redirect: 'follow'
       };
 
-      const response = await fetch("https://devcrm.romsons.com:8080/SelectOutlet_OrderHistory", requestOptions);
+      const response = await fetch(API_URL.ORDER_HISTORY_URL.SELECT_OUTLET_URL, requestOptions);
       const result = await response.json();
 
       if (result.error === false) {
@@ -230,7 +231,7 @@ const OrderHistoryScreen = () => {
         redirect: "follow"
       };
 
-      const response = await fetch("https://devcrm.romsons.com:8080/OrderHistory_MIS", requestOptions);
+      const response = await fetch(API_URL.ORDER_HISTORY_URL.ORDERMIS_HISTORY_URL, requestOptions);
       const result = await response.json();
 
       console.log('API Response:', result);

@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { darkTheme, lightTheme } from '../../utils';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import API_URL from '../../config/api_url';
 
 
 const TaskAddScreen = () => {
@@ -48,7 +49,7 @@ const TaskAddScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/GetPendingTaskDates", requestOptions)
+        fetch(API_URL.TASK_URL.GET_PENDING_TASK_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 // console.log('poojabhbdhddh', result);
@@ -125,7 +126,7 @@ const TaskAddScreen = () => {
         };
 
         try {
-            const response = await fetch("https://devcrm.romsons.com:8080/GetFollowUpActivities", requestOptions);
+            const response = await fetch(API_URL.TASK_URL.GET_FOLLOWUP_ACTIVITIES_URL, requestOptions);
             const result = await response.json();
             // console.log('nhjughhh', result);
 
@@ -159,7 +160,7 @@ const TaskAddScreen = () => {
         };
 
         try {
-            const response = await fetch("https://devcrm.romsons.com:8080/UpdateMultipleFollowUpTasks", requestOptions);
+            const response = await fetch(API_URL.TASK_URL.UPDATE_MULTIPLE_FOLLOWUP_URL, requestOptions);
             const result = await response.json();
             // console.log("Updated:", result);
             if (result.error === false) {

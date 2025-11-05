@@ -6,6 +6,7 @@ import { ActivityHistoryStyle } from '../../styles/ActivityHistoryStyle';
 import { useSelector } from "react-redux";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
+import API_URL from '../../config/api_url';
 
 const ActivityHistoryScreen = () => {
 
@@ -111,7 +112,7 @@ const ActivityHistoryScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch(API_URL.ACTIVITY_HISTORY_URL.MANAGER_TEAM_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -148,7 +149,7 @@ const ActivityHistoryScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/SelectedBeat", requestOptions);
+            const response = await fetch(API_URL.ACTIVITY_HISTORY_URL.SELECT_BEAT_URL, requestOptions);
             const result = await response.json();
 
             if (result.data.length > 0) {
@@ -186,7 +187,7 @@ const ActivityHistoryScreen = () => {
                 redirect: 'follow'
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/SelectOutlet_OrderHistory", requestOptions);
+            const response = await fetch(API_URL.ACTIVITY_HISTORY_URL.SELECT_OUTLET_URL, requestOptions);
             const result = await response.json();
 
             if (result.error === false) {
@@ -225,7 +226,7 @@ const ActivityHistoryScreen = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://devcrm.romsons.com:8080/ActivityHistory_MIS", requestOptions);
+            const response = await fetch(API_URL.ACTIVITY_HISTORY_URL.ACTIVITY_HISTORY_URL, requestOptions);
             const result = await response.json();
 
 

@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import images from "../../image";
 import { Spacing, DatePicker, VectorIcon } from "../../components";
+import API_URL from "../../config/api_url";
 
 const AttendanceHistoryScreen = () => {
     const { t } = useTranslation();
@@ -56,7 +57,7 @@ const AttendanceHistoryScreen = () => {
 
         // console.log('Sending request with date:', formattedDate); // Log to check the date format
 
-        fetch("https://devcrm.romsons.com:8080/getAttendanceHistory", requestOptions)
+        fetch(API_URL.TRACKER_URL.ATTENDANCE_HISTORY_URL, requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.error === false) {
@@ -85,7 +86,7 @@ const AttendanceHistoryScreen = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/ManagerTeam", requestOptions)
+        fetch(API_URL.TRACKER_URL.MANAGER_TEAM_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -141,7 +142,7 @@ const AttendanceHistoryScreen = () => {
         };
 
         try {
-            const response = await fetch("https://devcrm.romsons.com:8080/getOrdersAndActivitiesByDate", requestOptions);
+            const response = await fetch(API_URL.TRACKER_URL.GETORDERACTIVITYBTDATE_URL, requestOptions);
             const result = await response.json();
 
             if (result.error === false) {

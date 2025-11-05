@@ -6,6 +6,7 @@ import { Button, Input, Spacing, DatePicker, VectorIcon } from '../../components
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { darkTheme, lightTheme } from '../../utils';
 import { useTranslation } from 'react-i18next';
+import API_URL from '../../config/api_url';
 
 const SkuOrderScreen = ({ route }) => {
     const selectedSKUs = route.params?.selectedSKUs || [];
@@ -54,7 +55,7 @@ const SkuOrderScreen = ({ route }) => {
   
       console.log('Request Payload:', raw);
   
-      fetch("https://devcrm.romsons.com:8080/Totalskuorderwise", {
+      fetch(API_URL.SKU_HISTORY_URL.TOTAL_SKU_ORDER_LIST_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: raw

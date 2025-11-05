@@ -9,6 +9,7 @@ import { SH, SF, Fonts } from '../../utils';
 import { RouteName } from '../../routes';
 import { use } from "i18next";
 import { useNavigation } from '@react-navigation/native';
+import API_URL from '../../config/api_url';
 
 
 const ContactListScreen = ({ route }) => {
@@ -41,7 +42,7 @@ const ContactListScreen = ({ route }) => {
             redirect: "follow",
         };
 
-        fetch("https://devcrm.romsons.com:8080/hospitalContact", requestOptions)
+        fetch(API_URL.HOSPITAL_CONTACT_LIST_URL.HOSPITAL_LIST_URL, requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 let arr = JSON.parse(result);

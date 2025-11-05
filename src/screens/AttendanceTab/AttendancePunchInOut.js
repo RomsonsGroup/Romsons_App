@@ -18,6 +18,7 @@ import { Platform, PermissionsAndroid } from 'react-native';
 import { Divider } from 'react-native-elements';
 
 import DeviceInfo from 'react-native-device-info';
+import API_URL from '../../config/api_url';
 
 const AttendancePunchInOut = () => {
     const [remarks, setRemarks] = useState('');
@@ -72,7 +73,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
           };
           
-          fetch("https://devcrm.romsons.com:8080/AppVersionCheck", requestOptions)
+          fetch(API_URL.ATTENDANCE_URL.APP_CHECK_VERSION_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 const data = JSON.parse(result);
@@ -156,7 +157,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/attendance_punch_in", requestOptions)
+        fetch(API_URL.ATTENDANCE_URL.PUNCH_IN_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
 
@@ -460,7 +461,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/punchInOutTime", requestOptions)
+        fetch(API_URL.ATTENDANCE_URL.PUNCHINOUT_TIME_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {
@@ -521,7 +522,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/attendance_punchout", requestOptions)
+        fetch(API_URL.ATTENDANCE_URL.PUNCH_OUT_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result, "API Response");
@@ -547,7 +548,7 @@ const AttendancePunchInOut = () => {
             redirect: "follow"
         };
 
-        fetch("https://devcrm.romsons.com:8080/shiftDetails", requestOptions)
+        fetch(API_URL.ATTENDANCE_URL.SHIFT_DETAILS_URL, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.error == false) {

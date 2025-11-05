@@ -9,6 +9,7 @@ import { HomeDropDown } from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 import { Platform, PermissionsAndroid } from 'react-native';
+import API_URL from '../../config/api_url';
 
 const CreateTaskScreen = ({ route }) => {
     const { followupDate } = route.params || {};
@@ -187,7 +188,7 @@ const CreateTaskScreen = ({ route }) => {
             setReportingModalVisible(true);
             setLoading(true);
 
-            const response = await fetch("https://devcrm.romsons.com:8080/Reporting_hierarchy", requestOptions);
+            const response = await fetch(API_URL.TASK_URL.REPORTING_HIERARCHY_URL, requestOptions);
             const result = await response.json();
 
             if (result.error === false) {
@@ -254,7 +255,7 @@ const CreateTaskScreen = ({ route }) => {
                 tasklag: currentLongitude,
             });
 
-            const response = await fetch("https://devcrm.romsons.com:8080/AddNewTask", {
+            const response = await fetch(API_URL.TASK_URL.ADD_NEW_TASK_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: raw

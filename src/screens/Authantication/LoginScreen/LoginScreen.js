@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { View, TouchableOpacity, Image, Text, Modal, Linking, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, Image, Text, Modal, Linking} from 'react-native';
 import { Button, Input, Spacing, ConfirmationAlert } from '../../../components';
 import { LoginStyle } from '../../../styles';
 import { SH } from '../../../utils';
@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import images from '../../../index';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import withAuthRedirect from './withAuthRedirect';
+import API_URL from '../../../config/api_url';
 
 
 const LoginScreen = () => {
@@ -70,7 +70,7 @@ const LoginScreen = () => {
             // Password: "1234"
         };
 
-        axios.post("https://devcrm.romsons.com:8080/loginApps", requestData, {
+        axios.post(API_URL.AUTH.LOGIN_URL, requestData, {
             headers: {
                 "Content-Type": "application/json"
             }
