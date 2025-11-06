@@ -1,0 +1,9 @@
+export const SET_ORDER = 'SET_ORDER';
+export const SET_MSD_ACTIVITY = 'SET_MSD_ACTIVITY';
+
+export const SET_SALE_RETURN = 'SET_SALE_RETURN';
+
+export const RESET_RETURN = 'RESET_RETURN';
+export const RESET_ORDER = 'RESET_ORDER';
+export const RESET_MSD_ACTIVITY = 'RESET_MSD_ACTIVITY';
+export const REJECT_LEAVE = "REJECT_LEAVE";

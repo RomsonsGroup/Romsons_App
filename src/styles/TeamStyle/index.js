@@ -1,0 +1,1 @@
+export {default as TeamStyle} from './TeamStyle';
